@@ -1,4 +1,3 @@
-import React from 'react'
 
 export const TransactionScannerTable = ({ transactions }) => {
   const columns = ['Date', 'Type', 'Description', 'Debit', 'Credit', 'Balance']

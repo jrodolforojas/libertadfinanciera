@@ -6,11 +6,9 @@ export const TransactionScanner = () => {
 
   return (
     <div className="flex flex-col items-start m-10">
-      <h1 className="text-3xl font-bold underline text-blue-400">
-          Welcome to Libertad Financiera
-      </h1>
+      <h1 className='text-3xl font-semibold text-[#051C2C]'>Éscaner de transacciones</h1>
       <input type="file" name="file" onChange={handleFileChange}/>
-      <button className="bg-blue-600 p-3 mt-3 text-white rounded-md" onClick={handleScan}>Scan</button>
+      <button className="p-3 mt-3 text-white bg-blue-600 rounded-md" onClick={handleScan}>Scan</button>
       <TransactionScannerTable transactions={transactions}/>
       {error !== undefined && <p>{error}</p>}
     </div>
