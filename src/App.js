@@ -1,5 +1,5 @@
 import { Sidebar } from './components/Sidebar'
-import { TransactionScanner } from './pages/TransactionScanner'
+import { Navigator } from './navigator/Navigator'
 
 function App () {
   return (
@@ -7,7 +7,7 @@ function App () {
       <main className='flex'>
         <Sidebar/>
         <section className='m-8'>
-          <TransactionScanner/>
+          <Navigator/>
         </section>
       </main>
     </div>
