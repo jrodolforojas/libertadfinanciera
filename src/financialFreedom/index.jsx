@@ -13,6 +13,7 @@ export function FinancialFreedom () {
   const [years, setYears] = useState(20)
   const [yearlyInterestRate, setYearlyInterestRate] = useState(10)
   const [historicInflation, setHistoricInflation] = useState(3)
+  const [onlySaveIt, setOnlySaveIt] = useState(0)
 
   const handleChangeInitialCapital = (event) => {
     setInitialCapital(event.target.value)
@@ -43,6 +44,10 @@ export function FinancialFreedom () {
       yearlyInterestRate: yearlyInterestRate / 100,
       historicInflation: historicInflation / 100
     }
+
+    const saveIt = input.paymentPerPeriod * input.years * MONTHS_IN_YEAR
+    setOnlySaveIt(saveIt)
+
     const futureValue = getFutureValue(input)
     const futureValueFormatted = -futureValue.toFixed(2)
     setFutureValue(futureValueFormatted)
@@ -70,16 +75,20 @@ export function FinancialFreedom () {
       <form onSubmit={calculateCompoundInterest} className='flex flex-col'>
         <InputRange inputName='initialCapital' label='Capital inicial' value={initialCapital} onChange={handleChangeInitialCapital} min={0} max={500000} />
         <InputRange inputName='paymentPerPeriod' label='Inversión mensual' min={100} max={5000} value={paymentPerPeriod} onChange={handleChangePaymentPerPeriod} />
-        <InputRange inputName='years' label='Cantidad de años' min={1} max={100} value={years} onChange={handleChangeYears} />
-        <InputRange inputName='yearlyInterestRate' label='Rendimiento promedio anual' min={0} max={20} value={yearlyInterestRate} onChange={handleChangeYearlyInterestRate} />
-        <InputRange inputName='historicInflation' label='Inflación histórica' min={0} max={20} value={historicInflation} onChange={handleChangeHistoricInflation} />
+        <InputRange inputName='years' label='Cantidad de años' min={1} max={100} value={years} onChange={handleChangeYears} isYears />
+        <InputRange
+          inputName='yearlyInterestRate' label='Rendimiento promedio anual' min={0} max={20} value={yearlyInterestRate}
+          onChange={handleChangeYearlyInterestRate} isPorcentage
+        />
+        <InputRange isPorcentage inputName='historicInflation' label='Inflación histórica' min={0} max={20} value={historicInflation} onChange={handleChangeHistoricInflation} />
       </form>
       <div className='flex flex-col gap-2 mb-5'>
         <h3 className='text-2xl self-center text-white my-5'>Resultados</h3>
-        <ResultLabel label='Ingreso pasivo mensual' value={pasiveIncome} />
-        <ResultLabel label='Inversión con interés simple' value={investWithSimpleInterest} />
+        <ResultLabel label='Si solamente ahorro' value={onlySaveIt} />
         <ResultLabel label='Valor futuro' value={futureValue} />
         <ResultLabel label='Valor presente' value={presentValue} />
+        <ResultLabel label='Inversión con interés simple' value={investWithSimpleInterest} />
+        <ResultLabel label='Ingreso pasivo mensual' value={pasiveIncome} />
       </div>
     </section>
   )
