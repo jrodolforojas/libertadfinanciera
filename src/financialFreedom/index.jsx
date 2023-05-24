@@ -72,7 +72,7 @@ export function FinancialFreedom () {
   return (
     <section>
       <h1 className='mb-5 text-4xl text-white text-center px-2'>Calculadora Libertad financiera</h1>
-      <form onSubmit={calculateCompoundInterest} className='flex flex-col'>
+      <form onSubmit={calculateCompoundInterest} className='flex flex-col w-full'>
         <InputRange inputName='initialCapital' label='Capital inicial' value={initialCapital} onChange={handleChangeInitialCapital} min={0} max={500000} />
         <InputRange inputName='paymentPerPeriod' label='Inversión mensual' min={100} max={5000} value={paymentPerPeriod} onChange={handleChangePaymentPerPeriod} />
         <InputRange inputName='years' label='Cantidad de años' min={1} max={100} value={years} onChange={handleChangeYears} isYears />
