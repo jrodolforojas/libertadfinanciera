@@ -7,8 +7,7 @@ function App () {
         <FinancialFreedom />
       </main>
       <footer className='flex flex-col bg-gray-900 items-center justify-center p-3'>
-        <p className='text-white text-center text-sm mt-1'>Para la comunidad de <a href='https://finanzasconrobertoolivas.com/'>Roberto Olivas</a></p>
-        <p className='text-white text-center text-sm'>Creado con ❤️ por <a href='https://www.linkedin.com/in/jrodolforojas/'>@jrodolforojas</a></p>
+        <span className='text-white text-center text-sm'>Creado con ❤️ por <a href='https://www.linkedin.com/in/jrodolforojas/'>@jrodolforojas</a></span>
       </footer>
     </div>
   )

@@ -71,7 +71,9 @@ export function FinancialFreedom () {
 
   return (
     <section>
-      <h1 className='mb-5 text-4xl text-white text-center px-2'>Calculadora Libertad financiera</h1>
+      <header>
+        <h1 className='mb-5 text-4xl text-white text-center px-2 mt-4 md:mt-0'>Calculadora Libertad financiera</h1>
+      </header>
       <form onSubmit={calculateCompoundInterest} className='flex flex-col w-full'>
         <InputRange inputName='initialCapital' label='Capital inicial' value={initialCapital} onChange={handleChangeInitialCapital} min={0} max={500000} />
         <InputRange inputName='paymentPerPeriod' label='Inversión mensual' min={100} max={5000} value={paymentPerPeriod} onChange={handleChangePaymentPerPeriod} />
