@@ -1,2 +1,2 @@
 # libertadfinanciera
-Calculadora de libertad financiera para comunidad de Roberto Olivas
+Calculadora de libertad financiera
