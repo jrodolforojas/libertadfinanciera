@@ -4,12 +4,12 @@ export function ExchangeRateTableRow ({ item }) {
   const { date, buy, sale } = item
   return (
     <TableRow>
-      <TableCell className='text-white'>{date}</TableCell>
+      <TableCell>{date}</TableCell>
       <TableCell>
-        <Text className='text-white'>₡ {buy}</Text>
+        <Text>₡ {buy}</Text>
       </TableCell>
       <TableCell>
-        <Text className='text-white'>₡ {sale}</Text>
+        <Text>₡ {sale}</Text>
       </TableCell>
     </TableRow>
   )
