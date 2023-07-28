@@ -1,4 +1,4 @@
-export const data = [
+const data = [
   {
     sale: 542,
     buy: 534.03,
@@ -150,3 +150,5 @@ export const data = [
     date: '20 Jun 2023'
   }
 ]
+
+export default data

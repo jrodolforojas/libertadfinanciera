@@ -1,5 +1,4 @@
 import { AreaChart, Card, Title } from '@tremor/react'
-import { exchangeRateFormatted } from '../utils/formatters'
 
 export function ExchangeRateAreaChart ({ title, data }) {
   return (
@@ -11,8 +10,8 @@ export function ExchangeRateAreaChart ({ title, data }) {
         index='date'
         categories={['buy', 'sale']}
         colors={['orange', 'cyan']}
-        formatter={exchangeRateFormatted}
         autoMinValue={400}
+        noDataText='No hay datos para mostrar'
       />
     </Card>
   )

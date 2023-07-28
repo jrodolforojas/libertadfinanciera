@@ -1,24 +1,50 @@
+import { useEffect, useState } from 'react'
 import { ExchangeRateTable } from './components/ExchangeRateTable'
-import { data } from './utils/data'
 import { ExchangeRateAreaChart } from './components/ExchangeRateAreaChart'
 import { Card, Metric, Text } from '@tremor/react'
+import { getAllExchangeRates } from '../services/exchangeRateApi'
 
 export function Dashboard () {
+  const [exchangeRates, setExchangeRates] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    getAllExchangeRates().then(({ data }) => {
+      console.log({ data })
+      setExchangeRates(data)
+      setIsLoading(false)
+    }).catch((error) => {
+      console.log({ error })
+    })
+  }, [])
+
+  const todayExchangeRate = exchangeRates[0]
+
+  if (isLoading) {
+    return (
+      <section className='flex flex-col w-full max-w-7xl'>
+        <header>
+          <h2 className='text-2xl font-bold'>Cargando</h2>
+        </header>
+      </section>
+    )
+  }
+
   return (
     <section className='flex flex-col w-full max-w-7xl'>
       <header>
         <h2 className='text-2xl font-bold'>Tipo de cambio hoy</h2>
         <Card className='flex items-center justify-between my-5'>
           <div className='flex flex-col items-center justify-center'>
-            <Metric>₡ 537.61</Metric>
+            <Metric>₡ {todayExchangeRate.sale}</Metric>
             <Text>Compra</Text>
           </div>
           <div className='flex flex-col items-center justify-center'>
-            <Metric>₡ 537.61</Metric>
+            <Metric>₡ {todayExchangeRate.buy}</Metric>
             <Text>Venta</Text>
           </div>
           <div className='flex flex-col items-center justify-center'>
-            <Metric>20 Jun 2023</Metric>
+            <Metric>{todayExchangeRate.date}</Metric>
             <Text>Última actualización 6:00 pm.</Text>
           </div>
         </Card>
@@ -28,11 +54,11 @@ export function Dashboard () {
         <span className='text-sm text-gray-400'>Muestra el valor del colón con respecto al dólar a lo largo del tiempo.</span>
         <div className='flex mt-8 gap-6'>
           <ExchangeRateAreaChart
-            data={data}
+            data={exchangeRates}
             title='Tipo de cambio de dólares a colones a lo largo del tiempo'
           />
           <ExchangeRateTable
-            data={data}
+            data={exchangeRates}
             title='Tipo de cambio de dólares a colones'
           />
         </div>

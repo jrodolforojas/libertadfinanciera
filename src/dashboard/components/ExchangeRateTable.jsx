@@ -42,7 +42,7 @@ export function ExchangeRateTable ({ title, data }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.reverse().slice(start, end).map((item) => (
+          {data.slice(start, end).map((item) => (
             <ExchangeRateTableRow key={item.date} item={item} />
           ))}
         </TableBody>
