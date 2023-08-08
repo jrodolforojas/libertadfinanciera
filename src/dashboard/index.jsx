@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react'
 import { ExchangeRateTable } from './components/ExchangeRateTable'
 import { ExchangeRateAreaChart } from './components/ExchangeRateAreaChart'
-import { Card, Metric, Text } from '@tremor/react'
 import { getAllExchangeRates } from '../services/exchangeRateApi'
+import { Card, Metric, Tab, TabGroup, TabList, TabPanel, TabPanels, Text } from '@tremor/react'
+import { DateRangeSpanish } from '../components/DateRangeSpanish'
 
 export function Dashboard () {
   const [exchangeRates, setExchangeRates] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    getAllExchangeRates().then(({ data }) => {
-      console.log({ data })
+    getAllExchangeRates().then((data) => {
       setExchangeRates(data)
       setIsLoading(false)
     }).catch((error) => {
@@ -33,7 +33,7 @@ export function Dashboard () {
   return (
     <section className='flex flex-col w-full max-w-7xl'>
       <header>
-        <h2 className='text-2xl font-bold'>Tipo de cambio hoy</h2>
+        <h2 className='text-2xl font-bold text-white'>Tipo de cambio Hoy</h2>
         <Card className='flex items-center justify-between my-5'>
           <div className='flex flex-col items-center justify-center'>
             <Metric>₡ {todayExchangeRate.sale}</Metric>
@@ -50,25 +50,36 @@ export function Dashboard () {
         </Card>
       </header>
       <blockquote>
-        <h2 className='text-2xl font-bold'>Histórico</h2>
+        <h2 className='text-2xl font-bold text-white'>Histórico</h2>
         <span className='text-sm text-gray-400'>Muestra el valor del colón con respecto al dólar a lo largo del tiempo.</span>
-        <div className='flex mt-8 gap-6'>
-          <ExchangeRateAreaChart
-            data={exchangeRates}
-            title='Tipo de cambio de dólares a colones a lo largo del tiempo'
-          />
-          <ExchangeRateTable
-            data={exchangeRates}
-            title='Tipo de cambio de dólares a colones'
-          />
-        </div>
+        <DateRangeSpanish />
+        <TabGroup>
+          <TabList className='mt-8'>
+            <Tab>Gráfico Área</Tab>
+            <Tab>Tabla</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <ExchangeRateAreaChart
+                data={exchangeRates}
+                title='Tipo de cambio de dólares a colones'
+              />
+            </TabPanel>
+            <TabPanel>
+              <ExchangeRateTable
+                data={exchangeRates}
+                title='Tipo de cambio de dólares a colones'
+              />
+            </TabPanel>
+          </TabPanels>
+        </TabGroup>
+        <footer className='mt-8 text-center'>
+          <p className='text-sm text-gray-500'>
+            Los datos utilizados en esta página son obtenidos del {' '}
+            <a href='https://www.bccr.fi.cr/' className='text-blue-500 hover:underline'>Banco Central de Costa Rica</a>.
+          </p>
+        </footer>
       </blockquote>
-      <footer className='mt-8 text-center'>
-        <p className='text-sm text-gray-500'>
-          Los datos utilizados en esta página son obtenidos del {' '}
-          <a href='https://www.bccr.fi.cr/' className='text-blue-500 hover:underline'>Banco Central de Costa Rica</a>.
-        </p>
-      </footer>
     </section>
   )
 }
