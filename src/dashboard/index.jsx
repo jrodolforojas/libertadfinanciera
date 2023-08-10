@@ -1,26 +1,40 @@
 import { useEffect, useState } from 'react'
 import { ExchangeRateTable } from './components/ExchangeRateTable'
 import { ExchangeRateAreaChart } from './components/ExchangeRateAreaChart'
-import { getAllExchangeRates } from '../services/exchangeRateApi'
+import { getAllExchangeRates, getTodayExchangeRate } from '../services/exchangeRateApi'
 import { Card, Metric, Tab, TabGroup, TabList, TabPanel, TabPanels, Text } from '@tremor/react'
 import { DateRangeSpanish } from '../components/DateRangeSpanish'
 
 export function Dashboard () {
   const [exchangeRates, setExchangeRates] = useState([])
+  const [todayExchangeRate, setTodayExchangeRate] = useState()
   const [isLoading, setIsLoading] = useState(true)
+  const [isLoadingTwo, setIsLoadingTwo] = useState(true)
+  const [dateRange, setDateRange] = useState({})
+
+  const onChangeDateRange = (newDateRange) => {
+    setDateRange(newDateRange)
+  }
 
   useEffect(() => {
-    getAllExchangeRates().then((data) => {
+    getAllExchangeRates({ dateFrom: dateRange.from, dateTo: dateRange.to }).then((data) => {
       setExchangeRates(data)
       setIsLoading(false)
     }).catch((error) => {
       console.log({ error })
     })
+  }, [dateRange])
+
+  useEffect(() => {
+    getTodayExchangeRate().then(data => {
+      setTodayExchangeRate(data)
+      setIsLoadingTwo(false)
+    }).catch(error => {
+      console.log({ error })
+    })
   }, [])
 
-  const todayExchangeRate = exchangeRates[0]
-
-  if (isLoading) {
+  if (isLoading && isLoadingTwo) {
     return (
       <section className='flex flex-col w-full max-w-7xl'>
         <header>
@@ -33,7 +47,7 @@ export function Dashboard () {
   return (
     <section className='flex flex-col w-full max-w-7xl'>
       <header>
-        <h2 className='text-2xl font-bold text-white'>Tipo de cambio Hoy</h2>
+        <h2 className='text-2xl font-bold text-white'>Hoy</h2>
         <Card className='flex items-center justify-between my-5'>
           <div className='flex flex-col items-center justify-center'>
             <Metric>₡ {todayExchangeRate.sale}</Metric>
@@ -51,8 +65,10 @@ export function Dashboard () {
       </header>
       <blockquote>
         <h2 className='text-2xl font-bold text-white'>Histórico</h2>
-        <span className='text-sm text-gray-400'>Muestra el valor del colón con respecto al dólar a lo largo del tiempo.</span>
-        <DateRangeSpanish />
+        <div className='flex items-center justify-between flex-row'>
+          <span className='text-sm text-gray-400'>Filtra el tipo de cambio por rango de fechas</span>
+          <DateRangeSpanish dateRange={dateRange} onChange={onChangeDateRange} />
+        </div>
         <TabGroup>
           <TabList className='mt-8'>
             <Tab>Gráfico Área</Tab>

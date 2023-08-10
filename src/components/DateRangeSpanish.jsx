@@ -1,32 +1,35 @@
-import { useState } from 'react'
 import { DateRangePicker, DateRangePickerItem } from '@tremor/react'
 import { es } from 'date-fns/locale'
 
-export function DateRangeSpanish () {
-  const [value, setValue] = useState({
-    from: new Date(),
-    to: new Date()
-  })
+const minimumDate = new Date(1983, 0, 1)
+const todayDate = new Date()
 
+export function DateRangeSpanish ({ dateRange, onChange }) {
+  const oneMonthAgoDate = new Date().setMonth(todayDate.getMonth() - 1)
+  const oneYearAgoDate = new Date().setFullYear(todayDate.getFullYear() - 1)
   return (
     <DateRangePicker
-      className='max-w-md mx-auto'
-      value={value}
-      onValueChange={setValue}
+      value={dateRange}
+      onValueChange={onChange}
       locale={es}
       selectPlaceholder='Seleccionar'
       color='rose'
+      minDate={minimumDate}
+      maxDate={todayDate}
     >
-      <DateRangePickerItem key='ytd' value='ytd' from={new Date(2023, 0, 1)}>
-        Año transcurrido
+      <DateRangePickerItem
+        key='month-from-today'
+        value='month-from-today'
+        from={oneMonthAgoDate}
+      >
+        Hace un mes
       </DateRangePickerItem>
       <DateRangePickerItem
         key='half'
         value='half'
-        from={new Date(2023, 0, 1)}
-        to={new Date(2023, 5, 31)}
+        from={oneYearAgoDate}
       >
-        Primer semestre
+        Hace un año
       </DateRangePickerItem>
     </DateRangePicker>
   )
