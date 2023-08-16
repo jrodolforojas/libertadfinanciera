@@ -33,7 +33,7 @@ export function ExchangeRateTable ({ title, data }) {
   }
 
   return (
-    <Card>
+    <Card className=''>
       <Title>{title}</Title>
       <Table className='mt-5'>
         <TableHead>

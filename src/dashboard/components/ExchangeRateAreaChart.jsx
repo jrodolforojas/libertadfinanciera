@@ -6,7 +6,7 @@ export function ExchangeRateAreaChart ({ title, data }) {
     <Card>
       <Title>{title}</Title>
       <AreaChart
-        className='min-h-72 mt-4'
+        className='mt-5'
         data={reversedData}
         index='date'
         categories={['buy', 'sale']}

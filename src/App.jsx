@@ -9,7 +9,7 @@ function App () {
         <nav className='flex items-center justify-between flex-wrap p-6 border-b-2 border-gray-900'>
           <ul className='flex'>
             <li className='mr-6'>
-              <Link href='/dashboard' className='active'>Dashboard</Link>
+              <Link href='/' className='active'>Dashboard</Link>
             </li>
             <li className='mr-6'>
               <Link href='/calculadora' className='active'>Calculadora</Link>
@@ -17,9 +17,9 @@ function App () {
           </ul>
         </nav>
       </header>
-      <main className='flex items-center justify-center w-full sm:p-10 p-0 min-w-min'>
+      <main className='flex items-center justify-center py-4'>
         <Switch>
-          <Route path='/dashboard' component={Dashboard} />
+          <Route path='/' component={Dashboard} />
           <Route path='/calculadora' component={FinancialFreedom} />
           <Route path='/:rest*'>{(params) => `404, Sorry the page ${params.rest} does not exist!`}</Route>
         </Switch>

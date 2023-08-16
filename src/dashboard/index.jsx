@@ -45,7 +45,7 @@ export function Dashboard () {
   }
 
   return (
-    <section className='flex flex-col w-full max-w-7xl'>
+    <section className='flex flex-col w-full max-w-7xl justify-between'>
       <header>
         <h2 className='text-2xl font-bold text-white'>Hoy</h2>
         <Card className='flex items-center justify-between my-5'>
@@ -63,7 +63,7 @@ export function Dashboard () {
           </div>
         </Card>
       </header>
-      <blockquote>
+      <blockquote className='flex flex-col justify-between'>
         <h2 className='text-2xl font-bold text-white'>Histórico</h2>
         <div className='flex items-center justify-between flex-row'>
           <span className='text-sm text-gray-400'>Filtra el tipo de cambio por rango de fechas</span>
@@ -89,13 +89,13 @@ export function Dashboard () {
             </TabPanel>
           </TabPanels>
         </TabGroup>
-        <footer className='mt-8 text-center'>
-          <p className='text-sm text-gray-500'>
-            Los datos utilizados en esta página son obtenidos del {' '}
-            <a href='https://www.bccr.fi.cr/' className='text-blue-500 hover:underline'>Banco Central de Costa Rica</a>.
-          </p>
-        </footer>
       </blockquote>
+      <footer className='mt-8 text-center'>
+        <p className='text-sm text-gray-500'>
+          Los datos utilizados en esta página son obtenidos del {' '}
+          <a href='https://www.bccr.fi.cr/' className='text-blue-500 hover:underline'>Banco Central de Costa Rica</a>.
+        </p>
+      </footer>
     </section>
   )
 }
