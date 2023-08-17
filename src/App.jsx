@@ -1,6 +1,7 @@
 import { Link, Route, Switch } from 'wouter'
 import { FinancialFreedom } from './financialFreedom'
-import { Dashboard } from './dashboard'
+import { DollarColonesExchangeRate } from './dollar-colones'
+import { BasicPassiveRates } from './tbp'
 
 function App () {
   return (
@@ -9,7 +10,10 @@ function App () {
         <nav className='flex items-center justify-between flex-wrap p-6 border-b-2 border-gray-900'>
           <ul className='flex'>
             <li className='mr-6'>
-              <Link href='/' className='active'>Dashboard</Link>
+              <Link href='/dolar' className='active'>Tipo de Cambio</Link>
+            </li>
+            <li className='mr-6'>
+              <Link href='/tbp' className='active'>Tasa Básica Pasiva (TBP)</Link>
             </li>
             <li className='mr-6'>
               <Link href='/calculadora' className='active'>Calculadora</Link>
@@ -19,7 +23,8 @@ function App () {
       </header>
       <main className='flex items-center justify-center py-4'>
         <Switch>
-          <Route path='/' component={Dashboard} />
+          <Route path='/dolar' component={DollarColonesExchangeRate} />
+          <Route path='/tbp' component={BasicPassiveRates} />
           <Route path='/calculadora' component={FinancialFreedom} />
           <Route path='/:rest*'>{(params) => `404, Sorry the page ${params.rest} does not exist!`}</Route>
         </Switch>

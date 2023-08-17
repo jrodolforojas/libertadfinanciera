@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react'
 import { ExchangeRateTable } from './components/ExchangeRateTable'
 import { ExchangeRateAreaChart } from './components/ExchangeRateAreaChart'
-import { getAllExchangeRates, getTodayExchangeRate } from '../services/exchangeRateApi'
+import { getAllExchangeRates, getTodayExchangeRate } from '../services/api'
 import { Card, Metric, Tab, TabGroup, TabList, TabPanel, TabPanels, Text } from '@tremor/react'
 import { DateRangeSpanish } from '../components/DateRangeSpanish'
 
-export function Dashboard () {
+export function DollarColonesExchangeRate () {
   const [exchangeRates, setExchangeRates] = useState([])
-  const [todayExchangeRate, setTodayExchangeRate] = useState()
+  const [todayExchangeRate, setTodayExchangeRate] = useState({
+    sale: 0,
+    buy: 0,
+    timestamp: Date.now()
+  })
   const [isLoading, setIsLoading] = useState(true)
   const [isLoadingTwo, setIsLoadingTwo] = useState(true)
   const [dateRange, setDateRange] = useState({})
@@ -47,7 +51,7 @@ export function Dashboard () {
   return (
     <section className='flex flex-col w-full max-w-7xl justify-between'>
       <header>
-        <h2 className='text-2xl font-bold text-white'>Hoy</h2>
+        <h2 className='text-2xl font-bold text-white'>Tipo de Cambio</h2>
         <Card className='flex items-center justify-between my-5'>
           <div className='flex flex-col items-center justify-center'>
             <Metric>₡ {todayExchangeRate.sale}</Metric>
@@ -78,6 +82,8 @@ export function Dashboard () {
             <TabPanel>
               <ExchangeRateAreaChart
                 data={exchangeRates}
+                categories={['buy', 'sale']}
+                colors={['orange', 'cyan']}
                 title='Tipo de cambio de dólares a colones'
               />
             </TabPanel>
