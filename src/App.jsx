@@ -1,7 +1,8 @@
-import { Link, Redirect, Route, Switch } from 'wouter'
+import { Link, Route, Switch } from 'wouter'
 import { FinancialFreedom } from './financialFreedom'
 import { DollarColonesExchangeRate } from './dollar-colones'
 import { BasicPassiveRates } from './tbp'
+import { NotFound } from './NotFound'
 
 function App () {
   return (
@@ -16,7 +17,7 @@ function App () {
               <Link href='/tbp' className='active hover:text-white text-gray-300 hover:scale-125'>Tasa Básica Pasiva (TBP)</Link>
             </li>
             <li className='mr-6'>
-              <Link href='/calculadora' className='active hover:text-white text-gray-300 hover:scale-125'>Calculadora</Link>
+              <Link href='/' className='active hover:text-white text-gray-300 hover:scale-125'>Calculadora</Link>
             </li>
           </ul>
         </nav>
@@ -25,9 +26,8 @@ function App () {
         <Switch>
           <Route path='/dolar' component={DollarColonesExchangeRate} />
           <Route path='/tbp' component={BasicPassiveRates} />
-          <Route path='/calculadora' component={FinancialFreedom} />
-          <Redirect to='/calculadora' />
-          {/* <Route path='/:rest*'>{(params) => `404, Sorry the page ${params.rest} does not exist!`}</Route> */}
+          <Route path='/' component={FinancialFreedom} />
+          <Route path='/:rest*'>{() => <NotFound />}</Route>
         </Switch>
       </main>
     </div>
