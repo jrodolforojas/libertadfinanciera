@@ -1,4 +1,4 @@
-import { Link, Route, Switch } from 'wouter'
+import { Link, Redirect, Route, Switch } from 'wouter'
 import { FinancialFreedom } from './financialFreedom'
 import { DollarColonesExchangeRate } from './dollar-colones'
 import { BasicPassiveRates } from './tbp'
@@ -7,7 +7,7 @@ function App () {
   return (
     <div className='flex flex-col justify-between'>
       <header>
-        <nav className='flex items-center justify-between flex-wrap p-6'>
+        <nav className='items-center justify-between flex-wrap p-6 border-b-2 border-gray-800'>
           <ul className='flex gap-x-2'>
             <li className='mr-6'>
               <Link href='/dolar' className='active hover:text-white text-gray-300 hover:scale-125'>Tipo de Cambio</Link>
@@ -21,12 +21,13 @@ function App () {
           </ul>
         </nav>
       </header>
-      <main className='flex items-center justify-center py-4 bg-gray-950'>
+      <main className='flex items-center justify-center py-4'>
         <Switch>
           <Route path='/dolar' component={DollarColonesExchangeRate} />
           <Route path='/tbp' component={BasicPassiveRates} />
           <Route path='/calculadora' component={FinancialFreedom} />
-          <Route path='/:rest*'>{(params) => `404, Sorry the page ${params.rest} does not exist!`}</Route>
+          <Redirect to='/calculadora' />
+          {/* <Route path='/:rest*'>{(params) => `404, Sorry the page ${params.rest} does not exist!`}</Route> */}
         </Switch>
       </main>
     </div>
