@@ -1,44 +1,13 @@
-import { useEffect, useState } from 'react'
 import { ExchangeRateTable } from './components/ExchangeRateTable'
 import { ExchangeRateAreaChart } from './components/ExchangeRateAreaChart'
-import { getAllExchangeRates, getTodayExchangeRate } from '../services/api'
 import { Card, Metric, Tab, TabGroup, TabList, TabPanel, TabPanels, Text } from '@tremor/react'
 import { DateRangeSpanish } from '../components/DateRangeSpanish'
+import { useExchangeRates } from '../hooks/useExchangeRates'
 
 export function DollarColonesExchangeRate () {
-  const [exchangeRates, setExchangeRates] = useState([])
-  const [todayExchangeRate, setTodayExchangeRate] = useState({
-    sale: 0,
-    buy: 0,
-    timestamp: Date.now()
-  })
-  const [isLoading, setIsLoading] = useState(true)
-  const [isLoadingTwo, setIsLoadingTwo] = useState(true)
-  const [dateRange, setDateRange] = useState({})
+  const { todayExchangeRate, exchangeRates, isLoading, dateRange, onChangeDateRange } = useExchangeRates()
 
-  const onChangeDateRange = (newDateRange) => {
-    setDateRange(newDateRange)
-  }
-
-  useEffect(() => {
-    getAllExchangeRates({ dateFrom: dateRange.from, dateTo: dateRange.to }).then((data) => {
-      setExchangeRates(data)
-      setIsLoading(false)
-    }).catch((error) => {
-      console.log({ error })
-    })
-  }, [dateRange])
-
-  useEffect(() => {
-    getTodayExchangeRate().then(data => {
-      setTodayExchangeRate(data)
-      setIsLoadingTwo(false)
-    }).catch(error => {
-      console.log({ error })
-    })
-  }, [])
-
-  if (isLoading && isLoadingTwo) {
+  if (isLoading) {
     return (
       <section className='flex flex-col w-full max-w-7xl'>
         <header>

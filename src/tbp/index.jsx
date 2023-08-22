@@ -1,44 +1,13 @@
 import { Card, Metric, Tab, TabGroup, TabList, TabPanel, TabPanels, Text } from '@tremor/react'
 import { DateRangeSpanish } from '../components/DateRangeSpanish'
 import { ExchangeRateAreaChart } from '../dollar-colones/components/ExchangeRateAreaChart'
-import { useEffect, useState } from 'react'
-import { getAllBasicPassiveRates, getTodayBasicPassiveRate } from '../services/api'
 import { BasicPassiveRateTable } from './components/BasicPassiveRateTable'
+import { useBasicPassiveRates } from '../hooks/useBasicPassiveRates'
 
 export function BasicPassiveRates () {
-  const [basicPassiveRates, setBasicPassiveRates] = useState([])
-  const [todayBasicPassiveRate, setTodayBasicPassiveRate] = useState({
-    value: 0,
-    timestamp: Date.now()
-  })
-  const [isLoading, setIsLoading] = useState(true)
-  const [isLoadingTwo, setIsLoadingTwo] = useState(true)
+  const { todayBasicPassiveRate, basicPassiveRates, isLoading, dateRange, onChangeDateRange } = useBasicPassiveRates()
 
-  const [dateRange, setDateRange] = useState({})
-
-  const onChangeDateRange = (newDateRange) => {
-    setDateRange(newDateRange)
-  }
-
-  useEffect(() => {
-    getAllBasicPassiveRates({ dateFrom: dateRange.from, dateTo: dateRange.to }).then((data) => {
-      setBasicPassiveRates(data)
-      setIsLoading(false)
-    }).catch((error) => {
-      console.log({ error })
-    })
-  }, [dateRange])
-
-  useEffect(() => {
-    getTodayBasicPassiveRate().then(data => {
-      setTodayBasicPassiveRate(data)
-      setIsLoadingTwo(false)
-    }).catch(error => {
-      console.log({ error })
-    })
-  }, [])
-
-  if (isLoading && isLoadingTwo) {
+  if (isLoading) {
     return (
       <section className='flex flex-col w-full max-w-7xl'>
         <header>
