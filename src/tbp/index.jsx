@@ -5,17 +5,7 @@ import { BasicPassiveRateTable } from './components/BasicPassiveRateTable'
 import { useBasicPassiveRates } from '../hooks/useBasicPassiveRates'
 
 export function BasicPassiveRates () {
-  const { todayBasicPassiveRate, basicPassiveRates, isLoading, dateRange, onChangeDateRange } = useBasicPassiveRates()
-
-  if (isLoading) {
-    return (
-      <section className='flex flex-col w-full max-w-7xl'>
-        <header>
-          <h2 className='text-2xl font-bold'>Cargando</h2>
-        </header>
-      </section>
-    )
-  }
+  const { todayBasicPassiveRate, basicPassiveRates, dateRange, onChangeDateRange } = useBasicPassiveRates()
 
   return (
     <section className='flex flex-col w-full max-w-7xl justify-between'>

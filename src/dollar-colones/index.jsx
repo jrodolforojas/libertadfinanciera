@@ -5,17 +5,7 @@ import { DateRangeSpanish } from '../components/DateRangeSpanish'
 import { useExchangeRates } from '../hooks/useExchangeRates'
 
 export function DollarColonesExchangeRate () {
-  const { todayExchangeRate, exchangeRates, isLoading, dateRange, onChangeDateRange } = useExchangeRates()
-
-  if (isLoading) {
-    return (
-      <section className='flex flex-col w-full max-w-7xl'>
-        <header>
-          <h2 className='text-2xl font-bold'>Cargando</h2>
-        </header>
-      </section>
-    )
-  }
+  const { todayExchangeRate, exchangeRates, dateRange, onChangeDateRange } = useExchangeRates()
 
   return (
     <section className='flex flex-col w-full max-w-7xl justify-between'>
