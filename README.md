@@ -4,6 +4,8 @@ Do you want to know sources, templates, and more about **Financial Freedom**🤑
 
 [libertadfinanciera.live](https://www.libertadfinanciera.live/)
 
+Also, I created an [API](https://github.com/jrodolforojas/libertadfinanciera-backend) for that. It's a web scrapper of [Banco Central de Costa Rica](https://www.bccr.fi.cr/SitePages/Inicio.aspx). Check it!🥳
+
 ## Sections
 
 ### Dollar colones exchange rate
