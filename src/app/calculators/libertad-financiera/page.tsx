@@ -1,7 +1,57 @@
+import MetricCard from "@/components/metric-card"
+import NumberInput from "@/components/number-input"
+import { type MetricCardValue } from "@/types/metric"
+
+const metricDefaultValues: MetricCardValue[] = [
+  {
+    value: '240000',
+    label: 'Si solamente lo ahorro'
+  },
+  {
+    value: '3871.01',
+    label: 'Ingreso pasivo mensual'
+  },
+  {
+    value: '46452.16',
+    label: 'Inversión con interés simple'
+  }
+]
 export default function LibertadFinancieraCalculator() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h2>calculadora de libertad financiera</h2>
+    <main className="flex flex-col items-center justify-between px-20">
+      <h2 className="text-2xl font-bold mb-5 text-center text-blue-text">Calculadora de Libertad Financiera</h2>
+      <MetricCard metrics={metricDefaultValues} />
+      <form className="flex flex-col w-full mt-8">
+        <NumberInput input={{
+          id: 'initialCapital',
+          label: 'Capital Inicial',
+          placeholder: '10000'
+        }} />
+        <NumberInput input={{
+          id: 'initialCapital',
+          label: 'Inversión mensual',
+          placeholder: '1000'
+        }} />
+        <NumberInput input={{
+          id: 'initialCapital',
+          label: 'Cantidad de años',
+          placeholder: '20'
+        }} />
+        <NumberInput input={{
+          id: 'initialCapital',
+          label: 'Rendimiento promedio anual',
+          placeholder: '10'
+        }} />
+        <NumberInput input={{
+          id: 'initialCapital',
+          label: 'Inflación histórica',
+          placeholder: '3'
+        }} />
+        <button type="button"
+          className="text-white w-full bg-green hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg 
+          text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 
+          dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Calcular</button>
+      </form>
     </main>
   )
 }
