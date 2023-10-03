@@ -21,7 +21,6 @@ export default function RootLayout({
       <body className={inter.className}>
         <MultiLevelSidebar routes={userRoutes} />
         {children}
-        <script src="node_modules/flowbite/dist/flowbite.min.js"></script>
       </body>
     </html>
   )

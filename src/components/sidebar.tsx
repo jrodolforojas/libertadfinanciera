@@ -14,13 +14,20 @@ export default function MultiLevelSidebar({ routes }: {
         <MenuIcon />
       </button>
       <nav id="sidebar" className="fixed top-0 left-0 z-40 w-72 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
-        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-          <ul className="space-y-2 font-medium">
+        <div className="h-full px-3 py-4 overflow-y-auto bg-blue">
+          <picture className="flex items-center pl-2.5 mb-5">
+            <img src="https://avatars.githubusercontent.com/jrodolforojas" className="h-10 mr-3 sm:h-7 rounded-full" alt="Rodolfo Rojas" />
+            <div className="font-medium text-white">
+              <div>Rodolfo Rojas</div>
+              <div className="text-sm text-gray-400">Alumno</div>
+            </div>
+          </picture>
+          <ul className="space-y-2 font-medium pt-4 mt-4 border-t border-gray-400 dark:border-gray-700">
             {routes.map(route => (
               <div key={route.path}>
                 {route.subRoutes && route.subRoutes.length > 0 ? (
                   <li>
-                    <button type="button" className="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                    <button type="button" className="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg group hover:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
                       aria-controls={`${route.name}-dropdown`}
                       data-collapse-toggle={`${route.name}-dropdown`}>
                       <span className="flex-1 ml-3 text-left whitespace-nowrap">{route.name}</span>
@@ -29,8 +36,8 @@ export default function MultiLevelSidebar({ routes }: {
                     <ul id={`${route.name}-dropdown`} className="hidden py-2 space-y-2">
                       {route.subRoutes.map(subRoute => (
                         <li key={subRoute.path}>
-                          <a href={subRoute.path} className="flex items-center w-full p-2 text-gray-900 
-                          transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white 
+                          <a href={subRoute.path} className="flex items-center w-full p-2 text-white 
+                          transition duration-75 rounded-lg pl-11 group hover:bg-gray-800 dark:text-white 
                           dark:hover:bg-gray-700">{subRoute.name}</a>
                         </li>
                       ))}
@@ -38,7 +45,8 @@ export default function MultiLevelSidebar({ routes }: {
                   </li>
                 ) : (
                   <li>
-                    <a href={route.path} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <a href={route.path} className="flex items-center p-2 text-white rounded-lg 
+                    dark:text-white hover:bg-gray-800 dark:hover:bg-gray-700 group">
                       <span className="ml-3">{route.name}</span>
                     </a>
                   </li>
