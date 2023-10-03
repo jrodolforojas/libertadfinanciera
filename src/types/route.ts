@@ -1,5 +1,8 @@
+import { TablerIconsProps } from "@tabler/icons-react"
+
 export type Route = {
   path: string
-  Icon: () => JSX.Element
   name: string
+  Icon?: (props: TablerIconsProps) => JSX.Element
+  subRoutes?: Route[]
 }

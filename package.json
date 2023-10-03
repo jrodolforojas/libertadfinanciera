@@ -9,9 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@tabler/icons-react": "^2.35.0",
     "flowbite": "1.8.1",
-    "flowbite-react": "0.6.1",
     "next": "13.4.19",
     "react": "latest",
     "react-dom": "latest"
