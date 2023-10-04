@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@tremor/react": "3.8.2",
+    "date-fns": "2.30.0",
     "flowbite": "1.8.1",
     "next": "13.4.19",
     "react": "latest",

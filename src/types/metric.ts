@@ -1,5 +1,8 @@
 export type MetricCardValue = {
   value: string
   label: string
-  symbol?: string
+  symbol?: {
+    value: string
+    orientation: "left" | "right"
+  }
 }

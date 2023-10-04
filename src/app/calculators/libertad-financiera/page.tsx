@@ -48,7 +48,8 @@ export default function LibertadFinancieraCalculator() {
           placeholder: '3'
         }} />
         <button type="button"
-          className="text-white w-full bg-green hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg 
+          className="text-white w-full bg-green hover:bg-blue-800 focus:ring-4 
+          focus:ring-blue-300 font-medium rounded-lg 
           text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 
           dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Calcular</button>
       </form>
