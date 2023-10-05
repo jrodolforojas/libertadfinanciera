@@ -3,6 +3,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import userRoutes from './routes'
+import Provider from './theme-provider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,8 +20,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <MultiLevelSidebar routes={userRoutes} />
-        {children}
+        <Provider>
+          <MultiLevelSidebar routes={userRoutes} />
+          {children}
+        </Provider>
+        <script src="node_modules/flowbite/dist/flowbite.min.js"></script>
       </body>
     </html>
   )

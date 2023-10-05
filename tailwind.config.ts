@@ -138,5 +138,6 @@ const config: Config = {
     require('flowbite/plugin'),
     require("@headlessui/tailwindcss")
   ],
+  darkMode: 'class'
 }
 export default config

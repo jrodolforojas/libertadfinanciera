@@ -18,8 +18,8 @@ const metricDefaultValues: MetricCardValue[] = [
 ]
 export default function LibertadFinancieraCalculator() {
   return (
-    <main className="flex flex-col items-center justify-between px-20">
-      <h2 className="text-2xl font-bold mb-5 text-center text-blue-text">Calculadora de Libertad Financiera</h2>
+    <main className="flex flex-col items-center justify-between px-20 sm:ml-64 sm:mt-5">
+      <h2 className="text-2xl font-bold mb-5 text-center text-blue-text dark:text-white">Calculadora de Libertad Financiera</h2>
       <MetricCard metrics={metricDefaultValues} />
       <form className="flex flex-col w-full mt-8">
         <NumberInput input={{

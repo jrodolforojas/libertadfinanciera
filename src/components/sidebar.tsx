@@ -1,7 +1,8 @@
 'use client'
 
 import { type Route } from '@/types/route'
-import { MenuIcon, OpenSidebarMenuIcon } from './icons'
+import { LogoutIcon, MenuIcon, OpenSidebarMenuIcon } from './icons'
+import DarkModeToggle from './dark-mode-toggle'
 import 'flowbite'
 
 export default function MultiLevelSidebar({ routes }: {
@@ -21,6 +22,7 @@ export default function MultiLevelSidebar({ routes }: {
               <div>Rodolfo Rojas</div>
               <div className="text-sm text-gray-400">Alumno</div>
             </div>
+            <DarkModeToggle />
           </picture>
           <ul className="space-y-2 font-medium pt-4 mt-4 border-t border-gray-400 dark:border-gray-700">
             {routes.map(route => (
@@ -54,6 +56,12 @@ export default function MultiLevelSidebar({ routes }: {
               </div>
             ))}
           </ul>
+          <footer id="dropdown-cta" className="p-4 mt-6 rounded-lg bg-blue-50 dark:bg-blue-900" role="alert">
+            <button className="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg group hover:bg-gray-800 dark:text-white dark:hover:bg-gray-700">
+              <LogoutIcon />
+              <span className='ml-2 text-white'>Cerrar Sesión</span>
+            </button>
+          </footer>
         </div>
       </nav>
     </aside>
