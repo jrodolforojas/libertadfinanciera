@@ -1,14 +1,20 @@
+import Header from "@/components/header"
+import Container from "@/components/page-container"
+import TabsNavbar from "@/components/tabs-navbar"
+import countries from "@/utils/countries"
+
 export default function TipoCambioLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <header>
-        <span>Tipo de cambio layout</span>
-      </header>
-      {children}
-    </main>
+    <Container>
+      <Header title="Tipo de cambio" description="dólar (USD) a colones (CRC)">
+      </Header>
+      <section className="flex w-full">
+        {children}
+      </section>
+    </Container>
   )
 }

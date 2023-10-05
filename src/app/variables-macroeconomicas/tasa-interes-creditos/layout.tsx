@@ -1,14 +1,21 @@
+import Header from "@/components/header"
+import Container from "@/components/page-container"
+import TabsNavbar from "@/components/tabs-navbar"
+import countries from "@/utils/countries"
+
 export default function TasaInteresCreditosLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <header>
-        <span>Tasa de interes creditos layout</span>
-      </header>
-      {children}
-    </main>
+    <Container>
+      <Header title="Tasa de interés" description="Para créditos hipotecarios">
+        <TabsNavbar tabs={countries} route="/variables-macroeconomicas/tasa-interes-creditos/" />
+      </Header>
+      <section className="flex w-full">
+        {children}
+      </section>
+    </Container>
   )
 }
