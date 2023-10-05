@@ -5,7 +5,7 @@ export default function MetricCard({ metrics }: {
   metrics: MetricCardValue[]
 }) {
   return (
-    <Card className='flex sm:flex-row justify-between items-center flex-col sm:gap-y-0 gap-y-5 bg-blue'>
+    <Card className='flex justify-between items-center flex-col sm:gap-y-0 gap-y-5 bg-primary min-w-80 sm:mb-0 mb-5'>
       {metrics.map(metric => {
         const { label, value, symbol } = metric
         let valueWithSymbol = ''
@@ -14,8 +14,8 @@ export default function MetricCard({ metrics }: {
         if (!symbol) valueWithSymbol = value
 
         return (
-          <div className='flex flex-col items-center justify-center' >
-            <Metric className='text-green'>{valueWithSymbol}</Metric>
+          <div className='flex flex-col items-center justify-center'>
+            <Metric className='text-secondary'>{valueWithSymbol}</Metric>
             <Text className='text-gray-400'>{label}</Text>
           </div>
         )

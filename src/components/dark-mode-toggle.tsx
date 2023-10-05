@@ -14,7 +14,7 @@ export default function DarkModeToggle() {
 
   useEffect(() => {
     setMounted(true)
-  }, [])
+  }, [resolvedTheme])
 
   if (!mounted) {
     return null

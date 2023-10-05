@@ -35,7 +35,7 @@ const userRoutes: Route[] = [
     subRoutes: [
       {
         name: 'Tasa de Inflación',
-        path: '/variables-macroeconomicas/inflacion',
+        path: '/variables-macroeconomicas/inflacion/cr',
         subRoutes: [
           { name: 'Costa Rica', path: '/variables-macroeconomicas/inflacion/cr' },
           { name: 'Estados Unidos', path: '/variables-macroeconomicas/inflacion/us' }

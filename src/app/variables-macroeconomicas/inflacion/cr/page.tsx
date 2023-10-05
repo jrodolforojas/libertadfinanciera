@@ -39,7 +39,7 @@ export default function CostaRicaInflationPage() {
               <AreaChart
                 data={EXCHANGE_RATES}
                 categories={['buy', 'sale']}
-                colors={['orange', 'cyan']}
+                colors={['green', 'cyan']}
                 title='Gráfico Tasa de Inflación en Costa Rica' />
             </TabPanel>
             <TabPanel>
@@ -51,7 +51,7 @@ export default function CostaRicaInflationPage() {
       <footer className="mt-8 pb-8">
         <p className='text-sm text-gray-500 text-center'>
           Los datos utilizados en esta página son obtenidos del {' '}
-          <a href='https://www.bccr.fi.cr/' className='text-green hover:underline'>Banco Central de Costa Rica</a>.
+          <a href='https://www.bccr.fi.cr/' className='text-secondary hover:underline'>Banco Central de Costa Rica</a>.
         </p>
       </footer>
     </section>
