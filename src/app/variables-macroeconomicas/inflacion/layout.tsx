@@ -1,3 +1,4 @@
+import countries from "@/app/utils/countries"
 import TabsNavbar from "@/components/tabs-navbar"
 
 export default function InflationLayout({
@@ -12,7 +13,7 @@ export default function InflationLayout({
           <h2 className="text-3xl font-bold text-center text-blue-text">Tasa de inflación</h2>
           <span className="text-gray-400 text-center w-full flex justify-center items-center">Porcentaje de cuánto están subiendo los precios de las cosas que compramos cada día</span>
         </div>
-        <TabsNavbar />
+        <TabsNavbar tabs={countries} />
       </header>
       <section className="flex w-full">
         {children}

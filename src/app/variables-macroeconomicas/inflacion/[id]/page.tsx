@@ -5,13 +5,22 @@ import Table from "@/components/table"
 import { EXCHANGE_RATES } from '@/mocks/exchange-rate-mock'
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@tremor/react"
 import { format } from "date-fns"
+import { COUNTRIES } from "@/app/variables-macroeconomicas/inflacion/tabs"
 
-export default function CostaRicaInflationPage() {
+export default function CountryInflationPage({ params }: { params: { id: string } }) {
+  const { id } = params
+
+  const currentCountry = COUNTRIES.find(country => country.id === id)
+
+  if (!currentCountry) {
+    return null
+  }
+
   return (
     <section className="flex w-full mt-5 flex-col">
       <header>
         <div>
-          <h3 className='text-2xl font-bold text-blue-text'>Hoy</h3>
+          <h3 className='text-2xl font-bold text-blue-text'>Hoy en {currentCountry.label}</h3>
           <MetricCard metrics={[
             { label: 'Tasa Básica Pasiva', value: '5.58', symbol: { value: '%', orientation: 'right' } },
             { label: 'Fecha de actualización', value: format(new Date(), 'dd/mm/yyyy') },
