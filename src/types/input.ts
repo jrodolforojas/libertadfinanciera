@@ -1,4 +1,4 @@
-export type Number = {
+export interface Input {
   id: string
   label: string
   placeholder: string

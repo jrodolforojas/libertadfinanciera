@@ -1,4 +1,4 @@
-import { Tab } from "@/types/tab"
+import { type Tab } from '@/types/tab'
 
 const countries: Tab[] = [
   {

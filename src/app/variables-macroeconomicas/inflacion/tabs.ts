@@ -1,6 +1,6 @@
-import { Tab } from "@/types/tab";
+import { type Tab } from '@/types/tab'
 
-export const COUNTRIES:Tab[] = [
+export const COUNTRIES: Tab[] = [
   {
     id: 'cr',
     label: 'Costa Rica',

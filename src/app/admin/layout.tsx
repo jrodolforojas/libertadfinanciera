@@ -1,8 +1,8 @@
-import Sidebar from "@/components/sidebar"
-import adminRoutes from "./routes"
+import Sidebar from '@/components/sidebar'
+import adminRoutes from './routes'
 
 export default function AdminLayout({
-  children,
+  children
 }: {
   children: React.ReactNode
 }) {

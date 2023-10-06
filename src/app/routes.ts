@@ -1,4 +1,4 @@
-import type { Route } from "@/types/route"
+import type { Route } from '@/types/route'
 
 const userRoutes: Route[] = [
   {
@@ -57,7 +57,7 @@ const userRoutes: Route[] = [
   },
   {
     name: 'Portafolio de Inversiones',
-    path: '/portafolio',
+    path: '/portafolio'
   }
 ]
 

@@ -1,6 +1,6 @@
-import MetricCard from "@/components/metric-card"
-import NumberInput from "@/components/number-input"
-import { type MetricCardValue } from "@/types/metric"
+import MetricCard from '@/components/metric-card'
+import NumberInput from '@/components/number-input'
+import { type MetricCardValue } from '@/types/metric'
 
 const metricDefaultValues: MetricCardValue[] = [
   {
@@ -17,11 +17,11 @@ const metricDefaultValues: MetricCardValue[] = [
   },
   {
     value: '46452.16',
-    label: 'Inversión con interés simple'
+    label: 'Valor Calculado'
   },
   {
     value: '46452.16',
-    label: 'Inversión con interés simple'
+    label: 'Segundo Valor calculado'
   }
 ]
 export default function LibertadFinancieraCalculator() {
@@ -36,29 +36,29 @@ export default function LibertadFinancieraCalculator() {
             placeholder: '10000'
           }} />
           <NumberInput input={{
-            id: 'initialCapital',
+            id: 'mensualInvestment',
             label: 'Inversión mensual',
             placeholder: '1000'
           }} />
           <NumberInput input={{
-            id: 'initialCapital',
+            id: 'years',
             label: 'Cantidad de años',
             placeholder: '20'
           }} />
           <NumberInput input={{
-            id: 'initialCapital',
+            id: 'averageAnnualReturn',
             label: 'Rendimiento promedio anual',
             placeholder: '10'
           }} />
           <NumberInput input={{
-            id: 'initialCapital',
+            id: 'inflation',
             label: 'Inflación histórica',
             placeholder: '3'
           }} />
           <button type="button"
-            className="text-white w-full bg-secondary hover:bg-blue-800 focus:ring-4 
-          focus:ring-blue-300 font-medium rounded-lg 
-          text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 
+            className="text-white w-full bg-secondary hover:bg-blue-800 focus:ring-4
+          focus:ring-blue-300 font-medium rounded-lg
+          text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600
           dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Calcular</button>
         </form>
         <div className="flex mt-8 sm:ml-10 w-full">

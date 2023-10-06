@@ -1,21 +1,17 @@
-import { CalculatorIcon, RoleIcon, UserIcon } from "@/components/icons"
-import { type Route } from "@/types/route"
+import { type Route } from '@/types/route'
 
-const adminRoutes:Route[] = [
+const adminRoutes: Route[] = [
   {
     name: 'Usuarios',
-    path: '/admin/users',
-    Icon: UserIcon
+    path: '/admin/users'
   },
   {
     name: 'Roles',
-    path: '/admin/roles',
-    Icon: RoleIcon
+    path: '/admin/roles'
   },
   {
     name: 'Calculadoras',
-    path: '/admin/roles',
-    Icon: CalculatorIcon
+    path: '/admin/roles'
   }
 ]
 

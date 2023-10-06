@@ -22,7 +22,6 @@ export const RoleIcon =
     <path d="M3 13v-1a2 2 0 0 1 2 -2h2"></path>
   </svg>
 
-
 export const MenuIcon = () => (
   <svg className="icon icon-tabler icon-tabler-menu-2 w-6 h-6" width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>

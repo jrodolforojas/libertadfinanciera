@@ -1,8 +1,7 @@
-import type { ExchangeRate, ExchangeRateResponse, ExchangeRateTodayResponse, ExchangeRatesRequest } from "@/types/api/exchange-rate"
-import { format } from "date-fns"
+import type { ExchangeRate, ExchangeRateResponse, ExchangeRateTodayResponse, ExchangeRatesRequest } from '@/types/api/exchange-rate'
+import { format } from 'date-fns'
 
 const API_URL = 'https://api.libertadfinanciera.live'
-
 
 export const getAllExchangeRates = async ({ dateFrom, dateTo }: ExchangeRatesRequest) => {
   let url = API_URL + '/exchange_rates'

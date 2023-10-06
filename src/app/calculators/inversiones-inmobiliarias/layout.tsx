@@ -1,5 +1,5 @@
 export default function InversionesInmobiliariasLayout({
-  children,
+  children
 }: {
   children: React.ReactNode
 }) {

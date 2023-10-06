@@ -1,10 +1,10 @@
-import AreaChart from "@/components/area-chart"
-import MetricCard from "@/components/metric-card"
-import Range from "@/components/range"
-import Table from "@/components/table"
-import { getAllExchangeRates, getTodayExchangeRate } from "@/services/api/exchange-rates"
-import { ExchangeRateSpanish } from "@/types/api/exchange-rate"
-import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@tremor/react"
+import AreaChart from '@/components/area-chart'
+import MetricCard from '@/components/metric-card'
+import Range from '@/components/range'
+import Table from '@/components/table'
+import { getAllExchangeRates, getTodayExchangeRate } from '@/services/api/exchange-rates'
+import { type ExchangeRateSpanish } from '@/types/api/exchange-rate'
+import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@tremor/react'
 
 const today = new Date()
 
@@ -33,7 +33,7 @@ export default async function DollarColonesExchangeRate() {
           <h3 className='text-2xl font-bold text-blue-text'>Hoy</h3>
           <MetricCard metrics={[
             { label: 'Compra', value: todayExchangeRate.buy.toString(), symbol: { value: '₡', orientation: 'left' } },
-            { label: 'Venta', value: todayExchangeRate.sale.toString(), symbol: { value: '₡', orientation: 'left' } },
+            { label: 'Venta', value: todayExchangeRate.sale.toString(), symbol: { value: '₡', orientation: 'left' } }
           ]} />
         </div>
         <div className="mt-5">

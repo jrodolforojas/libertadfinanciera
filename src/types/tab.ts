@@ -1,4 +1,4 @@
-export type Tab = {
+export interface Tab {
   id: string
   label: string
   emoji?: string

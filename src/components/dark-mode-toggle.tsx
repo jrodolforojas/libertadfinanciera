@@ -1,8 +1,8 @@
 'use client'
 
-import { useTheme } from "next-themes"
-import { DarkModeIcon, LightModeIcon } from "./icons"
-import { useEffect, useState } from "react"
+import { useTheme } from 'next-themes'
+import { DarkModeIcon, LightModeIcon } from './icons'
+import { useEffect, useState } from 'react'
 
 export default function DarkModeToggle() {
   const [mounted, setMounted] = useState(false)
@@ -26,5 +26,4 @@ export default function DarkModeToggle() {
       {resolvedTheme === 'dark' && <LightModeIcon />}
     </button>
   )
-
 }
