@@ -3,17 +3,16 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import userRoutes from './routes'
-import Provider from './theme-provider'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Libertad Financiera',
-  description: 'Recursos del taller de Roberto Olivas',
+  description: 'Recursos del taller de Roberto Olivas'
 }
 
 export default function RootLayout({
-  children,
+  children
 }: {
   children: React.ReactNode
 }) {

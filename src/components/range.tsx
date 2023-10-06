@@ -1,9 +1,9 @@
 'use client'
 
-import { DateRangePicker, DateRangePickerItem } from "@tremor/react"
+import { DateRangePicker, DateRangePickerItem } from '@tremor/react'
 import { es } from 'date-fns/locale'
 import { DATE_RANGES } from '@/mocks/date-ranges'
-import { DateRange } from "@/types/date-range"
+import { type DateRange } from '@/types/date-range'
 
 const minimumDate = new Date(1983, 0, 1)
 const todayDate = new Date()

@@ -1,10 +1,8 @@
-import Header from "@/components/header"
-import Container from "@/components/page-container"
-import TabsNavbar from "@/components/tabs-navbar"
-import countries from "@/utils/countries"
+import Header from '@/components/header'
+import Container from '@/components/page-container'
 
 export default function TipoCambioLayout({
-  children,
+  children
 }: {
   children: React.ReactNode
 }) {

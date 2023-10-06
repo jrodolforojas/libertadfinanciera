@@ -1,4 +1,4 @@
-import type { DateRange } from "@/types/date-range"
+import type { DateRange } from '@/types/date-range'
 
 const today = new Date(Date.now())
 

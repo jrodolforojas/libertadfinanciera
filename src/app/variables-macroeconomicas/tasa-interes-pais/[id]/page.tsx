@@ -1,18 +1,14 @@
-import AreaChart from "@/components/area-chart"
-import MetricCard from "@/components/metric-card"
-import Range from "@/components/range"
-import Table from "@/components/table"
-import { EXCHANGE_RATES } from '@/mocks/exchange-rate-mock'
-import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@tremor/react"
-import { format } from "date-fns"
-import { COUNTRIES } from "@/app/variables-macroeconomicas/inflacion/tabs"
+import MetricCard from '@/components/metric-card'
+import Range from '@/components/range'
+import { format } from 'date-fns'
+import { COUNTRIES } from '@/app/variables-macroeconomicas/inflacion/tabs'
 
 export default function CountryTasaInteres({ params }: { params: { id: string } }) {
   const { id } = params
 
   const currentCountry = COUNTRIES.find(country => country.id === id)
 
-  if (!currentCountry) {
+  if (currentCountry === undefined) {
     return null
   }
 
@@ -23,7 +19,7 @@ export default function CountryTasaInteres({ params }: { params: { id: string } 
           <h3 className='text-2xl font-bold text-blue-text'>Hoy en {currentCountry.label}</h3>
           <MetricCard metrics={[
             { label: 'Tasa Básica Pasiva', value: '5.58', symbol: { value: '%', orientation: 'right' } },
-            { label: 'Fecha de actualización', value: format(new Date(), 'dd/mm/yyyy') },
+            { label: 'Fecha de actualización', value: format(new Date(), 'dd/mm/yyyy') }
           ]} />
         </div>
         <div className="mt-5">
@@ -38,24 +34,6 @@ export default function CountryTasaInteres({ params }: { params: { id: string } 
         </div>
       </header>
       <main>
-        <TabGroup className="mt-4">
-          <TabList>
-            <Tab>Gráfico</Tab>
-            <Tab>Tabla</Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel>
-              <AreaChart
-                data={EXCHANGE_RATES}
-                categories={['buy', 'sale']}
-                colors={['green', 'cyan']}
-                title='Gráfico Tasa de Inflación en Costa Rica' />
-            </TabPanel>
-            <TabPanel>
-              <Table />
-            </TabPanel>
-          </TabPanels>
-        </TabGroup>
       </main>
       <footer className="mt-8 pb-8">
         <p className='text-sm text-gray-500 text-center'>

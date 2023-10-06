@@ -1,6 +1,6 @@
 'use client'
 
-import { Tab } from '@/types/tab'
+import { type Tab } from '@/types/tab'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -8,7 +8,6 @@ export default function TabsNavbarItem({ tab, route }: {
   tab: Tab
   route: string
 }) {
-
   const currentRoute = usePathname()
   const href = `${route}/${tab.id}`
   const isActive = currentRoute === href

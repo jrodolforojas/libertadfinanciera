@@ -1,10 +1,10 @@
-import countries from "@/utils/countries"
-import TabsNavbar from "@/components/tabs-navbar"
-import Container from "@/components/page-container"
-import Header from "@/components/header"
+import countries from '@/utils/countries'
+import TabsNavbar from '@/components/tabs-navbar'
+import Container from '@/components/page-container'
+import Header from '@/components/header'
 
 export default function InflationLayout({
-  children,
+  children
 }: {
   children: React.ReactNode
 }) {
