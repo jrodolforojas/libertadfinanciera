@@ -2,20 +2,38 @@ import AreaChart from "@/components/area-chart"
 import MetricCard from "@/components/metric-card"
 import Range from "@/components/range"
 import Table from "@/components/table"
-import { EXCHANGE_RATES } from '@/mocks/exchange-rate-mock'
+import { getAllExchangeRates, getTodayExchangeRate } from "@/services/api/exchange-rates"
+import { ExchangeRateSpanish } from "@/types/api/exchange-rate"
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@tremor/react"
-import { format } from "date-fns"
-import { COUNTRIES } from "@/app/variables-macroeconomicas/inflacion/tabs"
 
-export default function DollarColonesExchangeRate() {
+const today = new Date()
+
+export default async function DollarColonesExchangeRate() {
+  const todayExchangeRate = await getTodayExchangeRate()
+
+  const exchangeRates = await getAllExchangeRates({
+    dateFrom: new Date(new Date().setDate(today.getDate() - 30)),
+    dateTo: today
+  })
+
+  const data = exchangeRates.reverse().map(item => {
+    const test: ExchangeRateSpanish = {
+      compra: item.sale,
+      venta: item.buy,
+      fecha: item.date,
+      dateFormatted: item.dateFormatted
+    }
+    return test
+  })
+
   return (
     <section className="flex w-full mt-5 flex-col">
       <header>
         <div>
           <h3 className='text-2xl font-bold text-blue-text'>Hoy</h3>
           <MetricCard metrics={[
-            { label: 'Tasa Básica Pasiva', value: '5.58', symbol: { value: '%', orientation: 'right' } },
-            { label: 'Fecha de actualización', value: format(new Date(), 'dd/mm/yyyy') },
+            { label: 'Compra', value: todayExchangeRate.buy.toString(), symbol: { value: '₡', orientation: 'left' } },
+            { label: 'Venta', value: todayExchangeRate.sale.toString(), symbol: { value: '₡', orientation: 'left' } },
           ]} />
         </div>
         <div className="mt-5">
@@ -38,13 +56,13 @@ export default function DollarColonesExchangeRate() {
           <TabPanels>
             <TabPanel>
               <AreaChart
-                data={EXCHANGE_RATES}
-                categories={['buy', 'sale']}
+                data={data}
+                categories={['compra', 'venta']}
                 colors={['green', 'cyan']}
-                title='Gráfico Tasa de Inflación en Costa Rica' />
+                title='Gráfico Tipo de Cambio Dólar a Colones' />
             </TabPanel>
             <TabPanel>
-              <Table />
+              <Table data={data} columns={['Fecha', 'Compra', 'Venta']} />
             </TabPanel>
           </TabPanels>
         </TabGroup>

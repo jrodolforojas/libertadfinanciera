@@ -6,7 +6,7 @@ export default function NumberInput({ input }: {
   const { id, label, placeholder } = input
   return (
     <div className="mb-6">
-      <label htmlFor={id} className="block mb-2 text-sm font-medium text-blue">{label}</label>
+      <label htmlFor={id} className="block mb-2 text-sm font-medium text-primary">{label}</label>
       <input type='number' id={id}
         className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
           focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 
