@@ -1,31 +1,31 @@
 {
   "name": "libertadfinanciera",
+  "version": "0.1.0",
   "private": true,
-  "version": "0.0.0",
-  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
-    "@heroicons/react": "^1.0.6",
-    "@tremor/react": "3.6.0",
-    "date-fns": "^2.30.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-hook-form": "7.43.9",
-    "wouter": "^2.11.0"
+    "@tremor/react": "3.8.2",
+    "date-fns": "2.30.0",
+    "flowbite": "1.8.1",
+    "next": "13.4.19",
+    "next-themes": "0.2.1",
+    "react": "latest",
+    "react-dom": "latest"
   },
   "devDependencies": {
-    "@types/react": "^18.0.28",
-    "@types/react-dom": "^18.0.11",
-    "@vitejs/plugin-react-swc": "^3.0.0",
-    "autoprefixer": "^10.4.14",
-    "postcss": "^8.4.23",
-    "standard": "17.0.0",
-    "tailwindcss": "^3.3.2",
-    "vite": "^4.2.0"
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "autoprefixer": "latest",
+    "postcss": "latest",
+    "standard": "17.1.0",
+    "tailwindcss": "latest",
+    "typescript": "latest"
   },
   "eslintConfig": {
     "extends": "./node_modules/standard/eslintrc.json"

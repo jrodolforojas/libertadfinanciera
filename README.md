@@ -1,35 +1,36 @@
-# README Frontend
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-Do you want to know sources, templates, and more about **Financial Freedom**🤑 based in Costa Rica🇨🇷? Here's the place. 😉
+## Getting Started
 
-[libertadfinanciera.live](https://www.libertadfinanciera.live/)
+First, run the development server:
 
-Also, I created an [API](https://github.com/jrodolforojas/libertadfinanciera-backend) for that. It's a web scrapper of [Banco Central de Costa Rica](https://www.bccr.fi.cr/SitePages/Inicio.aspx). Check it!🥳
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-## Sections
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-### Dollar colones exchange rate
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-Here you will find the dollar 💸 ➡️ colones 🇨🇷 exchange rates (buy, sale, date). This data are taken from Banco Central de Costa Rica.
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-### Basic Passive Rate (TBP)
+## Learn More
 
-On this page, you will see the basic passive rate values 📊 across the timeline. This data are taken from Banco Central de Costa Rica.
+To learn more about Next.js, take a look at the following resources:
 
-### Financial Freedom Calculator
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-Calculate how much you need to invest by month or initial capital to get the passive incomes you need to accomplish your financial freedom. The calculator is not mine, is a source of Roberto Olivas’s Opciones de inversión reguladas dentro y fuera de América Latina [course](https://finanzasconrobertoolivas.com/taller-de-opciones-de-inversion-reguladas-dentro-y-fuera-de-america-latina/). 
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Demo
+## Deploy on Vercel
 
-Exchange Rate page
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-![Demo Dollar](/images/demo-dollar.png)
-
-Basic Passive Rate page
-
-![Demo TBP](/images/demo-tbp.png)
-
-Financial Freedom Calculator
-
-![Demo Calculator](/images/demo-calculator.png)
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
