@@ -1,11 +1,9 @@
-import { CalculatorIcon, UserIcon } from '@/components/icons'
 import { type Route } from '@/types/route'
 
 const adminRoutes: Route[] = [
   {
     name: 'Usuarios',
-    path: '/admin/users',
-    Icon: UserIcon
+    path: '/admin/users'
   },
   {
     name: 'Roles',
@@ -13,8 +11,7 @@ const adminRoutes: Route[] = [
   },
   {
     name: 'Calculadoras',
-    path: '/admin/roles',
-    Icon: CalculatorIcon
+    path: '/admin/roles'
   }
 ]
 

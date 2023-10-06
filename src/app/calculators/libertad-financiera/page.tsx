@@ -17,11 +17,11 @@ const metricDefaultValues: MetricCardValue[] = [
   },
   {
     value: '46452.16',
-    label: 'Inversión con interés simple'
+    label: 'Valor Calculado'
   },
   {
     value: '46452.16',
-    label: 'Inversión con interés simple'
+    label: 'Segundo Valor calculado'
   }
 ]
 export default function LibertadFinancieraCalculator() {
@@ -36,22 +36,22 @@ export default function LibertadFinancieraCalculator() {
             placeholder: '10000'
           }} />
           <NumberInput input={{
-            id: 'initialCapital',
+            id: 'mensualInvestment',
             label: 'Inversión mensual',
             placeholder: '1000'
           }} />
           <NumberInput input={{
-            id: 'initialCapital',
+            id: 'years',
             label: 'Cantidad de años',
             placeholder: '20'
           }} />
           <NumberInput input={{
-            id: 'initialCapital',
+            id: 'averageAnnualReturn',
             label: 'Rendimiento promedio anual',
             placeholder: '10'
           }} />
           <NumberInput input={{
-            id: 'initialCapital',
+            id: 'inflation',
             label: 'Inflación histórica',
             placeholder: '3'
           }} />
