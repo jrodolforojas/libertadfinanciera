@@ -1,5 +1,6 @@
 'use client'
 
+import 'flowbite'
 import { type Route } from '@/types/route'
 import { LogoutIcon, MenuIcon } from '@/components/icons'
 import SidebarItem from '@/components/sidebar-item'
