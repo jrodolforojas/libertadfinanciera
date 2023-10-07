@@ -1,7 +1,6 @@
 'use client'
 
-import { initDrawers, initDropdowns } from 'flowbite'
-import { useEffect } from 'react'
+import 'flowbite'
 import { type Route } from '@/types/route'
 import { LogoutIcon, MenuIcon } from '@/components/icons'
 import SidebarItem from '@/components/sidebar-item'
@@ -10,10 +9,10 @@ import Avatar from '@/components/avatar'
 export default function MultiLevelSidebar({ routes }: {
   routes: Route[]
 }) {
-  useEffect(() => {
-    initDrawers()
-    initDropdowns()
-  }, [])
+  // useEffect(() => {
+  //   initDrawers()
+  //   initDropdowns()
+  // }, [])
 
   return (
     <aside>
