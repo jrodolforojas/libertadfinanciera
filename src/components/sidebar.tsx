@@ -33,6 +33,7 @@ export default function MultiLevelSidebar({ routes }: {
           </footer>
         </div>
       </nav>
+      <script src="node_modules/flowbite/dist/flowbite.min.js"></script>
     </aside>
   )
 }

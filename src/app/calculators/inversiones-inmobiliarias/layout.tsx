@@ -1,14 +1,19 @@
+import Header from '@/components/header'
+import Container from '@/components/page-container'
+
 export default function InversionesInmobiliariasLayout({
   children
 }: {
   children: React.ReactNode
 }) {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <header>
-        <span>Calculadora de Inversiones Inmobiliarias</span>
-      </header>
-      {children}
-    </main>
+    <Container>
+      <Header title='Calculadora de Inversiones Inmobiliarias'>
+
+      </Header>
+      <section className='flex w-full'>
+        {children}
+      </section>
+    </Container >
   )
 }
