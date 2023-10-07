@@ -17,7 +17,7 @@ export default function MultiLevelSidebar({ routes }: {
 
   return (
     <aside>
-      <button data-drawer-target="sidebar" data-drawer-toggle="sidebar" aria-controls="sidebar" type="button"
+      <button data-drawer-target="sidebar" data-drawer-toggle="sidebar" data-drawer-show="sidebar" data-drawer-hide="sidebar" aria-controls="sidebar" type="button"
         className="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
         <span className="sr-only">Open sidebar</span>
         <MenuIcon />
