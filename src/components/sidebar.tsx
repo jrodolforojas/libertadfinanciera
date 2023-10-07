@@ -1,6 +1,6 @@
 'use client'
 
-import { initFlowbite } from 'flowbite'
+import { initDrawers } from 'flowbite'
 import { useEffect } from 'react'
 import { type Route } from '@/types/route'
 import { LogoutIcon, MenuIcon } from '@/components/icons'
@@ -11,7 +11,7 @@ export default function MultiLevelSidebar({ routes }: {
   routes: Route[]
 }) {
   useEffect(() => {
-    initFlowbite()
+    initDrawers()
   }, [])
 
   return (
