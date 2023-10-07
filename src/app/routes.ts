@@ -43,11 +43,11 @@ const userRoutes: Route[] = [
       },
       {
         name: 'Tasa de Interés',
-        path: '/variables-macroeconomicas/tasa-interes-pais'
+        path: '/variables-macroeconomicas/tasa-interes-pais/cr'
       },
       {
         name: 'Tasa de Interés Créditos',
-        path: '/variables-macroeconomicas/tasa-interes-creditos'
+        path: '/variables-macroeconomicas/tasa-interes-creditos/cr'
       },
       {
         name: 'Tipo de Cambio',

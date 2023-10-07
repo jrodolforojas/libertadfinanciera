@@ -1,7 +1,10 @@
+import ComingSoon from '@/components/coming-soon'
+import Container from '@/components/page-container'
+
 export default function PortafolioPage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h2>Mostrando tu portafolio...</h2>
-    </main>
+    <Container>
+      <ComingSoon />
+    </Container>
   )
 }

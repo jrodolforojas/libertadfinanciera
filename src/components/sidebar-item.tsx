@@ -1,3 +1,6 @@
+'use client'
+
+import 'flowbite'
 import { type Route } from '@/types/route'
 import { OpenSidebarMenuIcon } from '@/components/icons'
 import Link from 'next/link'
