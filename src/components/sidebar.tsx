@@ -1,6 +1,7 @@
 'use client'
 
-import 'flowbite'
+import { initFlowbite } from 'flowbite'
+import { useEffect } from 'react'
 import { type Route } from '@/types/route'
 import { LogoutIcon, MenuIcon } from '@/components/icons'
 import SidebarItem from '@/components/sidebar-item'
@@ -9,6 +10,10 @@ import Avatar from '@/components/avatar'
 export default function MultiLevelSidebar({ routes }: {
   routes: Route[]
 }) {
+  useEffect(() => {
+    initFlowbite()
+  }, [])
+
   return (
     <aside>
       <button data-drawer-target="sidebar" data-drawer-toggle="sidebar" aria-controls="sidebar" type="button"
