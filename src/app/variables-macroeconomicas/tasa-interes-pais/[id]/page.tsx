@@ -38,7 +38,7 @@ export default function CountryTasaInteres({ params }: { params: { id: string } 
       <footer className="mt-8 pb-8">
         <p className='text-sm text-gray-500 text-center'>
           Los datos utilizados en esta página son obtenidos del {' '}
-          <a href='https://www.bccr.fi.cr/' className='text-secondary hover:underline'>Banco Central de Costa Rica</a>.
+          <a href='https://www.bccr.fi.cr/' className='text-green-primary hover:underline'>Banco Central de Costa Rica</a>.
         </p>
       </footer>
     </section>
