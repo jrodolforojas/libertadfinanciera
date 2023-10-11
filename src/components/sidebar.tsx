@@ -5,10 +5,19 @@ import { type Route } from '@/types/route'
 import { LogoutIcon, MenuIcon } from '@/components/icons'
 import SidebarItem from '@/components/sidebar-item'
 import Avatar from '@/components/avatar'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { useRouter } from 'next/navigation'
 
 export default function MultiLevelSidebar({ routes }: {
   routes: Route[]
 }) {
+  const router = useRouter()
+  const supabase = createClientComponentClient()
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut()
+    router.refresh()
+  }
   return (
     <aside>
       <button
@@ -35,14 +44,13 @@ export default function MultiLevelSidebar({ routes }: {
             </ul>
           </blockquote>
           <footer id="dropdown-cta" className="p-4 mt-6 rounded-lg" role="alert">
-            <button className="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg group hover:bg-gray-800 dark:text-white dark:hover:bg-gray-700">
+            <button onClick={handleSignOut} className="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg group hover:bg-gray-800 dark:text-white dark:hover:bg-gray-700">
               <LogoutIcon />
               <span className='ml-2 text-white'>Cerrar Sesión</span>
             </button>
           </footer>
         </div>
       </nav>
-      <script src="node_modules/flowbite/dist/flowbite.min.js"></script>
     </aside>
   )
 }

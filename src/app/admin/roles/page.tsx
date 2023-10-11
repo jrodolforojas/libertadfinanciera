@@ -1,7 +1,18 @@
-export default function Roles() {
+import Container from '@/components/page-container'
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import { cookies } from 'next/headers'
+
+export default async function Roles() {
+  const supabase = createServerComponentClient({ cookies })
+  const { data: roles } = await supabase.from('role').select()
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1>Roles</h1>
-    </main>
+    <Container>
+      <span>Roles</span>
+      <pre>
+        {
+          JSON.stringify(roles, null, 2)
+        }
+      </pre>
+    </Container>
   )
 }

@@ -1,7 +1,6 @@
-import MultiLevelSidebar from '@/components/sidebar'
 import './globals.css'
 import type { Metadata } from 'next'
-import userRoutes from './routes'
+import SidebarServer from '@/components/sidebar-server'
 
 export const metadata: Metadata = {
   title: 'Libertad Financiera',
@@ -16,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <MultiLevelSidebar routes={userRoutes} />
+        <SidebarServer />
         {children}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
       </body>
