@@ -1,6 +1,8 @@
+import { isAuthenticated } from '@/app/session'
 import MetricCard from '@/components/metric-card'
 import NumberInput from '@/components/number-input'
 import { type MetricCardValue } from '@/types/metric'
+import { redirect } from 'next/navigation'
 
 const metricDefaultValues: MetricCardValue[] = [
   {
@@ -24,7 +26,12 @@ const metricDefaultValues: MetricCardValue[] = [
     label: 'Segundo Valor calculado'
   }
 ]
-export default function LibertadFinancieraCalculator() {
+export default async function LibertadFinancieraCalculator() {
+  const session = await isAuthenticated()
+
+  if (!session) {
+    redirect('/login')
+  }
   return (
     <main className="flex flex-col items-center justify-between px-20 sm:ml-64 sm:mt-5">
       <h2 className="text-2xl font-bold mb-5 text-center text-primary dark:text-white mb-5">Calculadora de Libertad Financiera</h2>

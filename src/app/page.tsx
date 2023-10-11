@@ -1,13 +1,11 @@
 import Container from '@/components/page-container'
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
+import { isAuthenticated } from '@/app/session'
 
 export default async function Home() {
-  const supabase = createServerComponentClient({ cookies })
-  const { data: { session } } = await supabase.auth.getSession()
+  const session = await isAuthenticated()
 
-  if (session === null) {
+  if (!session) {
     redirect('/login')
   }
 

@@ -1,13 +1,11 @@
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
 import MultiLevelSidebar from '@/components/sidebar'
 import userRoutes from '@/app/routes'
+import { isAuthenticated } from '@/app/session'
 
 export default async function SidebarServer() {
-  const supabase = createServerComponentClient({ cookies })
-  const { data: { session } } = await supabase.auth.getSession()
+  const session = await isAuthenticated()
 
-  if (session === null) {
+  if (!session) {
     return null
   }
 

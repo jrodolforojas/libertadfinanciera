@@ -1,13 +1,20 @@
+import { isAuthenticated } from '@/app/session'
 import Header from '@/components/header'
 import Container from '@/components/page-container'
 import TabsNavbar from '@/components/tabs-navbar'
 import countries from '@/utils/countries'
+import { redirect } from 'next/navigation'
 
-export default function TasaInteresCreditosLayout({
+export default async function TasaInteresCreditosLayout({
   children
 }: {
   children: React.ReactNode
 }) {
+  const session = await isAuthenticated()
+
+  if (!session) {
+    redirect('/login')
+  }
   return (
     <Container>
       <Header title="Tasa de interés" description="Para créditos hipotecarios">
