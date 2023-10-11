@@ -1,7 +1,8 @@
-import { isAuthenticated } from '@/app/session'
 import MetricCard from '@/components/metric-card'
 import NumberInput from '@/components/number-input'
 import { type MetricCardValue } from '@/types/metric'
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 const metricDefaultValues: MetricCardValue[] = [
@@ -27,7 +28,9 @@ const metricDefaultValues: MetricCardValue[] = [
   }
 ]
 export default async function LibertadFinancieraCalculator() {
-  const session = await isAuthenticated()
+  const cookieStore = cookies()
+  const supabase = createServerComponentClient({ cookies: () => cookieStore })
+  const { data: { session } } = await supabase.auth.getSession()
 
   if (!session) {
     redirect('/login')

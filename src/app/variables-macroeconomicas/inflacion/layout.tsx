@@ -2,15 +2,18 @@ import countries from '@/utils/countries'
 import TabsNavbar from '@/components/tabs-navbar'
 import Container from '@/components/page-container'
 import Header from '@/components/header'
-import { isAuthenticated } from '@/app/session'
 import { redirect } from 'next/navigation'
+import { cookies } from 'next/headers'
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 
 export default async function InflationLayout({
   children
 }: {
   children: React.ReactNode
 }) {
-  const session = await isAuthenticated()
+  const cookieStore = cookies()
+  const supabase = createServerComponentClient({ cookies: () => cookieStore })
+  const { data: { session } } = await supabase.auth.getSession()
 
   if (!session) {
     redirect('/login')
