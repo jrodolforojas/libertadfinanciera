@@ -1,6 +1,4 @@
 import { redirect } from 'next/navigation'
-import adminRoutes from './routes'
-import MultiLevelSidebar from '@/components/sidebar'
 import { cookies } from 'next/headers'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 
@@ -18,7 +16,6 @@ export default async function AdminLayout({
   }
   return (
     <main>
-      <MultiLevelSidebar routes={adminRoutes} />
       <section>{children}</section>
     </main>
   )

@@ -6,11 +6,11 @@ import { cookies } from 'next/headers'
 export default async function SidebarServer() {
   const cookieStore = cookies()
   const supabase = createServerComponentClient({ cookies: () => cookieStore })
-  const { data: { session } } = await supabase.auth.getSession()
+  const { data: { user } } = await supabase.auth.getUser()
 
-  if (!session) {
+  if (user === null) {
     return null
   }
 
-  return <MultiLevelSidebar routes={userRoutes} />
+  return <MultiLevelSidebar routes={userRoutes} user={user} />
 }

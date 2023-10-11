@@ -8,8 +8,9 @@ import Avatar from '@/components/avatar'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 
-export default function MultiLevelSidebar({ routes }: {
+export default async function MultiLevelSidebar({ routes, user }: {
   routes: Route[]
+  user: any
 }) {
   const router = useRouter()
   const supabase = createClientComponentClient()
@@ -36,7 +37,7 @@ export default function MultiLevelSidebar({ routes }: {
         aria-label="Sidebar">
         <div className="h-full px-3 py-4 overflow-y-auto bg-blue-primary flex-col justify-between flex">
           <blockquote>
-            <Avatar />
+            <Avatar name={user.email} role='Alumno' />
             <ul className="space-y-2 font-medium pt-4 mt-4 border-t border-gray-400 dark:border-gray-700">
               {routes.map(route => (
                 <SidebarItem route={route} key={route.path} />
