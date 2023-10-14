@@ -5,14 +5,15 @@ const config: Config = {
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-    './node_modules/flowbite/**/*.js',
     './node_modules/@tremor/**/*.{js,ts,jsx,tsx}' // Tremor module
   ],
   theme: {
     extend: {
       colors: {
         primary: '#061B2C',
+        'primary-light': '#072238',
         secondary: '#26D07B',
+        'secondary-dark': '#29B16D',
         'blue-text': '#051c2c',
         'gray-text': '#7A7A7A',
         'blue-primary': '#061B2C',
@@ -137,7 +138,6 @@ const config: Config = {
     }
   ],
   plugins: [
-    require('flowbite/plugin'),
     require('@headlessui/tailwindcss')
   ],
   darkMode: 'class'
