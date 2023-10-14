@@ -1,25 +1,30 @@
 'use client'
 
-import 'flowbite'
+import { useState } from 'react'
 import { type Route } from '@/types/route'
-import { OpenSidebarMenuIcon } from '@/components/icons'
+import { CloseSidebarMenuIcon, OpenSidebarMenuIcon } from '@/components/icons'
 import Link from 'next/link'
 
 export default function SidebarItem({ route }: {
   route: Route
 }) {
+  const [isOpen, setIsOpen] = useState(false)
+
+  const handleOpen = () => {
+    setIsOpen(!isOpen)
+  }
   return (
     <div key={route.path}>
       {route.subRoutes && route.subRoutes.length > 0
         ? (
           <li>
-            <button type="button" className="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg group hover:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
-              aria-controls={`${route.name}-dropdown`}
-              data-collapse-toggle={`${route.name}-dropdown`}>
+            <button onClick={handleOpen}
+              type="button" className="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg group hover:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
+              aria-controls={`${route.name}-dropdown`}>
               <span className="flex-1 ml-3 text-left whitespace-nowrap">{route.name}</span>
-              <OpenSidebarMenuIcon />
+              {isOpen ? <CloseSidebarMenuIcon /> : <OpenSidebarMenuIcon />}
             </button>
-            <ul id={`${route.name}-dropdown`} className="hidden py-2 space-y-2">
+            {isOpen && <ul className='py-2 space-y-2'>
               {route.subRoutes.map(subRoute => (
                 <Link href={subRoute.path} key={subRoute.path} className="flex items-center w-full p-2 text-white
               transition duration-75 rounded-lg pl-11 group hover:bg-gray-800 dark:text-white
@@ -28,6 +33,7 @@ export default function SidebarItem({ route }: {
                 </Link>
               ))}
             </ul>
+            }
           </li>
           )
         : (
