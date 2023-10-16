@@ -54,16 +54,16 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: 'users_id_fkey'
-            columns: ['id']
-            referencedRelation: 'users'
-            referencedColumns: ['id']
+            foreignKeyName: "users_id_fkey"
+            columns: ["id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'users_roleId_fkey'
-            columns: ['roleId']
-            referencedRelation: 'roles'
-            referencedColumns: ['id']
+            foreignKeyName: "users_roleId_fkey"
+            columns: ["roleId"]
+            referencedRelation: "roles"
+            referencedColumns: ["id"]
           }
         ]
       }

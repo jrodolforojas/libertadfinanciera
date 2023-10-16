@@ -4,6 +4,7 @@ import { type User } from '@/types/user'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { format } from 'date-fns'
 import { cookies } from 'next/headers'
+import Link from 'next/link'
 
 const columns = ['Nombre', 'Correo Electrónico', 'Activo/Inactivo', 'Rol', 'Fecha de Creación', 'Acciones']
 
@@ -34,6 +35,8 @@ export default async function Users() {
             <h2 className="text-3xl font-bold text-center text-primary">Usuarios</h2>
           </div>
         </header>
+        <Link href={'/admin/users/[id]'} as={'/admin/users/new'} className="flex self-end text-white bg-secondary hover:bg-secondary-dark focus:ring-4 focus:outline-none
+              focus:ring-secondary-dark font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5">Crear usuario</Link>
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-full h-full">
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-secondary uppercase bg-primary dark:bg-gray-700 dark:text-gray-400">
@@ -70,9 +73,9 @@ export default async function Users() {
                     {user.createdAt}
                   </td>
                   <td className="px-6 py-4 flex items-center justify-center gap-x-2">
-                    <button className='text-primary hover:rounded-full p-2 hover:bg-secondary'>
+                    <Link href={'/admin/users/[id]'} as={`/admin/users/${user.id}`} className='text-primary hover:rounded-full p-2 hover:bg-secondary'>
                       <EditIcon />
-                    </button>
+                    </Link>
                     <button className='text-primary hover:rounded-full p-2 hover:bg-secondary'>
                       <DeleteIcon />
                     </button>
