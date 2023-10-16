@@ -1,16 +1,17 @@
-import { DeleteIcon, EditIcon } from '@/components/icons'
+import { EditIcon } from '@/components/icons'
 import { type Database } from '@/types/entities/database'
 import { type User } from '@/types/user'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { format } from 'date-fns'
 import { cookies } from 'next/headers'
 import Link from 'next/link'
+import DeleteUser from './delete-user'
 
 const columns = ['Nombre', 'Correo Electrónico', 'Activo/Inactivo', 'Rol', 'Fecha de Creación', 'Acciones']
 
 export default async function Users() {
-  const supbase = createServerComponentClient<Database>({ cookies: () => cookies() })
-  const { data } = await supbase.from('users').select('id, name, email, isActive, created_at, role:roles(id, name)')
+  const supabase = createServerComponentClient<Database>({ cookies: () => cookies() })
+  const { data } = await supabase.from('users').select('*, role:roles(id, name)')
 
   const users = data?.map(item => {
     const user: User = {
@@ -18,6 +19,7 @@ export default async function Users() {
       name: item.name,
       email: item.email,
       isActive: item.isActive,
+      roleId: item.roleId ?? '',
       createdAt: format(new Date(item.created_at), 'dd/MM/yyyy'),
       role: {
         id: item.role?.id,
@@ -76,9 +78,7 @@ export default async function Users() {
                     <Link href={'/admin/users/[id]'} as={`/admin/users/${user.id}`} className='text-primary hover:rounded-full p-2 hover:bg-secondary'>
                       <EditIcon />
                     </Link>
-                    <button className='text-primary hover:rounded-full p-2 hover:bg-secondary'>
-                      <DeleteIcon />
-                    </button>
+                    <DeleteUser userId={user.id} />
                   </td>
                 </tr>
               ))}
