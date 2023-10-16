@@ -9,7 +9,7 @@ export default async function UserPage({ params }: { params: { id: string } }) {
 
   const supabase = createClientComponentClient<Database>()
   const { data } = await supabase.from('roles').select()
-  const { data: users } = await supabase.from('users').select('id, name, email, isActive, created_at, role:roles(id, name)').eq('id', id)
+  const { data: users } = await supabase.from('users').select('*, role:roles(id, name)').eq('id', id)
 
   const roles = data?.map(item => {
     const role: Role = {
@@ -25,6 +25,7 @@ export default async function UserPage({ params }: { params: { id: string } }) {
     name: '',
     email: '',
     isActive: false,
+    roleId: '',
     createdAt: '',
     role: {
       id: '',
@@ -38,6 +39,7 @@ export default async function UserPage({ params }: { params: { id: string } }) {
       name: users[0].name,
       email: users[0].email,
       isActive: users[0].isActive,
+      roleId: users[0].roleId ?? '',
       createdAt: users[0].created_at,
       role: {
         id: users[0].role?.id,
