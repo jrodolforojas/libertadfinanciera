@@ -58,6 +58,10 @@ const userRoutes: Route[] = [
   {
     name: 'Portafolio de Inversiones',
     path: '/portafolio'
+  },
+  {
+    name: 'Usuarios',
+    path: '/admin/users'
   }
 ]
 

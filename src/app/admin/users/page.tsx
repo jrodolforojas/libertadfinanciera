@@ -1,7 +1,88 @@
-export default function Users() {
+import { DeleteIcon, EditIcon } from '@/components/icons'
+import { type Database } from '@/types/entities/database'
+import { type User } from '@/types/user'
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import { format } from 'date-fns'
+import { cookies } from 'next/headers'
+
+const columns = ['Nombre', 'Correo Electrónico', 'Activo/Inactivo', 'Rol', 'Fecha de Creación', 'Acciones']
+
+export default async function Users() {
+  const supbase = createServerComponentClient<Database>({ cookies: () => cookies() })
+  const { data } = await supbase.from('users').select('id, name, email, isActive, created_at, role:roles(id, name)')
+
+  const users = data?.map(item => {
+    const user: User = {
+      id: item.id,
+      name: item.name,
+      email: item.email,
+      isActive: item.isActive,
+      createdAt: format(new Date(item.created_at), 'dd/MM/yyyy'),
+      role: {
+        id: item.role?.id,
+        name: item.role?.name
+      }
+    }
+    return user
+  })
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1>Users</h1>
+    <main className="flex flex-col justify-center items-center sm:px-20 px-10 sm:ml-64 sm:mt-5">
+      <section className="flex w-full max-w-7xl items-center justify-center flex-col">
+        <header className="flex flex-col w-full">
+          <div className="mb-5">
+            <h2 className="text-3xl font-bold text-center text-primary">Usuarios</h2>
+          </div>
+        </header>
+        <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-full h-full">
+          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead className="text-xs text-secondary uppercase bg-primary dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                {columns.map(column => (
+                  <th scope="col" key={`col-${column}`} className="px-6 py-3 text-center">
+                    {column}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {users?.map(user => (
+                <tr key={user.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                  <td className="px-6 py-4 text-center">
+                    {user.name}
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    {user.email}
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    {user.isActive
+                      ? (
+                        <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Activo</span>
+                        )
+                      : (
+                        <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">Inactivo</span>
+                        )}
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    {user.role.name}
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    {user.createdAt}
+                  </td>
+                  <td className="px-6 py-4 flex items-center justify-center gap-x-2">
+                    <button className='text-primary hover:rounded-full p-2 hover:bg-secondary'>
+                      <EditIcon />
+                    </button>
+                    <button className='text-primary hover:rounded-full p-2 hover:bg-secondary'>
+                      <DeleteIcon />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
     </main>
   )
 }
