@@ -47,8 +47,7 @@ export default function UserForm({ user, roles }: {
       return
     }
     toast.success('Usuario creado correctamente')
-    router.refresh()
-    router.replace('/admin/users')
+    router.replace(`/admin/users/invite-user?email=${data.email}`)
   }
 
   const updateUser = async (data: UserFormValues) => {
