@@ -36,17 +36,18 @@ export default function UserForm({ user, roles }: {
   }
 
   const createUser = async (data: UserFormValues) => {
-    const response = await supabase.from('users').insert({
+    const insertResponse = await supabase.from('users').insert({
       name: data.name,
       email: data.email,
       roleId: role,
       isActive
-    })
-    if (response.error !== null) {
+    }).select()
+    if (insertResponse.error !== null) {
       toast.error('Error al crear el usuario')
       return
     }
-    toast.success('Usuario actualizado correctamente')
+    toast.success('Usuario creado correctamente')
+    router.refresh()
     router.replace('/admin/users')
   }
 
