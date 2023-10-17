@@ -47,7 +47,8 @@ export default function UserForm({ user, roles }: {
       return
     }
     toast.success('Usuario creado correctamente')
-    router.replace(`/admin/users/invite-user?email=${data.email}`)
+    router.replace(`/admin/users/invite-user?email=${data.email}&name=${data.name}`)
+    router.refresh()
   }
 
   const updateUser = async (data: UserFormValues) => {
@@ -71,7 +72,7 @@ export default function UserForm({ user, roles }: {
   return (
     <main className="flex flex-col justify-center items-center sm:px-20 px-10 sm:ml-64 sm:mt-5">
       <section className="flex w-full max-w-7xl items-center justify-between flex-col">
-        <h3 className="font-bold text-md text-primary text-center">User: {user.id}</h3>
+        <h3 className="font-bold text-md text-primary text-center">{user.id !== 'new' ? 'Editar Usuario' : 'Nuevo Usuario'}</h3>
         <form className="flex flex-1 w-full items-start justify-start my-10 flex-col gap-y-4">
           <div className="w-full flex flex-col">
             <label htmlFor="email" className="block mb-2 text-sm font-medium text-primary dark:text-white">Correo electrónico</label>
