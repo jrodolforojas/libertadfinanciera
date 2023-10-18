@@ -10,7 +10,8 @@ import ActiveInactiveUser from './delete-user'
 const columns = ['Nombre', 'Correo Electrónico', 'Activo/Inactivo', 'Rol', 'Fecha de Creación', 'Acciones']
 
 export default async function Users() {
-  const supabase = createServerComponentClient<Database>({ cookies: () => cookies() })
+  const cookieStore = cookies()
+  const supabase = createServerComponentClient<Database>({ cookies: () => cookieStore })
   const { data } = await supabase.from('users').select('*, role:roles(id, name)')
 
   const users = data?.map(item => {
