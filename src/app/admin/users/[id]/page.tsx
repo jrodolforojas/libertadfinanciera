@@ -1,13 +1,14 @@
 import { type Database } from '@/types/entities/database'
 import { type User } from '@/types/user'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import UserForm from './form'
 import { type Role } from '@/types/role'
+import { cookies } from 'next/headers'
 
 export default async function UserPage({ params }: { params: { id: string } }) {
   const { id } = params
 
-  const supabase = createClientComponentClient<Database>()
+  const supabase = createServerComponentClient<Database>({ cookies: () => cookies() })
   const { data } = await supabase.from('roles').select()
   const { data: users } = await supabase.from('users').select('*, role:roles(id, name)').eq('id', id)
 
@@ -38,8 +39,8 @@ export default async function UserPage({ params }: { params: { id: string } }) {
       id: users[0].id,
       name: users[0].name,
       email: users[0].email,
-      isActive: users[0].isActive,
-      roleId: users[0].roleId ?? '',
+      isActive: users[0].is_active,
+      roleId: users[0].role_id ?? '',
       createdAt: users[0].created_at,
       role: {
         id: users[0].role?.id,

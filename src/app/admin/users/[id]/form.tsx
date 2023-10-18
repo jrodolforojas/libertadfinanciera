@@ -39,8 +39,8 @@ export default function UserForm({ user, roles }: {
     const insertResponse = await supabase.from('users').insert({
       name: data.name,
       email: data.email,
-      roleId: role,
-      isActive
+      role_id: role,
+      is_active: isActive
     }).select()
     if (insertResponse.error !== null) {
       toast.error('Error al crear el usuario')
@@ -55,8 +55,8 @@ export default function UserForm({ user, roles }: {
     const response = await supabase.from('users').update({
       name: data.name,
       email: data.email,
-      roleId: role,
-      isActive
+      role_id: role,
+      is_active: isActive
     }).eq('id', user.id)
     if (response.error !== null) {
       toast.error('Error al actualizar el usuario')

@@ -10,7 +10,7 @@ export default function DeleteUser({ userId }: { userId: string }) {
   const router = useRouter()
 
   const handleDelete = async () => {
-    const response = await supabase.from('users').update({ isActive: false }).eq('id', userId)
+    const response = await supabase.from('users').update({ is_active: false }).eq('id', userId)
     if (response.error !== null) {
       toast.error('Error al eliminar el usuario')
       return

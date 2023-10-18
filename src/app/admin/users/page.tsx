@@ -18,8 +18,8 @@ export default async function Users() {
       id: item.id,
       name: item.name,
       email: item.email,
-      isActive: item.isActive,
-      roleId: item.roleId ?? '',
+      isActive: item.is_active,
+      roleId: item.role_id ?? '',
       createdAt: format(new Date(item.created_at), 'dd/MM/yyyy'),
       role: {
         id: item.role?.id,

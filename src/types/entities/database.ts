@@ -33,27 +33,27 @@ export interface Database {
           created_at: string
           email: string
           id: string
-          isActive: boolean
+          is_active: boolean
           name: string
-          roleId: string | null
+          role_id: string | null
         }
         Insert: {
           auth_id?: string | null
           created_at?: string
           email: string
           id?: string
-          isActive?: boolean
+          is_active?: boolean
           name: string
-          roleId?: string | null
+          role_id?: string | null
         }
         Update: {
           auth_id?: string | null
           created_at?: string
           email?: string
           id?: string
-          isActive?: boolean
+          is_active?: boolean
           name?: string
-          roleId?: string | null
+          role_id?: string | null
         }
         Relationships: [
           {
@@ -63,8 +63,8 @@ export interface Database {
             referencedColumns: ['id']
           },
           {
-            foreignKeyName: 'users_roleId_fkey'
-            columns: ['roleId']
+            foreignKeyName: 'users_role_id_fkey'
+            columns: ['role_id']
             referencedRelation: 'roles'
             referencedColumns: ['id']
           }
