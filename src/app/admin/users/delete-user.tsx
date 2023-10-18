@@ -1,27 +1,28 @@
 'use client'
 
-import { DeleteIcon } from '@/components/icons'
+import { DownIcon, UpIcon } from '@/components/icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import { Toaster, toast } from 'sonner'
 
-export default function DeleteUser({ userId }: { userId: string }) {
+export default function ActiveInactiveUser({ userId, isActive }: { userId: string, isActive: boolean }) {
   const supabase = createClientComponentClient()
   const router = useRouter()
 
-  const handleDelete = async () => {
-    const response = await supabase.from('users').update({ is_active: false }).eq('id', userId)
+  const handleChangeActive = async () => {
+    const newState = !isActive
+    const response = await supabase.from('users').update({ is_active: newState }).eq('id', userId)
     if (response.error !== null) {
       toast.error('Error al eliminar el usuario')
       return
     }
-    toast.success('Usuario eliminado exitosamente')
+    newState ? toast.success('Usuario activado exitosamente') : toast.success('Usuario desactivado exitosamente')
     router.refresh()
   }
   return (
     <>
-      <button className='text-primary hover:rounded-full p-2 hover:bg-secondary' onClick={handleDelete}>
-        <DeleteIcon />
+      <button className='text-primary hover:rounded-full p-2 hover:bg-secondary' onClick={handleChangeActive}>
+        {isActive ? <DownIcon /> : <UpIcon />}
       </button>
       <Toaster position="top-center" theme='dark' />
     </>

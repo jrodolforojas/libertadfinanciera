@@ -5,7 +5,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { format } from 'date-fns'
 import { cookies } from 'next/headers'
 import Link from 'next/link'
-import DeleteUser from './delete-user'
+import ActiveInactiveUser from './delete-user'
 
 const columns = ['Nombre', 'Correo Electrónico', 'Activo/Inactivo', 'Rol', 'Fecha de Creación', 'Acciones']
 
@@ -78,7 +78,7 @@ export default async function Users() {
                     <Link href={'/admin/users/[id]'} as={`/admin/users/${user.id}`} className='text-primary hover:rounded-full p-2 hover:bg-secondary'>
                       <EditIcon />
                     </Link>
-                    <DeleteUser userId={user.id} />
+                    <ActiveInactiveUser userId={user.id} isActive={user.isActive} />
                   </td>
                 </tr>
               ))}
