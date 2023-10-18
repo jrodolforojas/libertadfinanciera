@@ -3,7 +3,7 @@
 import { type UserFormValues } from '@/types/form/user'
 import { type Role } from '@/types/role'
 import { type User } from '@/types/user'
-import { Select, SelectItem, TextInput } from '@tremor/react'
+import { Select, SelectItem } from '@tremor/react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -13,8 +13,8 @@ import { Toaster, toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 
 const userFormSchema = yup.object({
-  name: yup.string().required(),
-  email: yup.string().email().required()
+  email: yup.string().email('Ingrese un correo electrónico válido').required('Correo electrónico es un campo requerido'),
+  name: yup.string().required('Nombre es un campo requerido')
 })
 
 export default function UserForm({ user, roles }: {
@@ -26,7 +26,7 @@ export default function UserForm({ user, roles }: {
   const [role, setRole] = useState<string>(user.roleId)
   const [isActive, setIsActive] = useState<boolean>(user.isActive)
 
-  const { register, handleSubmit } = useForm<UserFormValues>({
+  const { register, handleSubmit, formState: { errors } } = useForm<UserFormValues>({
     defaultValues: user,
     resolver: yupResolver(userFormSchema)
   })
@@ -76,11 +76,15 @@ export default function UserForm({ user, roles }: {
         <form className="flex flex-1 w-full items-start justify-start my-10 flex-col gap-y-4">
           <div className="w-full flex flex-col">
             <label htmlFor="email" className="block mb-2 text-sm font-medium text-primary dark:text-white">Correo electrónico</label>
-            <TextInput placeholder="nuevo@finanzasconroberto.com" type="email" {...register('email')} />
+            <input type="email" id="email" {...register('email')}
+              className="bg-gray-50 border border-gray-300 text-primary sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="usuario@finanzasconrobertoolivas.com" />
+            {errors.email && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.email.message}</span>}
           </div>
           <div className="w-full flex flex-col">
             <label htmlFor="name" className="block mb-2 text-sm font-medium text-primary dark:text-white">Nombre</label>
-            <TextInput placeholder="Nombre..." type="text" {...register('name')} />
+            <input type="name" id="name" {...register('name')}
+              className="bg-gray-50 border border-gray-300 text-primary sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" />
+            {errors.name && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.name.message}</span>}
           </div>
           <div className="w-full flex flex-col">
             <label className="block mb-2 text-sm font-medium text-primary dark:text-white">Estado</label>
