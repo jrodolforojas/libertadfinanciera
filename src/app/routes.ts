@@ -58,11 +58,26 @@ const userRoutes: Route[] = [
   {
     name: 'Portafolio de Inversiones',
     path: '/portafolio'
-  },
+  }
+]
+
+const adminRoutes: Route[] = [
   {
     name: 'Usuarios',
     path: '/admin/users'
   }
 ]
 
-export default userRoutes
+const ADMIN_ROLE_ID = process.env.ADMINISTRATOR_ROLE_ID
+
+export const getRoutes = ({ role }: { role: string }) => {
+  if (role === ADMIN_ROLE_ID) {
+    const routes = [
+      ...adminRoutes,
+      ...userRoutes
+    ]
+    return routes
+  }
+
+  return userRoutes
+}

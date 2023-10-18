@@ -1,8 +1,8 @@
 import MultiLevelSidebar from '@/components/sidebar'
-import userRoutes from '@/app/routes'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { type Database } from '@/types/entities/database'
+import { getRoutes } from '@/app/routes'
 
 export default async function SidebarServer() {
   const cookieStore = cookies()
@@ -18,8 +18,8 @@ export default async function SidebarServer() {
     id: users[0].id,
     name: users[0].name,
     email: users[0].email,
-    isActive: users[0].isActive,
-    roleId: users[0].roleId ?? '',
+    isActive: users[0].is_active,
+    roleId: users[0].role_id ?? '',
     createdAt: users[0].created_at,
     role: {
       id: users[0].role?.id,
@@ -27,5 +27,7 @@ export default async function SidebarServer() {
     }
   }
 
-  return <MultiLevelSidebar routes={userRoutes} user={user} />
+  const routes = getRoutes({ role: user.roleId })
+
+  return <MultiLevelSidebar routes={routes} user={user} />
 }
