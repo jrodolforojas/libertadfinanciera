@@ -29,6 +29,7 @@ export interface Database {
       }
       users: {
         Row: {
+          auth_id: string | null
           created_at: string
           email: string
           id: string
@@ -37,14 +38,16 @@ export interface Database {
           roleId: string | null
         }
         Insert: {
+          auth_id?: string | null
           created_at?: string
           email: string
-          id: string
+          id?: string
           isActive?: boolean
           name: string
           roleId?: string | null
         }
         Update: {
+          auth_id?: string | null
           created_at?: string
           email?: string
           id?: string
@@ -54,16 +57,16 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "users_id_fkey"
-            columns: ["id"]
-            referencedRelation: "users"
-            referencedColumns: ["id"]
+            foreignKeyName: 'users_auth_id_fkey'
+            columns: ['auth_id']
+            referencedRelation: 'users'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "users_roleId_fkey"
-            columns: ["roleId"]
-            referencedRelation: "roles"
-            referencedColumns: ["id"]
+            foreignKeyName: 'users_roleId_fkey'
+            columns: ['roleId']
+            referencedRelation: 'roles'
+            referencedColumns: ['id']
           }
         ]
       }
