@@ -51,7 +51,7 @@ devDependencies:
     version: 20.8.7
   '@types/react':
     specifier: latest
-    version: 18.2.29
+    version: 18.2.31
   '@types/react-dom':
     specifier: latest
     version: 18.2.14
@@ -82,6 +82,9 @@ devDependencies:
   postcss:
     specifier: latest
     version: 8.4.31
+  postcss-100vh-fix:
+    specifier: ^1.0.2
+    version: 1.0.2(postcss@8.4.31)
   standard:
     specifier: 17.1.0
     version: 17.1.0(@typescript-eslint/parser@6.7.4)
@@ -532,11 +535,11 @@ packages:
   /@types/react-dom@18.2.14:
     resolution: {integrity: sha512-V835xgdSVmyQmI1KLV2BEIUgqEuinxp9O4G6g3FqO/SqLac049E53aysv0oEFD2kHfejeKU+ZqL2bcFWj9gLAQ==}
     dependencies:
-      '@types/react': 18.2.29
+      '@types/react': 18.2.31
     dev: true
 
-  /@types/react@18.2.29:
-    resolution: {integrity: sha512-Z+ZrIRocWtdD70j45izShRwDuiB4JZqDegqMFW/I8aG5DxxLKOzVNoq62UIO82v9bdgi+DO1jvsb9sTEZUSm+Q==}
+  /@types/react@18.2.31:
+    resolution: {integrity: sha512-c2UnPv548q+5DFh03y8lEDeMfDwBn9G3dRwfkrxQMo/dOtRHUUO57k6pHvBIfH/VF4Nh+98mZ5aaSe+2echD5g==}
     dependencies:
       '@types/prop-types': 15.7.7
       '@types/scheduler': 0.16.4
@@ -2518,6 +2521,15 @@ packages:
     dependencies:
       find-up: 3.0.0
       load-json-file: 5.3.0
+    dev: true
+
+  /postcss-100vh-fix@1.0.2(postcss@8.4.31):
+    resolution: {integrity: sha512-t7vqk9AfjI4fXmWlQCEiMZFFhi1hro4WlECINI1TV6Qh1XapUJE++gCmNr95F5Hen/+bz1OmO+SiSB9TZmFmSg==}
+    engines: {node: '>=10.0'}
+    peerDependencies:
+      postcss: ^8.1.0
+    dependencies:
+      postcss: 8.4.31
     dev: true
 
   /postcss-import@15.1.0(postcss@8.4.31):

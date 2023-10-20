@@ -138,7 +138,8 @@ const config: Config = {
     }
   ],
   plugins: [
-    require('@headlessui/tailwindcss')
+    require('@headlessui/tailwindcss'),
+    require('postcss-100vh-fix')
   ],
   darkMode: 'class'
 }
