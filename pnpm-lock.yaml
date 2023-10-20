@@ -83,7 +83,7 @@ devDependencies:
     specifier: latest
     version: 8.4.31
   postcss-100vh-fix:
-    specifier: ^1.0.2
+    specifier: 1.0.2
     version: 1.0.2(postcss@8.4.31)
   standard:
     specifier: 17.1.0
