@@ -38,9 +38,9 @@ export default function MultiLevelSidebar({ routes, user }: {
       <nav
         id="sidebar"
         tabIndex={-1}
-        className={`fixed top-0 left-0 z-40 w-72 h-screen transition-transform sm:translate-x-0 ${isOpen ? '' : '-translate-x-full'}`}
+        className={`fixed top-0 left-0 z-40 w-72 sm:h-screen h-full transition-transform sm:translate-x-0 ${isOpen ? '' : '-translate-x-full'}`}
         aria-label="Sidebar">
-        <div className="h-full px-3 py-4 overflow-y-auto bg-blue-primary flex-col justify-between flex">
+        <div className="h-full px-3 py-4 overflow-y-auto bg-primary flex-col justify-between flex">
           <section className='mt-2'>
             <header className='flex items-center justify-end mb-2 sm:hidden'>
               <button onClick={handleOpen} className='p-3 hover:bg-gray-800 text-white rounded-full hover:text-gray-400'>

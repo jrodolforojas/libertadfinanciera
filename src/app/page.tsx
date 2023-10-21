@@ -12,7 +12,7 @@ export default async function Home() {
   }
 
   return (
-    <main className="w-full h-screen flex items-start justify-center">
+    <main className="h-full flex items-start justify-center sm:ml-64 sm:mt-5">
       <section className="flex flex-col items-center justify-center text-center">
         <h1 className="text-3xl text-blue-primary font-bold text-center mb-5">Bienvenidos al taller</h1>
         <span className="text-center text-green-primary">¡Navega mediante el menú para conocer todos los recursos!</span>

@@ -83,7 +83,8 @@ export default function UserForm({ user, roles }: {
           <div className="w-full flex flex-col">
             <label htmlFor="name" className="block mb-2 text-sm font-medium text-primary dark:text-white">Nombre</label>
             <input type="name" id="name" {...register('name')}
-              className="bg-gray-50 border border-gray-300 text-primary sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" />
+              className="bg-gray-50 border border-gray-300 text-primary sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Roberto Olivas" />
             {errors.name && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.name.message}</span>}
           </div>
           <div className="w-full flex flex-col">
