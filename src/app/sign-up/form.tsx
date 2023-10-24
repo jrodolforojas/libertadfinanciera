@@ -9,20 +9,21 @@ import { type SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { Toaster, toast } from 'sonner'
+import { type Database } from '@/types/entities/database'
 
 const loginSchema = yup.object({
   email: yup.string().email('Debe ser un correo electrónico válido').required('Correo electrónico es un campo requerido'),
   password: yup.string().required('Contraseña es un campo requerido').min(6, 'Contraseña debe ser mayor a 6 caracteres')
 })
 
-export default function SignUpForm({ email }: { email: string }) {
+export default function SignUpForm() {
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const supabase = createClientComponentClient<Database>()
   const [showPassword, setShowPassword] = useState(false)
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormValues>({
     resolver: yupResolver(loginSchema),
     defaultValues: {
-      email,
+      email: '',
       password: ''
     }
   })
@@ -32,15 +33,21 @@ export default function SignUpForm({ email }: { email: string }) {
   }
 
   const handleSignUp = async ({ email, password }: LoginFormValues) => {
+    const { data: matchedEmailUsers } = await supabase.from('users').select('email').eq('email', email)
+    if (matchedEmailUsers === null || matchedEmailUsers.length !== 1) {
+      toast.error('Este correo electrónico no pertenece a la lista autorizada de alumnos')
+      return
+    }
     const response = await supabase.auth.signUp({
       email,
       password
     })
-    if (response.error !== null && response.error.name === 'AuthApiError') {
+    if (response.error !== null) {
+      console.log({ error: response.error })
       toast.error('Credenciales inválidas')
       return
     }
-    router.replace('/')
+    router.replace(`/sign-up/verify?email=${email}&user=${response.data.user?.id}`)
     router.refresh()
   }
 
@@ -49,8 +56,8 @@ export default function SignUpForm({ email }: { email: string }) {
   }
 
   return (
-    <main className="h-screen bg-primary">
-      <section className="flex flex-col items-center justify-center text-center h-full w-full px-5 pt-8 pb-10">
+    <section className="bg-gray-50 dark:bg-gray-900">
+      <article className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0 bg-primary">
         <a href="#" className="flex items-center mb-4 text-2xl font-semibold text-primary dark:text-white">
           <img className="w-28 h-28" src="/logos/logo-verde.avif" alt="logo" />
         </a>
@@ -85,8 +92,8 @@ export default function SignUpForm({ email }: { email: string }) {
             </form>
           </div>
         </div>
-      </section>
+      </article>
       <Toaster position="top-center" theme='dark' />
-    </main>
+    </section>
   )
 }
