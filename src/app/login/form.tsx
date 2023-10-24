@@ -45,8 +45,8 @@ export default function LoginForm() {
   }
 
   return (
-    <section className="bg-gray-50 dark:bg-gray-900">
-      <article className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0 bg-primary">
+    <main className="h-screen bg-primary">
+      <section className="flex flex-col items-center justify-center text-center h-full w-full px-5 pt-8 pb-10">
         <a href="#" className="flex items-center mb-4 text-2xl font-semibold text-primary dark:text-white">
           <img className="w-28 h-28" src="/logos/logo-verde.avif" alt="logo" />
         </a>
@@ -59,7 +59,8 @@ export default function LoginForm() {
               <div>
                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-primary dark:text-white">Correo electrónico</label>
                 <input type="email" id="email" {...register('email')}
-                  className="bg-gray-50 border border-gray-300 text-primary sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" />
+                  className="bg-gray-50 border border-gray-300 text-primary sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="usuario@robertoolivasm.com" />
                 {errors.email && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.email.message}</span>}
               </div>
               <div className='relative'>
@@ -84,8 +85,8 @@ export default function LoginForm() {
             </form>
           </div>
         </div>
-      </article>
+      </section>
       <Toaster position="top-center" theme='dark' />
-    </section>
+    </main>
   )
 }
