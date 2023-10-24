@@ -31,14 +31,15 @@ export default function MultiLevelSidebar({ routes, user }: {
         onClick={handleOpen}
         aria-controls="sidebar"
         type="button"
-        className={'inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600'}>
+        className='inline-flex items-center p-2 my-2 ml-3 text-sm text-primary rounded-lg sm:hidden hover:bg-secondary
+        focus:outline-none focus:ring-2 focus:ring-secondary hover:text-white'>
         <span className="sr-only">Open sidebar</span>
         <MenuIcon />
       </button>
       <nav
         id="sidebar"
         tabIndex={-1}
-        className={`fixed top-0 left-0 z-40 w-72 sm:h-screen h-full transition-transform sm:translate-x-0 ${isOpen ? '' : '-translate-x-full'}`}
+        className={`fixed top-0 left-0 z-40 w-72 sm:h-screen h-full bg-secondary transition-transform sm:translate-x-0 ${isOpen ? '' : '-translate-x-full'}`}
         aria-label="Sidebar">
         <div className="h-full px-3 py-4 overflow-y-auto bg-primary flex-col justify-between flex">
           <section className='mt-2'>

@@ -3,8 +3,14 @@ import type { Metadata } from 'next'
 import SidebarServer from '@/components/sidebar-server'
 
 export const metadata: Metadata = {
-  title: 'Libertad Financiera',
-  description: 'Recursos del taller de Roberto Olivas'
+  title: 'Plataforma de la comunidad de alumnos de Roberto Olivas',
+  description: 'Plataforma para la comunidad de alumno de Roberto Olivas en donde se encuentran recursos sobre los diferentes talleres.',
+  themeColor: '#061B2C',
+  creator: 'Jose Rodolfo Rojas',
+  authors: {
+    name: 'Jose Rodolfo Rojas',
+    url: 'https://www.linkedin.com/in/jrodolforojas/'
+  }
 }
 
 export default function RootLayout({
@@ -14,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className='bg-white'>
         <SidebarServer />
         {children}
       </body>
