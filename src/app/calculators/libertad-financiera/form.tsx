@@ -112,7 +112,7 @@ export default function FinalcialFreedomCalculatorForm() {
   }
 
   return (
-    <main className="flex flex-col items-center justify-between px-10 sm:ml-64 sm:mt-5">
+    <main className="flex flex-col items-center justify-between px-10 sm:ml-64 sm:mt-5 pb-8">
       <h2 className="text-2xl font-bold mb-5 text-center text-primary dark:text-white mb-5">Calculadora de Libertad Financiera</h2>
       <section className="flex justify-between w-full max-w-6xl sm:flex-row flex-col">
         <form className="flex flex-col w-full mt-8" aria-label='finalcial freedom calculator'>
