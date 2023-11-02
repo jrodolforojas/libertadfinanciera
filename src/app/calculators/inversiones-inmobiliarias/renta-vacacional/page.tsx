@@ -40,26 +40,31 @@ const rentaVacionalDefaultValues: MetricCardValue[] = [
 
 const initialCapitalAdvancedDefaultOptions: AdvancedOption[] = [
   {
+    id: crypto.randomUUID(),
     name: 'Materiales y Arquitecta',
     amount: 10000,
     percent: 0
   },
   {
+    id: crypto.randomUUID(),
     name: 'Mano de Obra',
     amount: 10000,
     percent: 0
   },
   {
+    id: crypto.randomUUID(),
     name: 'Lote',
     amount: 10000,
     percent: 0
   },
   {
+    id: crypto.randomUUID(),
     name: 'Electrodomésticos',
     amount: 10000,
     percent: 0
   },
   {
+    id: crypto.randomUUID(),
     name: 'Permisos y servicios',
     amount: 10000,
     percent: 0
@@ -68,26 +73,31 @@ const initialCapitalAdvancedDefaultOptions: AdvancedOption[] = [
 
 const monthyExpenseAdvancedDefaultOptions: AdvancedOption[] = [
   {
+    id: crypto.randomUUID(),
     name: 'Comisión co-host',
     amount: 10000,
     percent: 0
   },
   {
+    id: crypto.randomUUID(),
     name: 'Impuestos',
     amount: 10000,
     percent: 0
   },
   {
+    id: crypto.randomUUID(),
     name: 'Mantenimiento',
     amount: 10000,
     percent: 0
   },
   {
+    id: crypto.randomUUID(),
     name: 'Seguro',
     amount: 10000,
     percent: 0
   },
   {
+    id: crypto.randomUUID(),
     name: 'Servicios públicos',
     amount: 10000,
     percent: 0
@@ -114,9 +124,42 @@ const rentaVacacionalSchema = yup.object({
     .min(0, 'Gastos de mantenimiento debe ser mayor o igual a 0')
 })
 export default function RentaVacacionalCalculator() {
-  const [initialCapitalOptions, setInitialCapitalOptions] = useState(OPTIONS.FALSE)
+  const [isinitialCapitalOptionsEnable, setIsInitialCapitalOptionsEnable] = useState(OPTIONS.FALSE)
   const [monthyRent, setMonthyRent] = useState(OPTIONS.FALSE)
   const [monthyExpenses, setMonthyExpenses] = useState(OPTIONS.FALSE)
+
+  const [initialCapitalOptions, setinitialCapitalOptions] = useState<AdvancedOption[]>(initialCapitalAdvancedDefaultOptions)
+  const [monthyExpensesOptions, setMonthyExpensesOptions] = useState<AdvancedOption[]>(monthyExpenseAdvancedDefaultOptions)
+
+  const handleAddNewInitalCapitalOption = () => {
+    const newAdvancedOption: AdvancedOption = {
+      id: crypto.randomUUID(),
+      name: 'Nuevo elemento',
+      amount: 1000,
+      percent: 0
+    }
+    setinitialCapitalOptions([...initialCapitalOptions, newAdvancedOption])
+  }
+
+  const handleRemoveInitialCapitalOption = (id: string) => {
+    const optionsWithoutItem = initialCapitalOptions.filter(option => option.id !== id)
+    setinitialCapitalOptions(optionsWithoutItem)
+  }
+
+  const handleAddNewMonthlExpenseOption = () => {
+    const newAdvancedOption: AdvancedOption = {
+      id: crypto.randomUUID(),
+      name: 'Nuevo elemento',
+      amount: 1000,
+      percent: 0
+    }
+    setMonthyExpensesOptions([...monthyExpensesOptions, newAdvancedOption])
+  }
+
+  const handleRemoveMonthlyExpenseOption = (id: string) => {
+    const optionsWithoutItem = monthyExpensesOptions.filter(option => option.id !== id)
+    setMonthyExpensesOptions(optionsWithoutItem)
+  }
 
   const [metrics, setMetrics] = useState<MetricCardValue[]>(rentaVacionalDefaultValues)
 
@@ -153,11 +196,11 @@ export default function RentaVacacionalCalculator() {
   }
 
   const handleChangeInitialCapitalOptions = () => {
-    if (initialCapitalOptions === OPTIONS.FALSE) {
-      setInitialCapitalOptions(OPTIONS.TRUE) // true
+    if (isinitialCapitalOptionsEnable === OPTIONS.FALSE) {
+      setIsInitialCapitalOptionsEnable(OPTIONS.TRUE) // true
     }
-    if (initialCapitalOptions === OPTIONS.TRUE) {
-      setInitialCapitalOptions(OPTIONS.FALSE) // false
+    if (isinitialCapitalOptionsEnable === OPTIONS.TRUE) {
+      setIsInitialCapitalOptionsEnable(OPTIONS.FALSE) // false
     }
   }
 
@@ -178,6 +221,7 @@ export default function RentaVacacionalCalculator() {
       setMonthyExpenses(OPTIONS.FALSE) // false
     }
   }
+
   return (
     <section className="flex justify-between w-full max-w-6xl sm:flex-row flex-col">
       <form className="flex flex-col w-full mt-8" aria-label='renta vacacional calculator'>
@@ -188,16 +232,18 @@ export default function RentaVacacionalCalculator() {
             placeholder='300000' />
           {errors.initialCapital && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.initialCapital.message}</span>}
           <label className="relative inline-flex items-center mt-6 cursor-pointer">
-            <input type="checkbox" className="sr-only peer" onChange={handleChangeInitialCapitalOptions} value={initialCapitalOptions} />
+            <input type="checkbox" className="sr-only peer" onChange={handleChangeInitialCapitalOptions} value={isinitialCapitalOptionsEnable} />
             <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
             <span className="ml-3 text-sm text-gray-900 dark:text-gray-300">Opciones Avanzadas</span>
           </label>
-          {initialCapitalOptions === OPTIONS.TRUE && (
+          {isinitialCapitalOptionsEnable === OPTIONS.TRUE && (
             <article className='flex flex-col w-full mt-4'>
+              <button type="button" onClick={handleAddNewInitalCapitalOption} className="w-full text-white bg-secondary hover:bg-secondary-dark focus:ring-4 focus:outline-none
+              focus:ring-secondary-dark font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-3">Agregar inversión</button>
               <ul>
                 {
-                  initialCapitalAdvancedDefaultOptions.map((option, index) => (
-                    <li className='flex flex-row gap-3' key={index}>
+                  initialCapitalOptions.map((option) => (
+                    <li className='flex flex-row gap-3' key={option.id}>
                       <input type="text" id="advanced-option-1-name"
                         className="mb-2 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
                         placeholder={option.name} />
@@ -208,7 +254,7 @@ export default function RentaVacacionalCalculator() {
                         className="mb-2 text-primary text-sm text-center flex items-center justify-center w-12">
                         {option.percent.toString()}
                       </span>
-                      <DeleteAdvancedOption />
+                      <DeleteAdvancedOption onClick={() => { handleRemoveInitialCapitalOption(option.id) }} />
                     </li>
                   ))
                 }
@@ -270,10 +316,12 @@ export default function RentaVacacionalCalculator() {
           </label>
           {monthyExpenses === OPTIONS.TRUE && (
             <article className='flex flex-col w-full mt-4'>
+              <button type="button" onClick={handleAddNewMonthlExpenseOption} className="w-full text-white bg-secondary hover:bg-secondary-dark focus:ring-4 focus:outline-none
+              focus:ring-secondary-dark font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-3">Agregar gasto</button>
               <ul>
                 {
-                  monthyExpenseAdvancedDefaultOptions.map((option, index) => (
-                    <li className='flex flex-row gap-3' key={index}>
+                  monthyExpensesOptions.map((option) => (
+                    <li className='flex flex-row gap-3' key={option.id}>
                       <input type="text" id="monthy-expense-1-name"
                         className="mb-2 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
                         placeholder={option.name} />
@@ -284,7 +332,7 @@ export default function RentaVacacionalCalculator() {
                         className="mb-2 text-primary text-sm text-center flex items-center justify-center w-12">
                         {option.percent.toString()}
                       </span>
-                      <DeleteAdvancedOption />
+                      <DeleteAdvancedOption onClick={() => { handleRemoveMonthlyExpenseOption(option.id) }} />
                     </li>
                   ))
                 }

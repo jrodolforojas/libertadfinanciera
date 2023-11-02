@@ -6,6 +6,7 @@ export interface RentaVacacionalFormValues {
 }
 
 export interface AdvancedOption {
+  id: string
   name: string
   amount: number
   percent: number
