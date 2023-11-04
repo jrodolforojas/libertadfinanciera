@@ -14,7 +14,7 @@ export default function MetricCard({ metrics }: {
         if (!symbol) valueWithSymbol = value
 
         return (
-          <div className='flex flex-col items-center justify-center' key={label}>
+          <div className='flex flex-col items-center justify-center w-full text-center' key={label}>
             <Metric className='text-secondary'>{valueWithSymbol}</Metric>
             <Text className='text-gray-400'>{label}</Text>
           </div>
