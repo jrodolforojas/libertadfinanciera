@@ -8,6 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { finalcialFreedomCalculate } from './formulas'
 import { useState } from 'react'
+import { toDollarCurrency } from '@/utils/metrics-format'
 
 const metricDefaultValues: MetricCardValue[] = [
   {
@@ -80,31 +81,31 @@ export default function FinalcialFreedomCalculatorForm() {
 
     const newMetrics: MetricCardValue[] = [
       {
-        value: `$ ${financialFreedomMetrics.anualInvestment.toFixed(0)}`,
+        value: `${toDollarCurrency(financialFreedomMetrics.anualInvestment)}`,
         label: 'Inversión Anual'
       },
       {
-        value: `$ ${financialFreedomMetrics.savingInvestment.toFixed(0)}`,
+        value: `${toDollarCurrency(financialFreedomMetrics.savingInvestment)}`,
         label: 'Si solamente lo ahorro'
       },
       {
-        value: `$ ${financialFreedomMetrics.futureValue.toFixed(0)}`,
+        value: `${toDollarCurrency(financialFreedomMetrics.futureValue)}`,
         label: 'Inversión con interés compuesto'
       },
       {
-        value: `$ ${financialFreedomMetrics.savingAndFutureValueDifference.toFixed(0)}`,
+        value: `${toDollarCurrency(financialFreedomMetrics.savingAndFutureValueDifference)}`,
         label: 'Diferencia entre inversión y ahorro'
       },
       {
-        value: `$ ${financialFreedomMetrics.presentValue.toFixed(0)}`,
+        value: `${toDollarCurrency(financialFreedomMetrics.presentValue)}`,
         label: 'Valor presente de la inversión (descontando la inflación)'
       },
       {
-        value: `$ ${financialFreedomMetrics.passiveAnualIncome.toFixed(0)}`,
+        value: `${toDollarCurrency(financialFreedomMetrics.passiveAnualIncome)}`,
         label: 'Ingreso pasivo anual con interés simple'
       },
       {
-        value: `$ ${financialFreedomMetrics.passiveMonthyIncome.toFixed(0)}`,
+        value: `${toDollarCurrency(financialFreedomMetrics.passiveMonthyIncome)}`,
         label: 'Ingreso pasivo mensual con interés simple'
       }
     ]
