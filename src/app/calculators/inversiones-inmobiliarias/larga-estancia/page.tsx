@@ -8,6 +8,7 @@ import * as yup from 'yup'
 import { calculateLargaEstancia } from './formulas'
 import { type MetricCardValue } from '@/types/metric'
 import { useState } from 'react'
+import { toDollarCurrency, toTwoDecimals } from '@/utils/metrics-format'
 
 const largaEstanciaDefaultValues: MetricCardValue[] = [
   {
@@ -69,27 +70,27 @@ export default function LargaEstanciaCalculator() {
     const anualReturnPercent = result.anualReturnPercent * 100
     const newMetrics: MetricCardValue[] = [
       {
-        value: `$ ${result.grossAnualIncome.toFixed(0)}`,
+        value: `${toDollarCurrency(result.grossAnualIncome)}`,
         label: 'Ingreso anual bruto'
       },
       {
-        value: `$ ${result.taxes.toFixed(0)}`,
+        value: `${toDollarCurrency(result.taxes)}`,
         label: 'Impuestos'
       },
       {
-        value: `$ ${result.netAnualReturn.toFixed(0)}`,
+        value: `${toDollarCurrency(result.netAnualReturn)}`,
         label: 'Rendimiento anual neto'
       },
       {
-        value: `${anualReturnPercent.toFixed(0)} %`,
+        value: `${toTwoDecimals(anualReturnPercent)} %`,
         label: 'Porcentaje del Rendimiento anual'
       },
       {
-        value: `${result.yearsToGetProfit.toFixed(0)}`,
+        value: `${toTwoDecimals(result.yearsToGetProfit)}`,
         label: 'Años para recuperar la inversión'
       },
       {
-        value: `$ ${result.monthyReturn.toFixed(0)}`,
+        value: `${toDollarCurrency(result.monthyReturn)}`,
         label: 'Rendimiento mensual neto'
       }
     ]
