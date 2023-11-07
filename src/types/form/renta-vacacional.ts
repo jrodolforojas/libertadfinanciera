@@ -1,8 +1,14 @@
 export interface RentaVacacionalFormValues {
+  initialCapitalOptions?: AdavancedOptionFormValues[] | undefined
   initialCapital: number
   monthyRent: number
   rentedMonths: number
   maintenanceExpenses: number
+}
+
+interface AdavancedOptionFormValues {
+  name: string
+  amount: number
 }
 
 export interface AdvancedOption {

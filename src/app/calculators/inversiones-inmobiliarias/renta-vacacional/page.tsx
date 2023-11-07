@@ -4,7 +4,7 @@ import { useState } from 'react'
 import DeleteAdvancedOption from './components/delete-advanced-option'
 import MetricCard from '@/components/metric-card'
 import { type MetricCardValue } from '@/types/metric'
-import { type SubmitHandler, useForm } from 'react-hook-form'
+import { type SubmitHandler, useForm, useFieldArray, Controller } from 'react-hook-form'
 import { type RentaVacacionalFormValues } from '@/types/form/renta-vacacional'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { onSubmitRentaVacacional } from './formulas'
@@ -12,17 +12,14 @@ import { initialCapitalAdvancedDefaultOptions, monthyExpenseAdvancedDefaultOptio
 import useAdvancedOption from './hooks/useAdvancedOption'
 import useSwitch from './hooks/useSwitch'
 import { rentaVacacionalSchema } from './schemas/renta-vacacional-schema'
-import AdvancedOptionItem from './components/advanced-option-item'
+import PercentSpan from './components/percent'
 
 export default function RentaVacacionalCalculator() {
   const { isSelected: isMonthlyRentSelected, isActive: isMonthlyRentActive, toggleValue: toggleMonthlyRent } = useSwitch()
-
   const {
     isSelected: initialCapitalToggle,
     isActive: isInitialCapitalsActive,
-    options: initialCapitals,
-    handleAddOption: handleAddInitialCapital,
-    handleRemoveOption: handleRemoveInitialCapital,
+    // options: initialCapitals,
     toggleValue: toggleInitialCapital
   } = useAdvancedOption({ defaultValues: initialCapitalAdvancedDefaultOptions })
 
@@ -37,31 +34,30 @@ export default function RentaVacacionalCalculator() {
 
   const [metrics, setMetrics] = useState<MetricCardValue[]>(rentaVacionalDefaultValues)
 
-  const { register, handleSubmit, formState: { errors }, setValue } = useForm<RentaVacacionalFormValues>({
+  const { control, register, handleSubmit, formState: { errors }, watch, setValue } = useForm<RentaVacacionalFormValues>({
     resolver: yupResolver(rentaVacacionalSchema)
   })
+
+  const { fields: initialCapitalOptions, append, remove } = useFieldArray({
+    control,
+    name: 'initialCapitalOptions'
+  })
+
+  const updateInitialCapitalSum = () => {
+    let sum = 0
+    const options = watch('initialCapitalOptions')
+    if (options == null) {
+      return
+    }
+    options.forEach(item => {
+      sum += item.amount ?? 0
+    })
+    return sum
+  }
 
   const onSubmit: SubmitHandler<RentaVacacionalFormValues> = (data) => {
     const newMetrics = onSubmitRentaVacacional(data)
     setMetrics(newMetrics)
-  }
-
-  const handleAddCapital = () => {
-    handleAddInitialCapital()
-    sumInitialCapitals()
-  }
-
-  const handleRemoveCapital = (id: string) => {
-    handleRemoveInitialCapital(id)
-    sumInitialCapitals()
-  }
-
-  const sumInitialCapitals = () => {
-    let sum = 0
-    initialCapitals.forEach(option => {
-      sum += option.amount
-    })
-    setValue('initialCapital', sum)
   }
 
   return (
@@ -72,7 +68,7 @@ export default function RentaVacacionalCalculator() {
           <input type='number' id='initialCapital' {...register('initialCapital')} disabled={isInitialCapitalsActive}
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
             placeholder='300000' />
-          {errors.initialCapital && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.initialCapital.message}</span>}
+          {!isInitialCapitalsActive && errors.initialCapital && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.initialCapital.message}</span>}
           <label className="relative inline-flex items-center mt-6 cursor-pointer">
             <input type="checkbox" className="sr-only peer" onChange={toggleInitialCapital} value={initialCapitalToggle} />
             <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
@@ -80,12 +76,52 @@ export default function RentaVacacionalCalculator() {
           </label>
           {isInitialCapitalsActive && (
             <article className='flex flex-col w-full mt-4'>
-              <button type="button" onClick={handleAddCapital} className="w-full text-white bg-secondary hover:bg-secondary-dark focus:ring-4 focus:outline-none
-              focus:ring-secondary-dark font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-3">Agregar inversión</button>
+              <button
+                type="button"
+                onClick={() => {
+                  append({
+                    name: '',
+                    amount: 0
+                  })
+                }}
+                className="w-full text-white bg-secondary-dark hover:bg-secondary-dark focus:ring-4 focus:outline-none focus:ring-secondary-dark font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-3">
+                Agregar inversión
+              </button>
               <ul>
                 {
-                  initialCapitals.map((option) => (
-                    <AdvancedOptionItem option={option} updateGlobal={sumInitialCapitals} handleRemove={() => { handleRemoveCapital(option.id) }} key={option.id} />
+                  initialCapitalOptions.map((option, index) => (
+                    <li className='flex flex-row gap-3' key={index}>
+                      <div className='flex flex-col w-full'>
+                        <input
+                          type="text"
+                          id={`${option.id}-name`}
+                          {...register(`initialCapitalOptions.${index}.name` as const, { required: true })}
+                          className="mb-2 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light" />
+                        {errors.initialCapitalOptions?.[index] && <span className="text-sm text-red-600 dark:text-red-500">{errors.initialCapitalOptions[index]?.name?.message}</span>}
+                      </div>
+                      <div className='flex flex-col w-full'>
+                        <Controller control={control} name={`initialCapitalOptions.${index}.amount` as const} render={({ field }) => (
+                          <input
+                            id={`${option.id}-amount`}
+                            type='number'
+                            value={field.value}
+                            onChange={(event) => {
+                              const amount = parseInt(event.target.value)
+                              field.onChange(amount)
+                              const newSum = updateInitialCapitalSum() ?? 0
+                              setValue('initialCapital', newSum)
+                            }}
+                            className="mb-2 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full max-w-[150px] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light" />
+                        )} />
+                        {errors.initialCapitalOptions?.[index] && <span className="text-sm text-red-600 dark:text-red-500">{errors.initialCapitalOptions[index]?.amount?.message}</span>}
+                      </div>
+                      <PercentSpan control={control} index={index} />
+                      <DeleteAdvancedOption onClick={() => {
+                        remove(index)
+                        const newSum = updateInitialCapitalSum() ?? 0
+                        setValue('initialCapital', newSum)
+                      }} />
+                    </li>
                   ))
                 }
               </ul>
