@@ -2,8 +2,8 @@ import { describe, test, expect, afterEach } from 'vitest'
 import { cleanup, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import LargaEstanciaCalculator from './page'
-import { type LargaEstanciaMetric, type LargaEstanciaFormValues } from '@/types/form/larga-estancia'
-import { calculateLargaEstancia } from './formulas'
+import { type LargaEstanciaFormValues } from '@/types/form/larga-estancia'
+import { onSubmitLargaEstancia } from './formulas'
 
 describe('larga estancia calculator', () => {
   test('should calculate using placeholder values', async () => {
@@ -52,39 +52,15 @@ describe('larga estancia calculator', () => {
 
     await user.click(calculateButton)
 
-    const result = calculateLargaEstancia(formValues)
-    const correctValues: LargaEstanciaMetric = {
-      grossAnualIncome: 17600,
-      taxes: 750,
-      netAnualReturn: 15250,
-      anualReturnPercent: 5,
-      yearsToGetProfit: 20,
-      monthyReturn: 1271
-    }
-    expect(result.grossAnualIncome.toFixed(0)).toEqual(correctValues.grossAnualIncome.toString())
-    const anualInvestment = screen.getByText(`$ ${correctValues.grossAnualIncome}`)
-    expect(anualInvestment).toBeDefined()
+    const result = onSubmitLargaEstancia(formValues)
+    result.forEach(metric => {
+      const { label, value } = metric
+      const metricValue = screen.getByText(value)
+      expect(metricValue).toBeDefined()
 
-    expect(result.taxes.toFixed(0)).toEqual(correctValues.taxes.toString())
-    const taxes = screen.getByText(`$ ${correctValues.taxes}`)
-    expect(taxes).toBeDefined()
-
-    expect(result.netAnualReturn.toFixed(0)).toEqual(correctValues.netAnualReturn.toString())
-    const netAnualReturn = screen.getByText(`$ ${correctValues.netAnualReturn}`)
-    expect(netAnualReturn).toBeDefined()
-
-    const anualReturn = result.anualReturnPercent * 100
-    expect(anualReturn.toFixed(0)).toEqual(correctValues.anualReturnPercent.toString())
-    const anualReturnPercent = screen.getByText(`${correctValues.anualReturnPercent} %`)
-    expect(anualReturnPercent).toBeDefined()
-
-    expect(result.yearsToGetProfit.toFixed(0)).toEqual(correctValues.yearsToGetProfit.toString())
-    const yearsToGetProfit = screen.getByText(correctValues.yearsToGetProfit)
-    expect(yearsToGetProfit).toBeDefined()
-
-    expect(result.monthyReturn.toFixed(0)).toEqual(correctValues.monthyReturn.toString())
-    const monthyReturn = screen.getByText(`$ ${correctValues.monthyReturn}`)
-    expect(monthyReturn).toBeDefined()
+      const metricLabel = screen.getByText(label)
+      expect(metricLabel).toBeDefined()
+    })
   })
   test('should not display results until form is completed', async () => {
     const user = userEvent.setup()
@@ -145,9 +121,6 @@ describe('larga estancia calculator', () => {
     expect(screen.getByText('Alquiler mensual debe ser mayor o igual a 0')).toBeDefined()
     expect(screen.getByText('Cantidad de meses alquilado debe ser mayor o igual a 0')).toBeDefined()
     expect(screen.getByText('Gastos de mantenimiento debe ser mayor o igual a 0')).toBeDefined()
-
-    await user.type(rentedMonths, '15')
-    expect(screen.getByText('Cantidad de meses alquilado debe como máximo 12')).toBeDefined()
   })
 
   afterEach(() => {

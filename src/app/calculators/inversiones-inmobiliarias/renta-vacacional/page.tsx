@@ -99,7 +99,7 @@ export default function RentaVacacionalCalculator() {
             placeholder='300000' />
           {!isInitialCapitalsActive && errors.initialCapital && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.initialCapital.message}</span>}
           <label className="relative inline-flex items-center mt-6 cursor-pointer">
-            <input type="checkbox" className="sr-only peer" onChange={toggleInitialCapital} value={initialCapitalToggle} />
+            <input type="checkbox" id='initialCapitalCheckbox' className="sr-only peer" onChange={toggleInitialCapital} value={initialCapitalToggle} />
             <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
             <span className="ml-3 text-sm text-gray-900 dark:text-gray-300">Opciones Avanzadas</span>
           </label>
@@ -166,7 +166,7 @@ export default function RentaVacacionalCalculator() {
             placeholder='300000' />
           {!isMonthlyRentSelected && errors.monthyRent && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.monthyRent.message}</span>}
           <label className="relative inline-flex items-center mt-6 cursor-pointer">
-            <input type="checkbox" className="sr-only peer" onChange={() => {
+            <input type="checkbox" id='monthlyRentCheckbox' className="sr-only peer" onChange={() => {
               if (isMonthlyRentActive) {
                 setValue('monthlyRentOptions.pricePerNight', 0)
                 setValue('monthlyRentOptions.capacityPerMonth', 0)
@@ -227,7 +227,7 @@ export default function RentaVacacionalCalculator() {
             placeholder='300000' />
           {!isMonthlyExpenseActive && errors.maintenanceExpenses && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.maintenanceExpenses.message}</span>}
           <label className="relative inline-flex items-center mt-6 cursor-pointer">
-            <input type="checkbox" className="sr-only peer" onChange={toggleMonthlyExpense} value={monthyExpenseToggle} />
+            <input type="checkbox" id='monthlyExpensesCheckbox' className="sr-only peer" onChange={toggleMonthlyExpense} value={monthyExpenseToggle} />
             <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
             <span className="ml-3 text-sm text-gray-900 dark:text-gray-300">Opciones Avanzadas</span>
           </label>
