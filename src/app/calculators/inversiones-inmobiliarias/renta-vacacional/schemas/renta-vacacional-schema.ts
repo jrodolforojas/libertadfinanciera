@@ -24,6 +24,7 @@ export const rentaVacacionalSchema = yup.object({
     capacityPerMonth: yup.number()
       .typeError('Capacidad por mes debe ser un valor numérico')
       .min(0, 'Capacidad por mes debe ser mayor o igual a 0')
+      .max(100, 'Capacidad por mes debe ser menor o igual a 100')
   }).optional(),
   rentedMonths: yup.number()
     .typeError('Cantidad de meses alquilado debe ser un valor numérico')
@@ -38,7 +39,7 @@ export const rentaVacacionalSchema = yup.object({
     name: yup.string()
       .required('Campo requerido'),
     amount: yup.number()
-      .required('Debe ser un valor numérico')
+      .required('Campo requerido')
       .typeError('Debe ser un valor numérico')
       .min(0, 'Debe ser mayor o igual a 0')
   }))

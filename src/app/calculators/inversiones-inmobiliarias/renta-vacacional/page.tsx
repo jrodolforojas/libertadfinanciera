@@ -112,6 +112,8 @@ export default function RentaVacacionalCalculator() {
                     name: '',
                     amount: 0
                   })
+                  const newSum = updateInitialCapitalSum()
+                  setValue('initialCapital', newSum)
                 }}
                 className="w-full text-white bg-secondary-dark hover:bg-secondary-dark focus:ring-4 focus:outline-none focus:ring-secondary-dark font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-3">
                 Agregar inversión
@@ -159,12 +161,18 @@ export default function RentaVacacionalCalculator() {
         </div>
         <div className="mb-6 flex-col flex">
           <label htmlFor='monthyRent' className="block mb-2 text-sm font-medium text-blue-primary">Alquiler Mensual</label>
-          <input type='number' id='monthyRent' {...register('monthyRent')}
+          <input type='number' id='monthyRent' {...register('monthyRent')} disabled={isMonthlyRentActive}
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
             placeholder='300000' />
-          {errors.monthyRent && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.monthyRent.message}</span>}
+          {!isMonthlyRentSelected && errors.monthyRent && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.monthyRent.message}</span>}
           <label className="relative inline-flex items-center mt-6 cursor-pointer">
-            <input type="checkbox" className="sr-only peer" onChange={toggleMonthlyRent} value={isMonthlyRentSelected} />
+            <input type="checkbox" className="sr-only peer" onChange={() => {
+              if (isMonthlyRentActive) {
+                setValue('monthlyRentOptions.pricePerNight', 0)
+                setValue('monthlyRentOptions.capacityPerMonth', 0)
+              }
+              toggleMonthlyRent()
+            }} value={isMonthlyRentSelected} />
             <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
             <span className="ml-3 text-sm text-gray-900 dark:text-gray-300">Opciones Avanzadas</span>
           </label>
