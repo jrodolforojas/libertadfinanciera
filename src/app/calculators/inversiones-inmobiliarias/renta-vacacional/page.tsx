@@ -181,7 +181,7 @@ export default function RentaVacacionalCalculator() {
           </label>
           {isMonthlyRentActive && (
             <article className='flex flex-col w-full mt-4'>
-              <ul>
+              <ul aria-label='monthly rent options'>
                 <li className='flex flex-col gap-3'>
                   <div>
                     <label htmlFor="pricePerNight" className="block mb-2 text-sm font-medium text-primary dark:text-white">Alquiler por noche</label>

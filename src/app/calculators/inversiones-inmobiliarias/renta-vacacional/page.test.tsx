@@ -305,6 +305,99 @@ describe('renta vacacional calculator', () => {
     const onlyOneElementPercent = (randomAmount / randomAmount) * 100
     expect(screen.getByText(`${toTwoDecimals(onlyOneElementPercent)} %`)).toBeDefined()
   })
+  test('should work handling monthly rent', async () => {
+    const user = userEvent.setup()
+    render(<RentaVacacionalCalculator />)
+    const form = screen.getByRole('form', {
+      name: 'renta vacacional calculator'
+    })
+    expect(form).toBeDefined()
+
+    const monthlyRent = screen.getByRole('spinbutton', {
+      name: 'Alquiler Mensual'
+    })
+    expect(monthlyRent).toBeDefined()
+
+    const checkboxes = screen.getAllByRole('checkbox', {
+      name: 'Opciones Avanzadas'
+    })
+    expect(checkboxes.length).toBe(3)
+    const monthlyRentCheckbox = checkboxes[1]
+    expect(monthlyRentCheckbox).toBeDefined()
+    await user.click(monthlyRentCheckbox)
+
+    expect(monthlyRent).toHaveProperty('disabled', true)
+
+    const monthlyExpensesOptions = screen.getByRole('list', {
+      name: 'monthly rent options'
+    })
+    expect(monthlyExpensesOptions).toBeDefined()
+    expect(monthlyExpensesOptions.children.length).toBe(1)
+
+    const pricePerNight = screen.getByRole('spinbutton', {
+      name: 'Alquiler por noche'
+    })
+    expect(pricePerNight).toBeDefined()
+
+    const capacityPerMonth = screen.getByRole('spinbutton', {
+      name: 'Ocupación por mes'
+    })
+    expect(capacityPerMonth).toBeDefined()
+
+    const randomPricePerNigth = randomIntFromInterval(100, 500)
+    const randomCapacityPerMonth = randomIntFromInterval(60, 90)
+
+    await user.type(pricePerNight, randomPricePerNigth.toString())
+    await user.type(capacityPerMonth, randomCapacityPerMonth.toString())
+
+    const initialCapital = screen.getByRole('spinbutton', {
+      name: 'Inversión inicial'
+    })
+    expect(initialCapital).toBeDefined()
+    const randomInitialCapital = 150000
+    await user.type(initialCapital, randomInitialCapital.toString())
+
+    const rentedMonths = screen.getByRole('spinbutton', {
+      name: 'Cantidad de meses alquilado'
+    })
+    expect(rentedMonths).toBeDefined()
+    const randomRentedMonths = 11
+    await user.type(rentedMonths, randomRentedMonths.toString())
+
+    const maintenanceExpenses = screen.getByRole('spinbutton', {
+      name: 'Gastos mensuales'
+    })
+    expect(maintenanceExpenses).toBeDefined()
+    const randomMaintenanceExpenses = randomIntFromInterval(1000, 2000)
+    await user.type(maintenanceExpenses, randomMaintenanceExpenses.toString())
+
+    const capacityPerMonthPercent = randomCapacityPerMonth / 100
+    const monthlyRentResult = randomPricePerNigth * capacityPerMonthPercent * 30
+
+    const formValues: RentaVacacionalFormValues = {
+      initialCapital: randomInitialCapital,
+      monthyRent: monthlyRentResult,
+      rentedMonths: randomRentedMonths,
+      maintenanceExpenses: randomMaintenanceExpenses
+    }
+
+    const calculateButton = screen.getByRole('button', {
+      name: 'Calcular'
+    })
+
+    await user.click(calculateButton)
+
+    const results = onSubmitRentaVacacional(formValues)
+
+    results.forEach(metric => {
+      const { label, value } = metric
+      const metricValue = screen.getByText(value)
+      expect(metricValue).toBeDefined()
+
+      const metricLabel = screen.getByText(label)
+      expect(metricLabel).toBeDefined()
+    })
+  })
   afterEach(() => {
     cleanup()
   })
