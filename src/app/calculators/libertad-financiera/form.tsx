@@ -6,9 +6,8 @@ import { type MetricCardValue } from '@/types/metric'
 import { type SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { finalcialFreedomCalculate } from './formulas'
+import { onSubmitFinancialFreedomCalculatorForm } from './formulas'
 import { useState } from 'react'
-import { toDollarCurrency } from '@/utils/metrics-format'
 
 const metricDefaultValues: MetricCardValue[] = [
   {
@@ -77,38 +76,7 @@ export default function FinalcialFreedomCalculatorForm() {
   const [metrics, setMetrics] = useState<MetricCardValue[]>(metricDefaultValues)
 
   const onSubmit: SubmitHandler<FinancialFreedomCalculatorFormValues> = (data) => {
-    const financialFreedomMetrics = finalcialFreedomCalculate(data)
-
-    const newMetrics: MetricCardValue[] = [
-      {
-        value: `${toDollarCurrency(financialFreedomMetrics.anualInvestment)}`,
-        label: 'Inversión Anual'
-      },
-      {
-        value: `${toDollarCurrency(financialFreedomMetrics.savingInvestment)}`,
-        label: 'Si solamente lo ahorro'
-      },
-      {
-        value: `${toDollarCurrency(financialFreedomMetrics.futureValue)}`,
-        label: 'Inversión con interés compuesto'
-      },
-      {
-        value: `${toDollarCurrency(financialFreedomMetrics.savingAndFutureValueDifference)}`,
-        label: 'Diferencia entre inversión y ahorro'
-      },
-      {
-        value: `${toDollarCurrency(financialFreedomMetrics.presentValue)}`,
-        label: 'Valor presente de la inversión (descontando la inflación)'
-      },
-      {
-        value: `${toDollarCurrency(financialFreedomMetrics.passiveAnualIncome)}`,
-        label: 'Ingreso pasivo anual con interés simple'
-      },
-      {
-        value: `${toDollarCurrency(financialFreedomMetrics.passiveMonthyIncome)}`,
-        label: 'Ingreso pasivo mensual con interés simple'
-      }
-    ]
+    const newMetrics = onSubmitFinancialFreedomCalculatorForm(data)
     setMetrics(newMetrics)
   }
 

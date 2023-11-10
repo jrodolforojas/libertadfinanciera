@@ -5,10 +5,9 @@ import { type LargaEstanciaFormValues } from '@/types/form/larga-estancia'
 import { type SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { calculateLargaEstancia } from './formulas'
+import { onSubmitLargaEstancia } from './formulas'
 import { type MetricCardValue } from '@/types/metric'
 import { useState } from 'react'
-import { toDollarCurrency, toTwoDecimals } from '@/utils/metrics-format'
 
 const largaEstanciaDefaultValues: MetricCardValue[] = [
   {
@@ -65,36 +64,7 @@ export default function LargaEstanciaCalculator() {
   const [metrics, setMetrics] = useState<MetricCardValue[]>(largaEstanciaDefaultValues)
 
   const onSubmit: SubmitHandler<LargaEstanciaFormValues> = (data) => {
-    const result = calculateLargaEstancia(data)
-
-    const anualReturnPercent = result.anualReturnPercent * 100
-    const newMetrics: MetricCardValue[] = [
-      {
-        value: `${toDollarCurrency(result.grossAnualIncome)}`,
-        label: 'Ingreso anual bruto'
-      },
-      {
-        value: `${toDollarCurrency(result.taxes)}`,
-        label: 'Impuestos'
-      },
-      {
-        value: `${toDollarCurrency(result.netAnualReturn)}`,
-        label: 'Rendimiento anual neto'
-      },
-      {
-        value: `${toTwoDecimals(anualReturnPercent)} %`,
-        label: 'Porcentaje del Rendimiento anual'
-      },
-      {
-        value: `${toTwoDecimals(result.yearsToGetProfit)}`,
-        label: 'Años para recuperar la inversión'
-      },
-      {
-        value: `${toDollarCurrency(result.monthyReturn)}`,
-        label: 'Rendimiento mensual neto'
-      }
-    ]
-
+    const newMetrics = onSubmitLargaEstancia(data)
     setMetrics(newMetrics)
   }
   return (

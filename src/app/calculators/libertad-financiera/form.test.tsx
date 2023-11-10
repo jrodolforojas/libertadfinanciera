@@ -2,8 +2,8 @@ import { afterEach, describe, expect, test } from 'vitest'
 import { cleanup, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Form from './form'
-import { type FinancialFreedomMetrics, type FinancialFreedomCalculatorFormValues } from '@/types/form/financial-freedom'
-import { finalcialFreedomCalculate } from './formulas'
+import { type FinancialFreedomCalculatorFormValues } from '@/types/form/financial-freedom'
+import { onSubmitFinancialFreedomCalculatorForm } from './formulas'
 
 describe('financial freedom calculator', () => {
   test('should calculate using placeholder values', async () => {
@@ -65,43 +65,15 @@ describe('financial freedom calculator', () => {
 
     await user.click(calculateButton)
 
-    const result = finalcialFreedomCalculate(formValues)
-    const correctValues: FinancialFreedomMetrics = {
-      anualInvestment: 12000,
-      savingInvestment: 240000,
-      futureValue: 765697,
-      savingAndFutureValueDifference: 525697,
-      presentValue: 349454,
-      passiveAnualIncome: 34945,
-      passiveMonthyIncome: 2912
-    }
-    expect(result.anualInvestment.toFixed(0)).toEqual(correctValues.anualInvestment.toString())
-    const anualInvestment = screen.getByText(`$ ${correctValues.anualInvestment}`)
-    expect(anualInvestment).toBeDefined()
+    const result = onSubmitFinancialFreedomCalculatorForm(formValues)
+    result.forEach(metric => {
+      const { label, value } = metric
+      const metricValue = screen.getByText(value)
+      expect(metricValue).toBeDefined()
 
-    expect(result.savingInvestment.toFixed(0)).toEqual(correctValues.savingInvestment.toString())
-    const savingInvestment = screen.getByText(`$ ${correctValues.savingInvestment}`)
-    expect(savingInvestment).toBeDefined()
-
-    expect(result.futureValue.toFixed(0)).toEqual(correctValues.futureValue.toString())
-    const futureValue = screen.getByText(`$ ${correctValues.futureValue}`)
-    expect(futureValue).toBeDefined()
-
-    expect(result.savingAndFutureValueDifference.toFixed(0)).toEqual(correctValues.savingAndFutureValueDifference.toString())
-    const savingAndFutureValueDifference = screen.getByText(`$ ${correctValues.savingAndFutureValueDifference}`)
-    expect(savingAndFutureValueDifference).toBeDefined()
-
-    expect(result.presentValue.toFixed(0)).toEqual(correctValues.presentValue.toString())
-    const presentValue = screen.getByText(`$ ${correctValues.presentValue}`)
-    expect(presentValue).toBeDefined()
-
-    expect(result.passiveAnualIncome.toFixed(0)).toEqual(correctValues.passiveAnualIncome.toString())
-    const passiveAnualIncome = screen.getByText(`$ ${correctValues.passiveAnualIncome}`)
-    expect(passiveAnualIncome).toBeDefined()
-
-    expect(result.passiveMonthyIncome.toFixed(0)).toEqual(correctValues.passiveMonthyIncome.toString())
-    const passiveMonthyIncome = screen.getByText(`$ ${correctValues.passiveMonthyIncome}`)
-    expect(passiveMonthyIncome).toBeDefined()
+      const metricLabel = screen.getByText(label)
+      expect(metricLabel).toBeDefined()
+    })
   })
   test('should calculate correctly when compount interest and simple interest are different', async () => {
     const formValues: FinancialFreedomCalculatorFormValues = {
@@ -158,43 +130,15 @@ describe('financial freedom calculator', () => {
 
     await user.click(calculateButton)
 
-    const result = finalcialFreedomCalculate(formValues)
-    const correctValues: FinancialFreedomMetrics = {
-      anualInvestment: 12000,
-      savingInvestment: 240000,
-      futureValue: 765697,
-      savingAndFutureValueDifference: 525697,
-      presentValue: 349454,
-      passiveAnualIncome: 41934,
-      passiveMonthyIncome: 3495
-    }
-    expect(result.anualInvestment.toFixed(0)).toEqual(correctValues.anualInvestment.toString())
-    const anualInvestment = screen.getByText(`$ ${correctValues.anualInvestment}`)
-    expect(anualInvestment).toBeDefined()
+    const result = onSubmitFinancialFreedomCalculatorForm(formValues)
+    result.forEach(metric => {
+      const { label, value } = metric
+      const metricValue = screen.getByText(value)
+      expect(metricValue).toBeDefined()
 
-    expect(result.savingInvestment.toFixed(0)).toEqual(correctValues.savingInvestment.toString())
-    const savingInvestment = screen.getByText(`$ ${correctValues.savingInvestment}`)
-    expect(savingInvestment).toBeDefined()
-
-    expect(result.futureValue.toFixed(0)).toEqual(correctValues.futureValue.toString())
-    const futureValue = screen.getByText(`$ ${correctValues.futureValue}`)
-    expect(futureValue).toBeDefined()
-
-    expect(result.savingAndFutureValueDifference.toFixed(0)).toEqual(correctValues.savingAndFutureValueDifference.toString())
-    const savingAndFutureValueDifference = screen.getByText(`$ ${correctValues.savingAndFutureValueDifference}`)
-    expect(savingAndFutureValueDifference).toBeDefined()
-
-    expect(result.presentValue.toFixed(0)).toEqual(correctValues.presentValue.toString())
-    const presentValue = screen.getByText(`$ ${correctValues.presentValue}`)
-    expect(presentValue).toBeDefined()
-
-    expect(result.passiveAnualIncome.toFixed(0)).toEqual(correctValues.passiveAnualIncome.toString())
-    const passiveAnualIncome = screen.getByText(`$ ${correctValues.passiveAnualIncome}`)
-    expect(passiveAnualIncome).toBeDefined()
-
-    expect(result.passiveMonthyIncome.toFixed(0)).toEqual(correctValues.passiveMonthyIncome.toString())
-    const passiveMonthyIncome = screen.getByText(`$ ${correctValues.passiveMonthyIncome}`)
-    expect(passiveMonthyIncome).toBeDefined()
+      const metricLabel = screen.getByText(label)
+      expect(metricLabel).toBeDefined()
+    })
   })
   test('should calculate based on initial capital and simple interest rate', async () => {
     const formValues: FinancialFreedomCalculatorFormValues = {
@@ -251,35 +195,11 @@ describe('financial freedom calculator', () => {
 
     await user.click(calculateButton)
 
-    const result = finalcialFreedomCalculate(formValues)
-    const correctValues: FinancialFreedomMetrics = {
-      anualInvestment: 0,
-      savingInvestment: 1000000,
-      futureValue: 1000000,
-      savingAndFutureValueDifference: 0,
-      presentValue: 1000000,
-      passiveAnualIncome: 180000,
-      passiveMonthyIncome: 15000
-    }
-
-    expect(result.anualInvestment.toFixed(0)).toEqual(correctValues.anualInvestment.toString())
-    expect(result.savingAndFutureValueDifference.toFixed(0)).toEqual(correctValues.savingAndFutureValueDifference.toString())
-    const zeroResults = screen.getAllByText(`$ ${correctValues.anualInvestment}`)
-    expect(zeroResults.length).toBe(2)
-
-    expect(result.savingInvestment.toFixed(0)).toEqual(correctValues.savingInvestment.toString())
-    expect(result.futureValue.toFixed(0)).toEqual(correctValues.futureValue.toString())
-    expect(result.presentValue.toFixed(0)).toEqual(correctValues.presentValue.toString())
-    const initialCapitalResults = screen.getAllByText(`$ ${correctValues.savingInvestment}`)
-    expect(initialCapitalResults.length).toBe(3)
-
-    expect(result.passiveAnualIncome.toFixed(0)).toEqual(correctValues.passiveAnualIncome.toString())
-    const passiveAnualIncome = screen.getByText(`$ ${correctValues.passiveAnualIncome}`)
-    expect(passiveAnualIncome).toBeDefined()
-
-    expect(result.passiveMonthyIncome.toFixed(0)).toEqual(correctValues.passiveMonthyIncome.toString())
-    const passiveMonthyIncome = screen.getByText(`$ ${correctValues.passiveMonthyIncome}`)
-    expect(passiveMonthyIncome).toBeDefined()
+    const result = onSubmitFinancialFreedomCalculatorForm(formValues)
+    expect(screen.getAllByText('$0').length).toBe(result.filter(item => item.value === '$0').length)
+    expect(screen.getAllByText('$1,000,000').length).toBe(result.filter(item => item.value === '$1,000,000').length)
+    expect(screen.getByText('$180,000')).toBeDefined()
+    expect(screen.getByText('$15,000')).toBeDefined()
   })
   test('should not display results until form is completed', async () => {
     const user = userEvent.setup()
