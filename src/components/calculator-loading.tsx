@@ -23,8 +23,6 @@ export default function CalculatorLoading() {
         <div className="h-2 bg-gray-200 rounded-full mt-5 w-36"></div>
         <div className="h-6 bg-gray-200 rounded-full mt-5 w-48 mt-10"></div>
         <div className="h-2 bg-gray-200 rounded-full mt-5 w-36"></div>
-        <div className="h-6 bg-gray-200 rounded-full mt-5 w-48 mt-10"></div>
-        <div className="h-2 bg-gray-200 rounded-full mt-5 w-36"></div>
       </div>
     </section>
   )
