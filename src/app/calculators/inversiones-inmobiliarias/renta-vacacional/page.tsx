@@ -237,6 +237,7 @@ export default function RentaVacacionalCalculator() {
           {isMonthlyExpenseActive && (
             <article className='flex flex-col w-full mt-4'>
               <button
+                aria-label='add expense button'
                 type="button"
                 onClick={() => {
                   appendMaintenanceExpense({
@@ -247,11 +248,12 @@ export default function RentaVacacionalCalculator() {
                 className="w-full text-white bg-secondary-dark hover:bg-secondary-dark focus:ring-4 focus:outline-none focus:ring-secondary-dark font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-3">
                 Agregar gasto
               </button>
-              <ul>
+              <ul aria-label='monthly expenses options'>
                 {
                   maintenanceExpensesOptions.map((option, index) => (
-                    <li className='flex flex-row gap-3' key={index}>
+                    <li className='flex flex-row gap-3' key={index} aria-label={`expense-${index}`}>
                       <div className='flex flex-col w-full'>
+                        <label htmlFor={`${option.id}-name`} className="sr-only">{`expense-${index}-name`}</label>
                         <input
                           type="text"
                           id={`${option.id}-name`}
@@ -260,6 +262,7 @@ export default function RentaVacacionalCalculator() {
                         {errors.maintenanceExpensesOptions?.[index] && <span className="text-sm text-red-600 dark:text-red-500">{errors.maintenanceExpensesOptions[index]?.name?.message}</span>}
                       </div>
                       <div className='flex flex-col w-full'>
+                        <label htmlFor={`${option.id}-amount`} className="sr-only">{`expense-${index}-amount`}</label>
                         <Controller control={control} name={`maintenanceExpensesOptions.${index}.amount` as const} render={({ field }) => (
                           <input
                             id={`${option.id}-amount`}

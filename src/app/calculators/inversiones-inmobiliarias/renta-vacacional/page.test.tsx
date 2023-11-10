@@ -213,6 +213,98 @@ describe('renta vacacional calculator', () => {
     const onlyOneElementPercent = (randomAmount / randomAmount) * 100
     expect(screen.getByText(`${toTwoDecimals(onlyOneElementPercent)} %`)).toBeDefined()
   })
+  test('should work handling monthly expenses advanced settings', async () => {
+    const user = userEvent.setup()
+    render(<RentaVacacionalCalculator />)
+    const form = screen.getByRole('form', {
+      name: 'renta vacacional calculator'
+    })
+    expect(form).toBeDefined()
+
+    const monthlyExpenses = screen.getByRole('spinbutton', {
+      name: 'Gastos mensuales'
+    })
+    expect(monthlyExpenses).toBeDefined()
+
+    const checkboxes = screen.getAllByRole('checkbox', {
+      name: 'Opciones Avanzadas'
+    })
+    expect(checkboxes.length).toBe(3)
+    const monthlyExpensesAdvancedSettings = checkboxes[2]
+    expect(monthlyExpensesAdvancedSettings).toBeDefined()
+    await user.click(monthlyExpensesAdvancedSettings)
+
+    expect(monthlyExpenses).toHaveProperty('disabled', true)
+
+    const monthlyExpensesOptions = screen.getByRole('list', {
+      name: 'monthly expenses options'
+    })
+    expect(monthlyExpensesOptions).toBeDefined()
+    expect(monthlyExpensesOptions.children.length).toBe(0) // no options added
+
+    const addExpenseButton = screen.getByRole('button', {
+      name: 'add expense button'
+    })
+    expect(addExpenseButton).toBeDefined()
+
+    await user.click(addExpenseButton)
+    expect(monthlyExpensesOptions.children.length).toBe(1)
+    const expenseOneName = screen.getByRole('textbox', {
+      name: `expense-${0}-name`
+    })
+    expect(expenseOneName).toBeDefined()
+
+    const randomInvestmentName = crypto.randomUUID()
+    await user.type(expenseOneName, randomInvestmentName)
+
+    const expenseOneAmount = screen.getByRole('spinbutton', {
+      name: `expense-${0}-amount`
+    })
+    expect(expenseOneAmount).toBeDefined()
+
+    const randomAmount = randomIntFromInterval(1000, 10000)
+    await user.type(expenseOneAmount, randomAmount.toString())
+
+    await user.click(addExpenseButton)
+    expect(monthlyExpensesOptions.children.length).toBe(2)
+
+    const expenseTwoName = screen.getByRole('textbox', {
+      name: `expense-${1}-name`
+    })
+    expect(expenseTwoName).toBeDefined()
+
+    const randomInvestmentName2 = crypto.randomUUID()
+    await user.type(expenseTwoName, randomInvestmentName2)
+
+    const expenseTwoAmount = screen.getByRole('spinbutton', {
+      name: `expense-${1}-amount`
+    })
+    expect(expenseTwoAmount).toBeDefined()
+
+    const randomAmount2 = randomIntFromInterval(1000, 10000)
+    await user.type(expenseTwoAmount, randomAmount2.toString())
+
+    const sum = randomAmount + randomAmount2
+
+    const expenseOnePercent = (randomAmount / sum) * 100
+    const expenseTwoPercent = (randomAmount2 / sum) * 100
+
+    // check percents
+    expect(screen.getByText(`${toTwoDecimals(expenseOnePercent)} %`)).toBeDefined()
+    expect(screen.getByText(`${toTwoDecimals(expenseTwoPercent)} %`)).toBeDefined()
+
+    // remove second value and check percent
+    const removeExpenseTwoButton = screen.getByRole('button', {
+      name: `delete-option-${1}`
+    })
+    expect(removeExpenseTwoButton).toBeDefined()
+
+    await user.click(removeExpenseTwoButton)
+
+    expect(monthlyExpensesOptions.children.length).toBe(1)
+    const onlyOneElementPercent = (randomAmount / randomAmount) * 100
+    expect(screen.getByText(`${toTwoDecimals(onlyOneElementPercent)} %`)).toBeDefined()
+  })
   afterEach(() => {
     cleanup()
   })
