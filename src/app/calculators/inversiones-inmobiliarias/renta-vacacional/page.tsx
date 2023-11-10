@@ -106,6 +106,7 @@ export default function RentaVacacionalCalculator() {
           {isInitialCapitalsActive && (
             <article className='flex flex-col w-full mt-4'>
               <button
+                aria-label='add investment button'
                 type="button"
                 onClick={() => {
                   append({
@@ -118,11 +119,12 @@ export default function RentaVacacionalCalculator() {
                 className="w-full text-white bg-secondary-dark hover:bg-secondary-dark focus:ring-4 focus:outline-none focus:ring-secondary-dark font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-3">
                 Agregar inversión
               </button>
-              <ul>
+              <ul aria-label='initial capital options'>
                 {
                   initialCapitalOptions.map((option, index) => (
-                    <li className='flex flex-row gap-3' key={index}>
+                    <li className='flex flex-row gap-3' key={index} aria-label={`option-${index}`}>
                       <div className='flex flex-col w-full'>
+                        <label htmlFor={`${option.id}-name`} className="sr-only">{`option-${index}-name`}</label>
                         <input
                           type="text"
                           id={`${option.id}-name`}
@@ -131,10 +133,11 @@ export default function RentaVacacionalCalculator() {
                         {errors.initialCapitalOptions?.[index] && <span className="text-sm text-red-600 dark:text-red-500">{errors.initialCapitalOptions[index]?.name?.message}</span>}
                       </div>
                       <div className='flex flex-col w-full'>
+                        <label htmlFor={`${option.id}-amount`} className="sr-only">{`option-${index}-amount`}</label>
                         <Controller control={control} name={`initialCapitalOptions.${index}.amount` as const} render={({ field }) => (
                           <input
-                            id={`${option.id}-amount`}
                             type='number'
+                            id={`${option.id}-amount`}
                             value={field.value}
                             onChange={(event) => {
                               const amount = parseInt(event.target.value)
@@ -147,7 +150,7 @@ export default function RentaVacacionalCalculator() {
                         {errors.initialCapitalOptions?.[index] && <span className="text-sm text-red-600 dark:text-red-500">{errors.initialCapitalOptions[index]?.amount?.message}</span>}
                       </div>
                       <PercentSpan control={control} index={index} />
-                      <DeleteAdvancedOption onClick={() => {
+                      <DeleteAdvancedOption id={index} onClick={() => {
                         remove(index)
                         const newSum = updateInitialCapitalSum()
                         setValue('initialCapital', newSum)
@@ -273,7 +276,7 @@ export default function RentaVacacionalCalculator() {
                         {errors.maintenanceExpensesOptions?.[index] && <span className="text-sm text-red-600 dark:text-red-500">{errors.maintenanceExpensesOptions[index]?.amount?.message}</span>}
                       </div>
                       <ExpensesPercentSpan control={control} index={index} />
-                      <DeleteAdvancedOption onClick={() => {
+                      <DeleteAdvancedOption id={index} onClick={() => {
                         removeMaintenanceExpense(index)
                         const newSum = updateMonthlyExpensesSum()
                         setValue('maintenanceExpenses', newSum)

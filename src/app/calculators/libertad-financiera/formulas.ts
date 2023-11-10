@@ -1,4 +1,6 @@
 import { type FinancialFreedomCalculatorFormValues, type FinancialFreedomMetrics } from '@/types/form/financial-freedom'
+import { type MetricCardValue } from '@/types/metric'
+import { toDollarCurrency } from '@/utils/metrics-format'
 
 function futureValueFormula(initialCapital: number, monthyInteresRate: number, yearsXMonth: number) {
   return initialCapital * Math.pow(1 + monthyInteresRate, yearsXMonth)
@@ -24,7 +26,7 @@ function calculatePresentValue(futureValue: number, rate: number, years: number)
   return presentValue
 }
 
-export function finalcialFreedomCalculate(input: FinancialFreedomCalculatorFormValues): FinancialFreedomMetrics {
+function finalcialFreedomCalculate(input: FinancialFreedomCalculatorFormValues): FinancialFreedomMetrics {
   const { initialCapital, interesRateCompountInterest, interesRateSimpleInterest, inflation, years, mensualInvestment } = input
   const monthy = 12
   const anualInvestment = mensualInvestment * monthy
@@ -46,4 +48,41 @@ export function finalcialFreedomCalculate(input: FinancialFreedomCalculatorFormV
   }
 
   return result
+}
+
+export function onSubmitFinancialFreedomCalculatorForm(values: FinancialFreedomCalculatorFormValues): MetricCardValue[] {
+  const financialFreedomMetrics = finalcialFreedomCalculate(values)
+
+  const newMetrics: MetricCardValue[] = [
+    {
+      value: `${toDollarCurrency(financialFreedomMetrics.anualInvestment)}`,
+      label: 'Inversión Anual'
+    },
+    {
+      value: `${toDollarCurrency(financialFreedomMetrics.savingInvestment)}`,
+      label: 'Si solamente lo ahorro'
+    },
+    {
+      value: `${toDollarCurrency(financialFreedomMetrics.futureValue)}`,
+      label: 'Inversión con interés compuesto'
+    },
+    {
+      value: `${toDollarCurrency(financialFreedomMetrics.savingAndFutureValueDifference)}`,
+      label: 'Diferencia entre inversión y ahorro'
+    },
+    {
+      value: `${toDollarCurrency(financialFreedomMetrics.presentValue)}`,
+      label: 'Valor presente de la inversión (descontando la inflación)'
+    },
+    {
+      value: `${toDollarCurrency(financialFreedomMetrics.passiveAnualIncome)}`,
+      label: 'Ingreso pasivo anual con interés simple'
+    },
+    {
+      value: `${toDollarCurrency(financialFreedomMetrics.passiveMonthyIncome)}`,
+      label: 'Ingreso pasivo mensual con interés simple'
+    }
+  ]
+
+  return newMetrics
 }
