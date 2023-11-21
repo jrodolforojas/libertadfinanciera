@@ -4,7 +4,6 @@ import { afterEach, describe, expect, test } from 'vitest'
 import RentaVacacionalCalculator from './page'
 import { type RentaVacacionalFormValues } from '@/types/form/renta-vacacional'
 import { onSubmitRentaVacacional } from './formulas'
-import { rentaVacionalDefaultValues } from './default-values'
 import { toTwoDecimals } from '@/utils/metrics-format'
 
 function randomIntFromInterval(min: number, max: number) {
@@ -67,7 +66,7 @@ describe('renta vacacional calculator', () => {
       expect(metricLabel).toBeDefined()
     })
   })
-  test('should not display results until form is completed', async () => {
+  test('should calculate with empty form', async () => {
     const user = userEvent.setup()
     render(<RentaVacacionalCalculator />)
     const form = screen.getByRole('form', {
@@ -102,10 +101,48 @@ describe('renta vacacional calculator', () => {
 
     await user.click(calculateButton)
 
-    expect(screen.getByText('Capital inicial debe ser un valor numérico')).toBeDefined()
-    expect(screen.getByText('Alquiler mensual debe ser un valor numérico')).toBeDefined()
-    expect(screen.getByText('Cantidad de meses alquilado debe ser un valor numérico')).toBeDefined()
-    expect(screen.getByText('Gastos de mantenimiento debe ser un valor numérico')).toBeDefined()
+    expect(screen.getAllByText('$0').length).toBe(3)
+    expect(screen.getAllByText('0.00 %').length).toBe(1)
+    expect(screen.getAllByText('0.00').length).toBe(1)
+  })
+  test('should calculate negative values', async () => {
+    const user = userEvent.setup()
+    render(<RentaVacacionalCalculator />)
+    const form = screen.getByRole('form', {
+      name: 'renta vacacional calculator'
+    })
+    expect(form).toBeDefined()
+
+    const initialCapital = screen.getByRole('spinbutton', {
+      name: 'Inversión inicial'
+    })
+    expect(initialCapital).toBeDefined()
+
+    const monthyRent = screen.getByRole('spinbutton', {
+      name: 'Alquiler Mensual'
+    })
+    expect(monthyRent).toBeDefined()
+
+    const rentedMonths = screen.getByRole('spinbutton', {
+      name: 'Cantidad de meses alquilado'
+    })
+    expect(rentedMonths).toBeDefined()
+
+    const maintenanceExpenses = screen.getByRole('spinbutton', {
+      name: 'Gastos mensuales'
+    })
+    expect(maintenanceExpenses).toBeDefined()
+
+    const calculateButton = screen.getByRole('button', {
+      name: 'Calcular'
+    })
+    expect(calculateButton).toBeDefined()
+
+    await user.click(calculateButton)
+
+    expect(screen.getAllByText('$0').length).toBe(3)
+    expect(screen.getAllByText('0.00 %').length).toBe(1)
+    expect(screen.getAllByText('0.00').length).toBe(1)
 
     const negativeValue = -1000
     await user.type(initialCapital, negativeValue.toString())
@@ -113,14 +150,10 @@ describe('renta vacacional calculator', () => {
     await user.type(rentedMonths, negativeValue.toString())
     await user.type(maintenanceExpenses, negativeValue.toString())
 
-    expect(screen.getByText('Capital inicial debe ser mayor o igual a 0')).toBeDefined()
-    expect(screen.getByText('Alquiler mensual debe ser mayor o igual a 0')).toBeDefined()
-    expect(screen.getByText('Cantidad de meses alquilado debe ser mayor o igual a 0')).toBeDefined()
-    expect(screen.getByText('Gastos de mantenimiento debe ser mayor o igual a 0')).toBeDefined()
-
-    expect(screen.getAllByText('$ 0').length).toBe(rentaVacionalDefaultValues.filter(item => item.value === '$ 0').length)
-    expect(screen.getAllByText('0 %').length).toBe(rentaVacionalDefaultValues.filter(item => item.value === '0 %').length)
-    expect(screen.getAllByText('0').length).toBe(rentaVacionalDefaultValues.filter(item => item.value === '0').length)
+    expect(screen.getByText('Capital inicial debe ser un valor numérico')).toBeDefined()
+    expect(screen.getByText('Alquiler mensual debe ser un valor numérico')).toBeDefined()
+    expect(screen.getByText('Cantidad de meses alquilado debe ser un valor numérico')).toBeDefined()
+    expect(screen.getByText('Gastos de mantenimiento debe ser un valor numérico')).toBeDefined()
   })
   test('should work handling initial capital advanced settings', async () => {
     const user = userEvent.setup()
@@ -149,7 +182,7 @@ describe('renta vacacional calculator', () => {
       name: 'initial capital options'
     })
     expect(initialCapitalOptions).toBeDefined()
-    expect(initialCapitalOptions.children.length).toBe(0) // no options added
+    expect(initialCapitalOptions.children.length).toBe(5)
 
     const addInvestmentButton = screen.getByRole('button', {
       name: 'add investment button'
@@ -157,7 +190,7 @@ describe('renta vacacional calculator', () => {
     expect(addInvestmentButton).toBeDefined()
 
     await user.click(addInvestmentButton)
-    expect(initialCapitalOptions.children.length).toBe(1)
+    expect(initialCapitalOptions.children.length).toBe(6)
     const newInvestmentName = screen.getByRole('textbox', {
       name: `option-${0}-name`
     })
@@ -175,7 +208,7 @@ describe('renta vacacional calculator', () => {
     await user.type(newInvestmentAmount, randomAmount.toString())
 
     await user.click(addInvestmentButton)
-    expect(initialCapitalOptions.children.length).toBe(2)
+    expect(initialCapitalOptions.children.length).toBe(7)
     const newInvestmentName2 = screen.getByRole('textbox', {
       name: `option-${1}-name`
     })
@@ -209,7 +242,7 @@ describe('renta vacacional calculator', () => {
 
     await user.click(removeOptionTwoButton)
 
-    expect(initialCapitalOptions.children.length).toBe(1)
+    expect(initialCapitalOptions.children.length).toBe(6)
     const onlyOneElementPercent = (randomAmount / randomAmount) * 100
     expect(screen.getByText(`${toTwoDecimals(onlyOneElementPercent)} %`)).toBeDefined()
   })
@@ -240,7 +273,7 @@ describe('renta vacacional calculator', () => {
       name: 'monthly expenses options'
     })
     expect(monthlyExpensesOptions).toBeDefined()
-    expect(monthlyExpensesOptions.children.length).toBe(0) // no options added
+    expect(monthlyExpensesOptions.children.length).toBe(5) // initial value
 
     const addExpenseButton = screen.getByRole('button', {
       name: 'add expense button'
@@ -248,7 +281,7 @@ describe('renta vacacional calculator', () => {
     expect(addExpenseButton).toBeDefined()
 
     await user.click(addExpenseButton)
-    expect(monthlyExpensesOptions.children.length).toBe(1)
+    expect(monthlyExpensesOptions.children.length).toBe(6)
     const expenseOneName = screen.getByRole('textbox', {
       name: `expense-${0}-name`
     })
@@ -266,7 +299,7 @@ describe('renta vacacional calculator', () => {
     await user.type(expenseOneAmount, randomAmount.toString())
 
     await user.click(addExpenseButton)
-    expect(monthlyExpensesOptions.children.length).toBe(2)
+    expect(monthlyExpensesOptions.children.length).toBe(7)
 
     const expenseTwoName = screen.getByRole('textbox', {
       name: `expense-${1}-name`
@@ -301,7 +334,7 @@ describe('renta vacacional calculator', () => {
 
     await user.click(removeExpenseTwoButton)
 
-    expect(monthlyExpensesOptions.children.length).toBe(1)
+    expect(monthlyExpensesOptions.children.length).toBe(6)
     const onlyOneElementPercent = (randomAmount / randomAmount) * 100
     expect(screen.getByText(`${toTwoDecimals(onlyOneElementPercent)} %`)).toBeDefined()
   })

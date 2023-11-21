@@ -6,8 +6,10 @@ export function calculateRentaVacacional(input: RentaVacacionalFormValues): Rent
   const grossAnualIncome = input.monthyRent * input.rentedMonths
   const anualMaintanenceExpenses = input.maintenanceExpenses * 12
   const netAnualReturn = grossAnualIncome - anualMaintanenceExpenses
-  const anualReturnPercent = netAnualReturn / input.initialCapital
-  const yearsToGetProfit = input.initialCapital / netAnualReturn
+  let anualReturnPercent = netAnualReturn / input.initialCapital
+  anualReturnPercent = isNaN(anualReturnPercent) ? 0 : anualReturnPercent
+  let yearsToGetProfit = input.initialCapital / netAnualReturn
+  yearsToGetProfit = isNaN(yearsToGetProfit) ? 0 : yearsToGetProfit
   const monthyReturn = netAnualReturn / 12
 
   const result: RentaVacacionalMetric = {
