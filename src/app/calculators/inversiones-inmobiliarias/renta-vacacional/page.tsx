@@ -8,7 +8,7 @@ import { type SubmitHandler, useForm, useFieldArray, Controller } from 'react-ho
 import { type RentaVacacionalFormValues } from '@/types/form/renta-vacacional'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { onSubmitRentaVacacional } from './formulas'
-import { initialCapitalAdvancedDefaultOptions, monthyExpenseAdvancedDefaultOptions, rentaVacionalDefaultValues } from './default-values'
+import { initialCapitalAdvancedDefaultOptions, initialCapitalDefaultValues, monthyExpenseAdvancedDefaultOptions, rentaVacionalDefaultValues } from './default-values'
 import useAdvancedOption from './hooks/useAdvancedOption'
 import useSwitch from './hooks/useSwitch'
 import { rentaVacacionalSchema } from './schemas/renta-vacacional-schema'
@@ -32,6 +32,7 @@ export default function RentaVacacionalCalculator() {
   const [metrics, setMetrics] = useState<MetricCardValue[]>(rentaVacionalDefaultValues)
 
   const { control, register, handleSubmit, formState: { errors }, watch, setValue } = useForm<RentaVacacionalFormValues>({
+    defaultValues: initialCapitalDefaultValues,
     resolver: yupResolver(rentaVacacionalSchema)
   })
 
@@ -127,6 +128,7 @@ export default function RentaVacacionalCalculator() {
                         <label htmlFor={`${option.id}-name`} className="sr-only">{`option-${index}-name`}</label>
                         <input
                           type="text"
+                          placeholder='Inversión'
                           id={`${option.id}-name`}
                           {...register(`initialCapitalOptions.${index}.name` as const, { required: true })}
                           className="mb-2 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light" />
@@ -137,6 +139,7 @@ export default function RentaVacacionalCalculator() {
                         <Controller control={control} name={`initialCapitalOptions.${index}.amount` as const} render={({ field }) => (
                           <input
                             type='number'
+                            placeholder='1000'
                             id={`${option.id}-amount`}
                             value={field.value}
                             onChange={(event) => {
@@ -257,6 +260,7 @@ export default function RentaVacacionalCalculator() {
                         <input
                           type="text"
                           id={`${option.id}-name`}
+                          placeholder='Gastos mensual'
                           {...register(`maintenanceExpensesOptions.${index}.name` as const, { required: true })}
                           className="mb-2 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light" />
                         {errors.maintenanceExpensesOptions?.[index] && <span className="text-sm text-red-600 dark:text-red-500">{errors.maintenanceExpensesOptions[index]?.name?.message}</span>}
@@ -267,6 +271,7 @@ export default function RentaVacacionalCalculator() {
                           <input
                             id={`${option.id}-amount`}
                             type='number'
+                            placeholder='500'
                             value={field.value}
                             onChange={(event) => {
                               const amount = parseInt(event.target.value)
