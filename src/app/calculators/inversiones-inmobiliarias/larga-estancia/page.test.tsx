@@ -110,20 +110,14 @@ describe('larga estancia calculator', () => {
 
     await user.click(calculateButton)
 
-    const zeroResults = screen.getAllByText('0')
+    const zeroResults = screen.getAllByText('0.00')
     expect(zeroResults.length).toBe(1)
 
-    const zeroDollarResults = screen.getAllByText('$ 0')
+    const zeroDollarResults = screen.getAllByText('$0')
     expect(zeroDollarResults.length).toBe(4)
 
-    const zeroPercentResults = screen.getAllByText('0 %')
+    const zeroPercentResults = screen.getAllByText('0.00 %')
     expect(zeroPercentResults.length).toBe(1)
-
-    expect(screen.getByText('Capital inicial debe ser un valor numérico')).toBeDefined()
-    expect(screen.getByText('Alquiler mensual debe ser un valor numérico')).toBeDefined()
-    expect(screen.getByText('Cantidad de meses alquilado debe ser un valor numérico')).toBeDefined()
-    expect(screen.getByText('Impuestos debe ser un valor numérico')).toBeDefined()
-    expect(screen.getByText('Gastos de mantenimiento debe ser un valor numérico')).toBeDefined()
 
     await user.type(initialCapital, '-1000')
     await user.type(monthyRent, '-1000')
@@ -131,11 +125,11 @@ describe('larga estancia calculator', () => {
     await user.type(taxes, '-1000')
     await user.type(maintenanceExpenses, '-1000')
 
-    expect(screen.getByText('Capital inicial debe ser mayor o igual a 0')).toBeDefined()
-    expect(screen.getByText('Alquiler mensual debe ser mayor o igual a 0')).toBeDefined()
-    expect(screen.getByText('Cantidad de meses alquilado debe ser mayor o igual a 0')).toBeDefined()
-    expect(screen.getByText('Impuestos debe ser mayor o igual a 0')).toBeDefined()
-    expect(screen.getByText('Gastos de mantenimiento debe ser mayor o igual a 0')).toBeDefined()
+    expect(screen.getByText('Capital inicial debe ser un valor numérico')).toBeDefined()
+    expect(screen.getByText('Alquiler mensual debe ser un valor numérico')).toBeDefined()
+    expect(screen.getByText('Cantidad de meses alquilado debe ser un valor numérico')).toBeDefined()
+    expect(screen.getByText('Impuestos debe ser un valor numérico')).toBeDefined()
+    expect(screen.getByText('Gastos de mantenimiento debe ser un valor numérico')).toBeDefined()
   })
 
   afterEach(() => {

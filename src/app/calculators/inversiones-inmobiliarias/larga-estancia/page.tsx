@@ -9,7 +9,7 @@ import { onSubmitLargaEstancia } from './formulas'
 import { type MetricCardValue } from '@/types/metric'
 import { useState } from 'react'
 
-const largaEstanciaDefaultValues: MetricCardValue[] = [
+const largaEstanciaMetricDefaultValues: MetricCardValue[] = [
   {
     value: '$ 0',
     label: 'Ingreso anual bruto'
@@ -35,6 +35,14 @@ const largaEstanciaDefaultValues: MetricCardValue[] = [
     label: 'Rendimiento mensual neto'
   }
 ]
+
+const largaEstanciaDefaultValues: LargaEstanciaFormValues = {
+  initialCapital: 0,
+  taxes: 0,
+  monthyRent: 0,
+  rentedMonths: 0,
+  maintenanceExpenses: 0
+}
 
 const largaEstanciaSchema = yup.object({
   initialCapital: yup.number()
@@ -62,10 +70,11 @@ const largaEstanciaSchema = yup.object({
 
 export default function LargaEstanciaCalculator() {
   const { register, handleSubmit, formState: { errors } } = useForm<LargaEstanciaFormValues>({
+    defaultValues: largaEstanciaDefaultValues,
     resolver: yupResolver(largaEstanciaSchema)
   })
 
-  const [metrics, setMetrics] = useState<MetricCardValue[]>(largaEstanciaDefaultValues)
+  const [metrics, setMetrics] = useState<MetricCardValue[]>(largaEstanciaMetricDefaultValues)
 
   const onSubmit: SubmitHandler<LargaEstanciaFormValues> = (data) => {
     const newMetrics = onSubmitLargaEstancia(data)
