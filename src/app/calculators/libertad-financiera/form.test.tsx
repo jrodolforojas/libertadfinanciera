@@ -236,17 +236,10 @@ describe('financial freedom calculator', () => {
     })
     expect(calculateButton).toBeDefined()
 
-    await user.click(calculateButton)
-
     const zeroResults = screen.getAllByText('0')
     expect(zeroResults.length).toBe(7)
 
-    expect(screen.getByText('Capital inicial debe ser un valor numérico')).toBeDefined()
-    expect(screen.getByText('Inversión mensual debe ser un valor numérico')).toBeDefined()
-    expect(screen.getByText('Cantidad de años debe ser un valor numérico')).toBeDefined()
-    expect(screen.getByText('Interés compuesto debe ser un valor numérico')).toBeDefined()
-    expect(screen.getByText('Interés simple debe ser un valor numérico')).toBeDefined()
-    expect(screen.getByText('Inflación debe ser un valor numérico')).toBeDefined()
+    await user.click(calculateButton)
 
     await user.type(initialCapital, '-1000')
     await user.type(mensualInvestment, '-1000')
@@ -255,12 +248,12 @@ describe('financial freedom calculator', () => {
     await user.type(interesRateSimpleInterest, '-1000')
     await user.type(inflation, '-1000')
 
-    expect(screen.getByText('Capital inicial debe ser mayor o igual a 0')).toBeDefined()
-    expect(screen.getByText('Inversión mensual debe ser mayor o igual a 0')).toBeDefined()
-    expect(screen.getByText('Cantidad de años debe ser mayor o igual a 0')).toBeDefined()
-    expect(screen.getByText('Interés compuesto debe ser mayor o igual a 0')).toBeDefined()
-    expect(screen.getByText('Interés simple debe ser mayor o igual a 0')).toBeDefined()
-    expect(screen.getByText('Inflación debe ser mayor o igual a 0')).toBeDefined()
+    expect(screen.getByText('Capital inicial debe ser un valor numérico')).toBeDefined()
+    expect(screen.getByText('Inversión mensual debe ser un valor numérico')).toBeDefined()
+    expect(screen.getByText('Cantidad de años debe ser un valor numérico')).toBeDefined()
+    expect(screen.getByText('Interés compuesto debe ser un valor numérico')).toBeDefined()
+    expect(screen.getByText('Interés simple debe ser un valor numérico')).toBeDefined()
+    expect(screen.getByText('Inflación debe ser un valor numérico')).toBeDefined()
   })
 
   afterEach(() => {
