@@ -41,6 +41,10 @@ const largaEstanciaSchema = yup.object({
     .typeError('Capital inicial debe ser un valor numérico')
     .required('Capital inicial es un campo requerido')
     .min(0, 'Capital inicial debe ser mayor o igual a 0'),
+  taxes: yup.number()
+    .typeError('Impuestos debe ser un valor numérico')
+    .required('Impuestos es un campo requerido')
+    .min(0, 'Impuestos debe ser mayor o igual a 0'),
   monthyRent: yup.number()
     .typeError('Alquiler mensual debe ser un valor numérico')
     .required('Alquiler mensual es un campo requerido')
@@ -90,6 +94,13 @@ export default function LargaEstanciaCalculator() {
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
             placeholder='11' />
           {errors.rentedMonths && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.rentedMonths.message}</span>}
+        </div>
+        <div className="mb-6">
+          <label htmlFor='taxes' className="block mb-2 text-sm font-medium text-blue-primary">Porcentaje de impuestos</label>
+          <input type='number' id='taxes' {...register('taxes')}
+            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
+            placeholder='0.25' />
+          {errors.taxes && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.taxes.message}</span>}
         </div>
         <div className="mb-6">
           <label htmlFor='maintenanceExpenses' className="block mb-2 text-sm font-medium text-blue-primary">Gastos de mantenimiento</label>

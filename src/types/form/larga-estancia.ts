@@ -1,5 +1,6 @@
 export interface LargaEstanciaFormValues {
   initialCapital: number
+  taxes: number
   monthyRent: number
   rentedMonths: number
   maintenanceExpenses: number
