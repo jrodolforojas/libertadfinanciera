@@ -68,8 +68,18 @@ const financialFreedomSchema = yup.object({
     .min(0, 'Inflación debe ser mayor o igual a 0')
 })
 
+const formDefaultValues: FinancialFreedomCalculatorFormValues = {
+  initialCapital: 0,
+  mensualInvestment: 0,
+  years: 0,
+  interesRateCompountInterest: 0,
+  interesRateSimpleInterest: 0,
+  inflation: 0
+}
+
 export default function FinalcialFreedomCalculatorForm() {
   const { register, handleSubmit, formState: { errors } } = useForm<FinancialFreedomCalculatorFormValues>({
+    defaultValues: formDefaultValues,
     resolver: yupResolver(financialFreedomSchema)
   })
 
