@@ -7,8 +7,10 @@ function calculateLargaEstancia(input: LargaEstanciaFormValues): LargaEstanciaMe
   const tax = input.taxes / 100
   const taxes = input.initialCapital * tax
   const netAnualReturn = grossAnualIncome - input.maintenanceExpenses - taxes
-  const anualReturnPercent = netAnualReturn / input.initialCapital
-  const yearsToGetProfit = input.initialCapital / netAnualReturn
+  let anualReturnPercent = netAnualReturn / input.initialCapital
+  anualReturnPercent = isNaN(anualReturnPercent) ? 0 : anualReturnPercent
+  let yearsToGetProfit = input.initialCapital / netAnualReturn
+  yearsToGetProfit = isNaN(yearsToGetProfit) ? 0 : yearsToGetProfit
   const monthyReturn = netAnualReturn / 12
 
   const result: LargaEstanciaMetric = {
