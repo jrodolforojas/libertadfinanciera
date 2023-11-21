@@ -11,6 +11,7 @@ describe('larga estancia calculator', () => {
       initialCapital: 300000,
       monthyRent: 1600,
       rentedMonths: 11,
+      taxes: 0.25,
       maintenanceExpenses: 1600
     }
     const user = userEvent.setup()
@@ -38,6 +39,12 @@ describe('larga estancia calculator', () => {
     })
     expect(rentedMonths).toBeDefined()
     await user.type(rentedMonths, formValues.rentedMonths.toString())
+
+    const taxes = screen.getByRole('spinbutton', {
+      name: 'Porcentaje de impuestos'
+    })
+    expect(taxes).toBeDefined()
+    await user.type(taxes, formValues.taxes.toString())
 
     const maintenanceExpenses = screen.getByRole('spinbutton', {
       name: 'Gastos de mantenimiento'
@@ -86,6 +93,11 @@ describe('larga estancia calculator', () => {
     })
     expect(rentedMonths).toBeDefined()
 
+    const taxes = screen.getByRole('spinbutton', {
+      name: 'Porcentaje de impuestos'
+    })
+    expect(taxes).toBeDefined()
+
     const maintenanceExpenses = screen.getByRole('spinbutton', {
       name: 'Gastos de mantenimiento'
     })
@@ -110,16 +122,19 @@ describe('larga estancia calculator', () => {
     expect(screen.getByText('Capital inicial debe ser un valor numérico')).toBeDefined()
     expect(screen.getByText('Alquiler mensual debe ser un valor numérico')).toBeDefined()
     expect(screen.getByText('Cantidad de meses alquilado debe ser un valor numérico')).toBeDefined()
+    expect(screen.getByText('Impuestos debe ser un valor numérico')).toBeDefined()
     expect(screen.getByText('Gastos de mantenimiento debe ser un valor numérico')).toBeDefined()
 
     await user.type(initialCapital, '-1000')
     await user.type(monthyRent, '-1000')
     await user.type(rentedMonths, '-1000')
+    await user.type(taxes, '-1000')
     await user.type(maintenanceExpenses, '-1000')
 
     expect(screen.getByText('Capital inicial debe ser mayor o igual a 0')).toBeDefined()
     expect(screen.getByText('Alquiler mensual debe ser mayor o igual a 0')).toBeDefined()
     expect(screen.getByText('Cantidad de meses alquilado debe ser mayor o igual a 0')).toBeDefined()
+    expect(screen.getByText('Impuestos debe ser mayor o igual a 0')).toBeDefined()
     expect(screen.getByText('Gastos de mantenimiento debe ser mayor o igual a 0')).toBeDefined()
   })
 
