@@ -34,7 +34,6 @@ export const getTodayCreditInterestRate = async ({ country }: { country: string 
     url += '/prime_rates/today'
   }
 
-  console.log({ site: url })
   const response = await fetch(url, {
     next: {
       revalidate: 60
