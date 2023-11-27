@@ -10,7 +10,7 @@ export const getAllExchangeRates = async ({ dateFrom, dateTo }: ExchangeRatesReq
   }
 
   const response = await fetch(url, {
-    cache: 'no-cache'
+    cache: 'force-cache'
   })
   if (!response.ok) throw new Error('Error fetching exchange rates. Status: ' + response.status)
   const { data } = await response.json() as ExchangeRateResponse

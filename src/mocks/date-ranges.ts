@@ -9,11 +9,6 @@ export const DATE_RANGES: DateRange[] = [
     date: new Date(new Date().setDate(today.getDate() - 10))
   },
   {
-    key: 'thirty-days-ago',
-    label: 'Hace 30 días',
-    date: new Date(new Date().setDate(today.getDate() - 30))
-  },
-  {
     key: 'one-month-ago',
     label: 'Hace 1 mes',
     date: new Date(new Date().setMonth(today.getMonth() - 1))
