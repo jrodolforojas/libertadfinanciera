@@ -1,6 +1,6 @@
 export interface ExchangeRatesRequest {
-  dateFrom: Date
-  dateTo: Date
+  dateFrom: string
+  dateTo: string
 }
 
 export interface ExchangeRateResponse {

@@ -26,7 +26,7 @@ export const DATE_RANGES: DateRange[] = [
   {
     key: 'year-to-date',
     label: 'De Enero hasta la fecha',
-    date: new Date(new Date().setMonth(0))
+    date: new Date(today.getFullYear(), 0, 1)
   },
   {
     key: 'one-year-ago',

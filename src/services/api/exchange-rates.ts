@@ -6,15 +6,11 @@ const API_URL = 'https://api.libertadfinanciera.live'
 export const getAllExchangeRates = async ({ dateFrom, dateTo }: ExchangeRatesRequest) => {
   let url = API_URL + '/exchange_rates'
   if (dateFrom && dateTo) {
-    const dateFromFormatted = format(dateFrom, 'yyyy/MM/dd')
-    const dateToFormatted = format(dateTo, 'yyyy/MM/dd')
-    url = url + '?date_from=' + dateFromFormatted + '&date_to=' + dateToFormatted
+    url += `?date_from=${dateFrom}&date_to=${dateTo}`
   }
 
   const response = await fetch(url, {
-    next: {
-      revalidate: 60
-    }
+    cache: 'force-cache'
   })
   if (!response.ok) throw new Error('Error fetching exchange rates. Status: ' + response.status)
   const { data } = await response.json() as ExchangeRateResponse
@@ -22,7 +18,6 @@ export const getAllExchangeRates = async ({ dateFrom, dateTo }: ExchangeRatesReq
     ...item,
     dateFormatted: format(new Date(item.date), 'dd/MM/yyyy')
   }))
-
   return exchangeRates
 }
 

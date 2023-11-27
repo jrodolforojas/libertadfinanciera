@@ -5,16 +5,26 @@ import Table from '@/components/table'
 import { getAllExchangeRates, getTodayExchangeRate } from '@/services/api/exchange-rates'
 import { type ExchangeRateSpanish } from '@/types/api/exchange-rate'
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@tremor/react'
+import { format } from 'date-fns'
 
 const today = new Date()
+const thirtyDaysAgo = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30)
 
-export default async function DollarColonesExchangeRate() {
+export default async function DollarColonesExchangeRate({ searchParams }: {
+  searchParams: Record<string, string | string[] | undefined>
+}) {
   const todayExchangeRate = await getTodayExchangeRate()
+  const { dateFrom: dateFromParam, dateTo: dateToParam } = searchParams
 
-  const exchangeRates = await getAllExchangeRates({
-    dateFrom: new Date(new Date().setDate(today.getDate() - 30)),
-    dateTo: today
-  })
+  let dateFrom = format(thirtyDaysAgo, 'yyyy/MM/dd')
+  let dateTo = format(today, 'yyyy/MM/dd')
+
+  if (typeof dateFromParam === 'string' && typeof dateToParam === 'string') {
+    dateFrom = dateFromParam
+    dateTo = dateToParam
+  }
+
+  const exchangeRates = await getAllExchangeRates({ dateFrom, dateTo })
 
   const data = exchangeRates.reverse().map(item => {
     const test: ExchangeRateSpanish = {
@@ -47,8 +57,8 @@ export default async function DollarColonesExchangeRate() {
           </div>
         </div>
       </header>
-      <main>
-        <TabGroup className="mt-4">
+      <article>
+        <TabGroup>
           <TabList>
             <Tab>Gráfico</Tab>
             <Tab>Tabla</Tab>
@@ -66,8 +76,8 @@ export default async function DollarColonesExchangeRate() {
             </TabPanel>
           </TabPanels>
         </TabGroup>
-      </main>
-      <footer className="mt-8 pb-8">
+      </article>
+      <footer className="mt-5">
         <p className='text-sm text-gray-500 text-center'>
           Los datos utilizados en esta página son obtenidos del {' '}
           <a href='https://www.bccr.fi.cr/' className='text-secondary hover:underline'>Banco Central de Costa Rica</a>.
