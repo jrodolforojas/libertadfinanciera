@@ -9,6 +9,7 @@ import { format } from 'date-fns'
 
 const today = new Date()
 const thirtyDaysAgo = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30)
+const minimumDate = new Date(1983, 0, 1)
 
 export default async function DollarColonesExchangeRate({ searchParams }: {
   searchParams: Record<string, string | string[] | undefined>
@@ -52,7 +53,7 @@ export default async function DollarColonesExchangeRate({ searchParams }: {
           <div className='flex items-center justify-between flex-col mt-3'>
             <span className='text-sm text-gray-text'>Filtra por rango de fechas</span>
             <div className="flex w-full mt-2 items-center justify-center">
-              <Range />
+              <Range minimumDate={minimumDate} />
             </div>
           </div>
         </div>
