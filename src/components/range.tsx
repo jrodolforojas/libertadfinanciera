@@ -8,10 +8,9 @@ import { useEffect, useState } from 'react'
 import { format } from 'date-fns'
 import { useRouter } from 'next/navigation'
 
-const minimumDate = new Date(1983, 0, 1)
 const todayDate = new Date()
 
-export default function Range() {
+export default function Range({ minimumDate }: { minimumDate: Date }) {
   const [dateRange, setDateRange] = useState<DateRangePickerValue>()
 
   const router = useRouter()

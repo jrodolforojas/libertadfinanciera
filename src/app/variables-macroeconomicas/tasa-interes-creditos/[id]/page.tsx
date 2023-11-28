@@ -9,6 +9,8 @@ import { format } from 'date-fns'
 
 const today = new Date()
 const thirtyDaysAgo = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30)
+const basicPassiveRateMinimumDate = new Date(1981, 2, 26)
+const newYorkPrimeMinimumDate = new Date(1996, 0, 3)
 
 export default async function CreditInterestRates({ params, searchParams }: {
   params: { id: string }
@@ -35,6 +37,8 @@ export default async function CreditInterestRates({ params, searchParams }: {
   const todayRate = await getTodayCreditInterestRate({ country: currentCountry.id })
 
   const todayRateLabel = currentCountry.id === 'usa' ? 'New York Prime' : 'Tasa Básica Pasiva'
+
+  const minimumDate = currentCountry.id === 'usa' ? newYorkPrimeMinimumDate : basicPassiveRateMinimumDate
 
   const creditInterestRates = await getAllCreditInterestRates({ dateFrom, dateTo, country: currentCountry.id })
 
@@ -63,7 +67,7 @@ export default async function CreditInterestRates({ params, searchParams }: {
           <div className='flex items-center justify-between flex-col mt-3'>
             <span className='text-sm text-gray-text'>Filtra por rango de fechas</span>
             <div className="flex w-full mt-2 items-center justify-center">
-              <Range />
+              <Range minimumDate={minimumDate} />
             </div>
           </div>
         </div>

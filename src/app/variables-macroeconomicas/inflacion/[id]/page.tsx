@@ -9,6 +9,8 @@ import { AreaChart, Card, Tab, TabGroup, TabList, TabPanel, TabPanels, Title } f
 
 const today = new Date()
 const thirtyDaysAgo = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30)
+const costaRicaInflationMinimumDate = new Date(1976, 0, 1)
+const usaInflationMinimumDate = new Date(1913, 0, 1)
 
 export default async function InflationInterestRatePage({ params, searchParams }: {
   params: { id: string }
@@ -33,6 +35,8 @@ export default async function InflationInterestRatePage({ params, searchParams }
   }
 
   const todayRate = await getTodayInflationRate({ country: currentCountry.id })
+
+  const minimumDate = currentCountry.id === 'usa' ? usaInflationMinimumDate : costaRicaInflationMinimumDate
 
   const inflationRates = await getAllInflationRates({ dateFrom, dateTo, country: currentCountry.id })
 
@@ -60,7 +64,7 @@ export default async function InflationInterestRatePage({ params, searchParams }
           <div className='flex items-center justify-between flex-col mt-3'>
             <span className='text-sm text-gray-text'>Filtra por rango de fechas</span>
             <div className="flex w-full mt-2 items-center justify-center">
-              <Range />
+              <Range minimumDate={minimumDate} />
             </div>
           </div>
         </div>

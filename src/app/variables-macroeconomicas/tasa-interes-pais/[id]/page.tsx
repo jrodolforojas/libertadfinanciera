@@ -9,6 +9,8 @@ import { AreaChart, Card, Tab, TabGroup, TabList, TabPanel, TabPanels, Title } f
 
 const today = new Date()
 const thirtyDaysAgo = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30)
+const monetaryPolicyRateMinimumDate = new Date(2006, 0, 1)
+const treasuryRateMinimumDate = new Date(2005, 1, 1)
 
 export default async function CountryTasaInteres({ params, searchParams }: {
   params: { id: string }
@@ -45,6 +47,8 @@ export default async function CountryTasaInteres({ params, searchParams }: {
     return rate
   })
 
+  const minimumDate = currentCountry.id === 'usa' ? treasuryRateMinimumDate : monetaryPolicyRateMinimumDate
+
   return (
     <section className="flex w-full mt-5 flex-col">
       <header>
@@ -61,7 +65,7 @@ export default async function CountryTasaInteres({ params, searchParams }: {
           <div className='flex items-center justify-between flex-col mt-3'>
             <span className='text-sm text-gray-text'>Filtra por rango de fechas</span>
             <div className="flex w-full mt-2 items-center justify-center">
-              <Range />
+              <Range minimumDate={minimumDate} />
             </div>
           </div>
         </div>
