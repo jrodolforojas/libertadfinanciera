@@ -19,6 +19,7 @@ export const getAllInflationRates = async ({ dateFrom, dateTo, country }: Inflat
   })
   if (!response.ok) throw new Error('Error fetching inflation interest rates. Status: ' + response.status)
   const { data } = await response.json() as InflationRateResponse
+
   const rates = data.map(item => ({
     ...item,
     dateFormatted: format(new Date(item.date), 'dd/MM/yyyy')
