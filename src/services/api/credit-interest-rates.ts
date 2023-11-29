@@ -15,7 +15,7 @@ export const getAllCreditInterestRates = async ({ dateFrom, dateTo, country }: C
   }
 
   const response = await fetch(url, {
-    cache: 'force-cache'
+    next: { revalidate: 5 }
   })
   if (!response.ok) throw new Error('Error fetching credit interest rates. Status: ' + response.status)
   const { data } = await response.json() as CreditInterestRateResponse
@@ -35,9 +35,7 @@ export const getTodayCreditInterestRate = async ({ country }: { country: string 
   }
 
   const response = await fetch(url, {
-    next: {
-      revalidate: 60
-    }
+    next: { revalidate: 5 }
   })
   if (!response.ok) throw new Error('Error fetching credit exchange rates. Status: ' + response.status)
   const { data } = await response.json() as CreditInterestRateTodayResponse

@@ -9,7 +9,7 @@ import { format } from 'date-fns'
 
 const today = new Date()
 const thirtyDaysAgo = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30)
-const minimumDate = new Date(1983, 0, 1)
+const minimumDate = new Date(1983, 1, 1)
 
 export default async function DollarColonesExchangeRate({ searchParams }: {
   searchParams: Record<string, string | string[] | undefined>

@@ -20,6 +20,7 @@ export default function Range({ minimumDate }: { minimumDate: Date }) {
       requestUrl.searchParams.set('dateFrom', format(dateRange.from, 'yyyy/MM/dd') ?? '')
       requestUrl.searchParams.set('dateTo', format(dateRange.to, 'yyyy/MM/dd') ?? '')
       router.push(requestUrl.toString())
+      // router.refresh()
     }
   }, [dateRange])
 

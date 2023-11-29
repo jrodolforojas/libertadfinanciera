@@ -33,10 +33,12 @@ export default async function CountryTasaInteres({ params, searchParams }: {
     dateTo = dateToParam
   }
 
-  const todayCountryRate = await getTodayCountryInterestRate({ country: currentCountry.id })
-  const todayRateLabel = currentCountry.id === 'usa' ? 'Tasa del Tesoro' : 'Tasa Política Monetaria'
+  const [todayCountryRate, countryInterestRates] = await Promise.all([
+    getTodayCountryInterestRate({ country: currentCountry.id }),
+    getAllCountryInterestRates({ dateFrom, dateTo, country: currentCountry.id })
+  ])
 
-  const countryInterestRates = await getAllCountryInterestRates({ dateFrom, dateTo, country: currentCountry.id })
+  const todayRateLabel = currentCountry.id === 'usa' ? 'Tasa del Tesoro' : 'Tasa Política Monetaria'
 
   const data = countryInterestRates.reverse().map(item => {
     const rate: CountryInterestRateSpanish = {
