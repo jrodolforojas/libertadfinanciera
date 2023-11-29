@@ -17,7 +17,10 @@ export const getAllCountryInterestRates = async ({ dateFrom, dateTo, country }: 
   const response = await fetch(url, {
     cache: 'force-cache'
   })
-  if (!response.ok) throw new Error('Error fetching credit interest rates. Status: ' + response.status)
+  if (!response.ok) {
+    console.log({ msg: 'Error fetch country interest rates', country, dateFrom, dateTo, response, url })
+    throw new Error('Error fetch country interest rates. Status: ' + response.status)
+  }
   const { data } = await response.json() as CountryInterestRateResponse
   const rates = data.map(item => ({
     ...item,
@@ -37,7 +40,10 @@ export const getTodayCountryInterestRate = async ({ country }: { country: string
   const response = await fetch(url, {
     cache: 'force-cache'
   })
-  if (!response.ok) throw new Error('Error fetching credit exchange rates. Status: ' + response.status)
+  if (!response.ok) {
+    console.log({ msg: 'Error fetch country interest rates', country, response, url })
+    throw new Error('Error fetch country interest rates. Status: ' + response.status)
+  }
   const { data } = await response.json() as CountryInterestRateTodayResponse
 
   const rate: CountryInterestRate = {
