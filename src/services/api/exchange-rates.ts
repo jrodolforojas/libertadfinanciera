@@ -10,7 +10,7 @@ export const getAllExchangeRates = async ({ dateFrom, dateTo }: ExchangeRatesReq
   }
 
   const response = await fetch(url, {
-    next: { revalidate: 10 }
+    next: { revalidate: 5 }
   })
   if (!response.ok) throw new Error('Error fetching exchange rates. Status: ' + response.status)
   const { data } = await response.json() as ExchangeRateResponse
@@ -25,7 +25,7 @@ export const getTodayExchangeRate = async () => {
   const url = API_URL + '/exchange_rates/today'
 
   const response = await fetch(url, {
-    cache: 'no-cache'
+    next: { revalidate: 60 }
   })
   if (!response.ok) throw new Error('Error fetching today exchange rate. Status: ' + response.status)
   const { data } = await response.json() as ExchangeRateTodayResponse

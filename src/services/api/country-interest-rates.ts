@@ -15,7 +15,7 @@ export const getAllCountryInterestRates = async ({ dateFrom, dateTo, country }: 
   }
 
   const response = await fetch(url, {
-    next: { revalidate: 10 }
+    next: { revalidate: 5 }
   })
   if (!response.ok) {
     console.log({ msg: 'Error fetch country interest rates', country, dateFrom, dateTo, response, url })
@@ -38,7 +38,7 @@ export const getTodayCountryInterestRate = async ({ country }: { country: string
   }
 
   const response = await fetch(url, {
-    cache: 'no-cache'
+    next: { revalidate: 5 }
   })
   if (!response.ok) {
     console.log({ msg: 'Error fetch country interest rates', country, response, url })

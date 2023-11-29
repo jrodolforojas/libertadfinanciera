@@ -14,7 +14,6 @@ export const getAllInflationRates = async ({ dateFrom, dateTo, country }: Inflat
     url += `?date_from=${dateFrom}&date_to=${dateTo}`
   }
 
-  console.log({ url })
   const response = await fetch(url, {
     next: { revalidate: 5 }
   })
@@ -37,9 +36,8 @@ export const getTodayInflationRate = async ({ country }: { country: string }) =>
 
   url += '/today'
 
-  console.log({ url })
   const response = await fetch(url, {
-    cache: 'no-cache'
+    next: { revalidate: 5 }
   })
 
   if (!response.ok) throw new Error('Error fetching credit exchange rates. Status: ' + response.status)
