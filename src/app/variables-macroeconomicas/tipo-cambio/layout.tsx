@@ -18,8 +18,7 @@ export default async function TipoCambioLayout({
   }
   return (
     <Container>
-      <Header title="Tipo de cambio" description="dólar (USD) a colones (CRC)">
-      </Header>
+      <Header title="Tipo de cambio" description="dólar (USD) a colones (CRC)" />
       <section className="flex w-full">
         {children}
       </section>

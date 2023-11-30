@@ -1,7 +1,7 @@
 export default function Header({ title, description, children }: {
   title: string
   description?: string
-  children: React.ReactNode
+  children?: React.ReactNode
 }) {
   return (
     <header className="flex flex-col w-full">
