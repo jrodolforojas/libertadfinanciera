@@ -2,15 +2,54 @@ import MetricCard from '@/components/metric-card'
 import Range from '@/components/range'
 import { format } from 'date-fns'
 import { COUNTRIES } from '@/app/variables-macroeconomicas/inflacion/tabs'
+import { getAllCountryInterestRates, getTodayCountryInterestRate } from '@/services/api/country-interest-rates'
+import { type CountryInterestRateSpanish } from '@/types/api/country-interest-rate'
+import { toTwoDecimals } from '@/utils/metrics-format'
+import { AreaChart, Card, Tab, TabGroup, TabList, TabPanel, TabPanels, Title } from '@tremor/react'
 
-export default function CountryTasaInteres({ params }: { params: { id: string } }) {
+const today = new Date()
+const thirtyDaysAgo = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30)
+const monetaryPolicyRateMinimumDate = new Date(2006, 0, 1)
+const treasuryRateMinimumDate = new Date(2005, 1, 1)
+
+export default async function CountryTasaInteres({ params, searchParams }: {
+  params: { id: string }
+  searchParams: Record<string, string | string[] | undefined>
+}) {
   const { id } = params
-
   const currentCountry = COUNTRIES.find(country => country.id === id)
 
   if (currentCountry === undefined) {
     return null
   }
+
+  const { dateFrom: dateFromParam, dateTo: dateToParam } = searchParams
+
+  let dateFrom = format(thirtyDaysAgo, 'yyyy/MM/dd')
+  let dateTo = format(today, 'yyyy/MM/dd')
+
+  if (typeof dateFromParam === 'string' && typeof dateToParam === 'string') {
+    dateFrom = dateFromParam
+    dateTo = dateToParam
+  }
+
+  const [todayCountryRate, countryInterestRates] = await Promise.all([
+    getTodayCountryInterestRate({ country: currentCountry.id }),
+    getAllCountryInterestRates({ dateFrom, dateTo, country: currentCountry.id })
+  ])
+
+  const todayRateLabel = currentCountry.id === 'usa' ? 'Tasa del Tesoro' : 'Tasa Política Monetaria'
+
+  const data = countryInterestRates.reverse().map(item => {
+    const rate: CountryInterestRateSpanish = {
+      valor: item.value,
+      fecha: item.date,
+      dateFormatted: item.dateFormatted
+    }
+    return rate
+  })
+
+  const minimumDate = currentCountry.id === 'usa' ? treasuryRateMinimumDate : monetaryPolicyRateMinimumDate
 
   return (
     <section className="flex w-full mt-5 flex-col">
@@ -18,8 +57,8 @@ export default function CountryTasaInteres({ params }: { params: { id: string } 
         <div>
           <h3 className='text-2xl font-bold text-blue-text'>Hoy en {currentCountry.label}</h3>
           <MetricCard metrics={[
-            { label: 'Tasa Básica Pasiva', value: '5.58', symbol: { value: '%', orientation: 'right' } },
-            { label: 'Fecha de actualización', value: format(new Date(), 'dd/mm/yyyy') }
+            { label: todayRateLabel, value: toTwoDecimals(todayCountryRate.value), symbol: { value: '%', orientation: 'right' } },
+            { label: 'Fecha de actualización', value: todayCountryRate.dateFormatted ?? '', symbol: { value: '', orientation: 'right' } }
           ]} />
         </div>
         <div className="mt-5">
@@ -28,13 +67,37 @@ export default function CountryTasaInteres({ params }: { params: { id: string } 
           <div className='flex items-center justify-between flex-col mt-3'>
             <span className='text-sm text-gray-text'>Filtra por rango de fechas</span>
             <div className="flex w-full mt-2 items-center justify-center">
-              <Range />
+              <Range minimumDate={minimumDate} />
             </div>
           </div>
         </div>
       </header>
-      <main>
-      </main>
+      <article>
+        <TabGroup>
+          <TabList>
+            <Tab>Gráfico</Tab>
+            <Tab>Tabla</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <Card>
+                <Title>Gráfico</Title>
+                <AreaChart
+                  className='mt-5'
+                  index='dateFormatted'
+                  data={data}
+                  categories={['valor']}
+                  colors={['cyan']}
+                  noDataText='No hay datos para mostrar'
+                />
+              </Card>
+            </TabPanel>
+            <TabPanel>
+              {/* <Table data={data} columns={['Fecha', 'Compra', 'Venta']} /> */}
+            </TabPanel>
+          </TabPanels>
+        </TabGroup>
+      </article>
       <footer className="mt-8 pb-8">
         <p className='text-sm text-gray-500 text-center'>
           Los datos utilizados en esta página son obtenidos del {' '}

@@ -15,7 +15,7 @@ const userRoutes: Route[] = [
       },
       {
         name: 'Inversiones Inmobiliarias',
-        path: '/calculators/inversiones-inmobiliarias',
+        path: '/calculators/inversiones-inmobiliarias/larga-estancia',
         subRoutes: [
           {
             name: 'Larga Estancia',

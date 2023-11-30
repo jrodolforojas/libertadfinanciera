@@ -2,15 +2,16 @@
 
 import { type Tab } from '@/types/tab'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useSelectedLayoutSegment } from 'next/navigation'
 
 export default function TabsNavbarItem({ tab, route }: {
   tab: Tab
   route: string
 }) {
+  const segment = useSelectedLayoutSegment()
   const currentRoute = usePathname()
   const href = `${route}/${tab.id}`
-  const isActive = currentRoute === href
+  const isActive = segment === tab.id || currentRoute === href
 
   return (
     <Link href={`${route}/[id]`} as={href} className={`inline-block p-4 rounded-t-lg dark:bg-gray-800 dark:text-blue-500 hover:text-green-primary ${isActive ? 'bg-blue-primary text-white' : 'bg-gray-100 text-gray-400'}`}>
