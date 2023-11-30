@@ -9,6 +9,7 @@ import { type SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { Toaster, toast } from 'sonner'
+import Link from 'next/link'
 
 const loginSchema = yup.object({
   email: yup.string().email('Debe ser un correo electrónico válido').required('Correo electrónico es un campo requerido'),
@@ -78,7 +79,7 @@ export default function LoginForm() {
                 {errors.password && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.password.message}</span>}
               </div>
               <div className="flex items-center justify-between">
-                <a href="#" className="text-sm font-medium text-primary-light hover:underline dark:text-primary-500">{'¿Olvidaste tu contraseña?'}</a>
+                <Link href='/forgot-password' className="text-sm font-medium text-primary-light hover:underline dark:text-primary-500">¿Olvidaste tu contraseña?</Link>
               </div>
               <button type="button" onClick={handleSubmit(onSubmit)} className="w-full text-white bg-secondary hover:bg-secondary-dark focus:ring-4 focus:outline-none
               focus:ring-secondary-dark font-medium rounded-lg text-sm px-5 py-2.5 text-center">Iniciar Sesión</button>
