@@ -36,18 +36,7 @@ export default function UserForm({ user, roles }: {
   }
 
   const createUser = async (data: UserFormValues) => {
-    const insertResponse = await supabase.from('users').insert({
-      name: data.name,
-      email: data.email,
-      role_id: role,
-      is_active: isActive
-    }).select()
-    if (insertResponse.error !== null) {
-      toast.error('Error al crear el usuario')
-      return
-    }
-    toast.success('Usuario creado correctamente')
-    router.replace(`/admin/users/invite-user?email=${data.email}&name=${data.name}`)
+    router.push(`/admin/users/invite-user?email=${data.email}&name=${data.name}&role_id=${role}&is_active=${isActive}`)
     router.refresh()
   }
 
