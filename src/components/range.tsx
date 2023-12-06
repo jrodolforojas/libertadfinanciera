@@ -6,7 +6,7 @@ import { DATE_RANGES } from '@/mocks/date-ranges'
 import { type DateRange } from '@/types/date-range'
 import { useEffect, useState } from 'react'
 import { format } from 'date-fns'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 const todayDate = new Date()
 
@@ -14,8 +14,10 @@ export default function Range({ minimumDate }: { minimumDate: Date }) {
   const [dateRange, setDateRange] = useState<DateRangePickerValue>()
 
   const router = useRouter()
+  const pathName = usePathname()
+  const searchParams = useSearchParams()
   useEffect(() => {
-    const requestUrl = new URL(location.origin + location.pathname)
+    const requestUrl = new URL(location.origin + pathName + '?' + searchParams.toString())
     if (dateRange?.from && dateRange?.to) {
       requestUrl.searchParams.set('dateFrom', format(dateRange.from, 'yyyy/MM/dd') ?? '')
       requestUrl.searchParams.set('dateTo', format(dateRange.to, 'yyyy/MM/dd') ?? '')
