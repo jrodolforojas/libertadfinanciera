@@ -10,7 +10,7 @@ export const getAllExchangeRates = async ({ dateFrom, dateTo }: ExchangeRatesReq
   }
 
   const response = await fetch(url, {
-    next: { revalidate: 5 }
+    next: { revalidate: 2 }
   })
   if (!response.ok) throw new Error('Error fetching exchange rates. Status: ' + response.status)
   const { data } = await response.json() as ExchangeRateResponse
@@ -18,6 +18,24 @@ export const getAllExchangeRates = async ({ dateFrom, dateTo }: ExchangeRatesReq
     ...item,
     dateFormatted: format(new Date(item.date), 'dd/MM/yyyy')
   }))
+  return exchangeRates
+}
+
+export const getExchangeRatesByPeriocity = async (periocity: string) => {
+  const originUrl = API_URL + '/exchange_rates/filter'
+  const url = new URL(originUrl)
+  url.searchParams.append('periocity', periocity)
+
+  const response = await fetch(url.toString(), {
+    next: { revalidate: 20 }
+  })
+  if (!response.ok) throw new Error('Error fetching exchange rates. Status: ' + response.status)
+  const { data } = await response.json() as ExchangeRateResponse
+  const exchangeRates = data.map(item => ({
+    ...item,
+    dateFormatted: format(new Date(item.date), 'dd/MM/yyyy')
+  }))
+
   return exchangeRates
 }
 

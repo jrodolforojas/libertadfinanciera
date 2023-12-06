@@ -2,7 +2,7 @@ import AreaChart from '@/components/area-chart'
 import MetricCard from '@/components/metric-card'
 import Range from '@/components/range'
 import Table from '@/components/table'
-import { getAllExchangeRates, getTodayExchangeRate } from '@/services/api/exchange-rates'
+import { getAllExchangeRates, getExchangeRatesByPeriocity, getTodayExchangeRate } from '@/services/api/exchange-rates'
 import { type ExchangeRateSpanish } from '@/types/api/exchange-rate'
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@tremor/react'
 import { format } from 'date-fns'
@@ -15,16 +15,19 @@ export default async function DollarColonesExchangeRate({ searchParams }: {
   searchParams: Record<string, string | string[] | undefined>
 }) {
   const todayExchangeRate = await getTodayExchangeRate()
-  const { dateFrom: dateFromParam, dateTo: dateToParam } = searchParams
+  const { dateFrom: dateFromParam, dateTo: dateToParam, periocity: periocityParam } = searchParams
 
   let dateFrom = format(thirtyDaysAgo, 'yyyy/MM/dd')
   let dateTo = format(today, 'yyyy/MM/dd')
+  let periocity = 'monthly'
 
+  if (typeof periocityParam === 'string') {
+    periocity = periocityParam
+  }
   if (typeof dateFromParam === 'string' && typeof dateToParam === 'string') {
     dateFrom = dateFromParam
     dateTo = dateToParam
   }
-
   const exchangeRates = await getAllExchangeRates({ dateFrom, dateTo })
 
   const data = exchangeRates.reverse().map(item => {
@@ -35,6 +38,24 @@ export default async function DollarColonesExchangeRate({ searchParams }: {
       dateFormatted: item.dateFormatted
     }
     return test
+  })
+
+  let exchangeRatesByPeriocity
+  if (periocity === 'monthly') {
+    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1)
+    exchangeRatesByPeriocity = await getAllExchangeRates({ dateFrom: format(firstDayOfMonth, 'yyyy/MM/dd'), dateTo: format(today, 'yyyy/MM/dd') })
+  } else {
+    exchangeRatesByPeriocity = await getExchangeRatesByPeriocity(periocity)
+  }
+
+  const exchangeRatesByPeriocityData = exchangeRatesByPeriocity.map(item => {
+    const spanishItem: ExchangeRateSpanish = {
+      compra: item.sale,
+      venta: item.buy,
+      fecha: item.date,
+      dateFormatted: item.dateFormatted
+    }
+    return spanishItem
   })
 
   return (
@@ -73,12 +94,12 @@ export default async function DollarColonesExchangeRate({ searchParams }: {
                 title='Gráfico Tipo de Cambio Dólar a Colones' />
             </TabPanel>
             <TabPanel>
-              <Table data={data} columns={['Fecha', 'Compra', 'Venta']} />
+              <Table data={exchangeRatesByPeriocityData} columns={['Fecha', 'Compra', 'Venta']} />
             </TabPanel>
           </TabPanels>
         </TabGroup>
       </article>
-      <footer className="mt-5">
+      <footer className="mt-5 pb-5">
         <p className='text-sm text-gray-500 text-center'>
           Los datos utilizados en esta página son obtenidos del {' '}
           <a href='https://www.bccr.fi.cr/' className='text-secondary hover:underline'>Banco Central de Costa Rica</a>.
