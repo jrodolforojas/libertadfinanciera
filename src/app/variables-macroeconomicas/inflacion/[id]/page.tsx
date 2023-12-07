@@ -2,10 +2,11 @@ import MetricCard from '@/components/metric-card'
 import Range from '@/components/range'
 import { format } from 'date-fns'
 import { COUNTRIES } from '@/app/variables-macroeconomicas/inflacion/tabs'
-import { getAllInflationRates, getTodayInflationRate } from '@/services/api/inflation-interest-rates'
+import { getAllInflationRates, getInflationRatesByPeriocity, getTodayInflationRate } from '@/services/api/inflation-interest-rates'
 import { toTwoDecimals } from '@/utils/metrics-format'
-import { type InflationRateSpanish } from '@/types/api/inflation-interest-rate'
+import { type InflationRate, type InflationRateSpanish } from '@/types/api/inflation-interest-rate'
 import { AreaChart, Card, Tab, TabGroup, TabList, TabPanel, TabPanels, Title } from '@tremor/react'
+import PeriocityPills from '@/components/periocity-pills'
 
 const today = new Date()
 const thirtyDaysAgo = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30)
@@ -24,11 +25,15 @@ export default async function InflationInterestRatePage({ params, searchParams }
     return null
   }
 
-  const { dateFrom: dateFromParam, dateTo: dateToParam } = searchParams
+  const { dateFrom: dateFromParam, dateTo: dateToParam, periocity: periocityParam } = searchParams
 
   let dateFrom = format(thirtyDaysAgo, 'yyyy/MM/dd')
   let dateTo = format(today, 'yyyy/MM/dd')
+  let periocity = 'monthly'
 
+  if (typeof periocityParam === 'string') {
+    periocity = periocityParam
+  }
   if (typeof dateFromParam === 'string' && typeof dateToParam === 'string') {
     dateFrom = dateFromParam
     dateTo = dateToParam
@@ -40,6 +45,14 @@ export default async function InflationInterestRatePage({ params, searchParams }
 
   const inflationRates = await getAllInflationRates({ dateFrom, dateTo, country: currentCountry.id })
 
+  let inflationRatesByPeriocity: InflationRate[] = []
+  if (periocity === 'monthly') {
+    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1)
+    inflationRatesByPeriocity = await getAllInflationRates({ dateFrom: format(firstDayOfMonth, 'yyyy/MM/dd'), dateTo: format(today, 'yyyy/MM/dd'), country: currentCountry.id })
+  } else {
+    inflationRatesByPeriocity = await getInflationRatesByPeriocity({ country: currentCountry.id, periocity })
+  }
+
   const data = inflationRates.reverse().map(item => {
     const rate: InflationRateSpanish = {
       valor: item.value,
@@ -48,6 +61,16 @@ export default async function InflationInterestRatePage({ params, searchParams }
     }
     return rate
   })
+
+  const inflationRatesByPeriocityData = inflationRatesByPeriocity.map(item => {
+    const rate: InflationRateSpanish = {
+      valor: item.value,
+      fecha: item.date,
+      dateFormatted: item.dateFormatted
+    }
+    return rate
+  })
+  const columns = ['Fecha', 'Valor']
   return (
     <section className="flex w-full mt-5 flex-col">
       <header>
@@ -78,7 +101,7 @@ export default async function InflationInterestRatePage({ params, searchParams }
           <TabPanels>
             <TabPanel>
               <Card>
-                <Title>Gráfico</Title>
+                <Title>{`Gráfico de comportamiento de la inflación en ${currentCountry.label}`}</Title>
                 <AreaChart
                   className='mt-5'
                   index='dateFormatted'
@@ -90,7 +113,42 @@ export default async function InflationInterestRatePage({ params, searchParams }
               </Card>
             </TabPanel>
             <TabPanel>
-              {/* <Table data={data} columns={['Fecha', 'Compra', 'Venta']} /> */}
+              <div>
+                <PeriocityPills />
+                {inflationRatesByPeriocity.length > 0
+                  ? (
+                    <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-full h-full">
+                      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                        <thead className="text-xs text-white uppercase bg-primary dark:bg-gray-700 dark:text-gray-400">
+                          <tr>
+                            {columns.map(column => (
+                              <th scope="col" key={column} className="px-6 py-3 text-secondary">
+                                {column}
+                              </th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {inflationRatesByPeriocityData.map(item => (
+                            <tr key={item.dateFormatted} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {item.dateFormatted}
+                              </th>
+                              <td className="px-6 py-4">
+                                {item.valor}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                    )
+                  : (
+                    <div className='flex items-center justify-center w-full'>
+                      <span className="px-6 py-4 text-primary text-sm font-bold">No hay datos para mostrar</span>
+                    </div>
+                    )}
+              </div>
             </TabPanel>
           </TabPanels>
         </TabGroup>
