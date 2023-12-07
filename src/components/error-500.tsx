@@ -1,12 +1,10 @@
-import { usePathname, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 export default function Error500() {
-  const pathName = usePathname()
-  const url = location.origin + pathName
   const router = useRouter()
 
   const onClickTryAgain = () => {
-    router.push(url)
+    router.replace('/')
     router.refresh()
   }
   return (
@@ -16,7 +14,7 @@ export default function Error500() {
         <p className='text-md text-primary'>No pudimos traer la información solicitada.</p>
         <button onClick={onClickTryAgain} className="text-white bg-secondary hover:bg-secondary-dark focus:ring-4 focus:outline-none
               focus:ring-secondary-dark font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-10">
-          Intentar de nuevo
+          Volver al inicio
         </button>
       </section>
     </main>
