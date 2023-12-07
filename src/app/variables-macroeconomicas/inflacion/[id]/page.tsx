@@ -142,12 +142,12 @@ export default async function InflationInterestRatePage({ params, searchParams }
                         </tbody>
                       </table>
                     </div>
-                  )
+                    )
                   : (
                     <div className='flex items-center justify-center w-full'>
                       <span className="px-6 py-4 text-primary text-sm font-bold">No hay datos para mostrar</span>
                     </div>
-                  )}
+                    )}
               </div>
             </TabPanel>
           </TabPanels>
