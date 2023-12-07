@@ -27,6 +27,30 @@ export const getAllInflationRates = async ({ dateFrom, dateTo, country }: Inflat
   return rates
 }
 
+export const getInflationRatesByPeriocity = async ({ country, periocity }: { country: string, periocity: string }) => {
+  let url = API_URL + '/inflation_rates/'
+  if (country === 'cr') {
+    url += 'cr'
+  } else if (country === 'usa') {
+    url += 'usa'
+  }
+
+  url += `/filter?periocity=${periocity}`
+
+  const response = await fetch(url, {
+    next: { revalidate: 5 }
+  })
+
+  if (!response.ok) throw new Error('Error fetching credit exchange rates. Status: ' + response.status)
+  const { data } = await response.json() as InflationRateResponse
+
+  const rates = data.map(item => ({
+    ...item,
+    dateFormatted: format(new Date(item.date), 'dd/MM/yyyy')
+  }))
+  return rates
+}
+
 export const getTodayInflationRate = async ({ country }: { country: string }) => {
   let url = API_URL + '/inflation_rates/'
   if (country === 'cr') {
