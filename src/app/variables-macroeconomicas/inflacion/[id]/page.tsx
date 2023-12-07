@@ -9,7 +9,7 @@ import { AreaChart, Card, Tab, TabGroup, TabList, TabPanel, TabPanels, Title } f
 import PeriocityPills from '@/components/periocity-pills'
 
 const today = new Date()
-const thirtyDaysAgo = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30)
+const thirtyDaysAgo = new Date(today.getFullYear(), today.getMonth() - 3, today.getDate())
 const costaRicaInflationMinimumDate = new Date(1976, 0, 1)
 const usaInflationMinimumDate = new Date(1913, 0, 1)
 
