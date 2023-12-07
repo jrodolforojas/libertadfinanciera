@@ -94,10 +94,18 @@ export default async function InflationInterestRatePage({ params, searchParams }
       </header>
       <article>
         <TabGroup>
-          <TabList>
-            <Tab>Gráfico</Tab>
-            <Tab>Tabla</Tab>
-          </TabList>
+          {currentCountry.id === 'usa'
+            ? (
+              <TabList>
+                <Tab>Gráfico</Tab>
+              </TabList>
+              )
+            : (
+              <TabList>
+                <Tab>Gráfico</Tab>
+                <Tab>Tabla</Tab>
+              </TabList>
+              )}
           <TabPanels>
             <TabPanel>
               <Card>
