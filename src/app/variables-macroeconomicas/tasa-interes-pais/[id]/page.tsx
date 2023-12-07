@@ -5,7 +5,7 @@ import { COUNTRIES } from '@/app/variables-macroeconomicas/inflacion/tabs'
 import { getAllCountryInterestRates, getTodayCountryInterestRate } from '@/services/api/country-interest-rates'
 import { type CountryInterestRateSpanish } from '@/types/api/country-interest-rate'
 import { toTwoDecimals } from '@/utils/metrics-format'
-import { AreaChart, Card, Tab, TabGroup, TabList, TabPanel, TabPanels, Title } from '@tremor/react'
+import { AreaChart, Card, Title } from '@tremor/react'
 
 const today = new Date()
 const thirtyDaysAgo = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30)
@@ -73,40 +73,19 @@ export default async function CountryTasaInteres({ params, searchParams }: {
         </div>
       </header>
       <article>
-        <TabGroup>
-          {currentCountry.id === 'usa'
-            ? (
-              <TabList>
-                <Tab>Gráfico</Tab>
-              </TabList>
-              )
-            : (
-              <TabList>
-                <Tab>Gráfico</Tab>
-                <Tab>Tabla</Tab>
-              </TabList>
-              )}
-          <TabPanels>
-            <TabPanel>
-              <Card>
-                <Title>Gráfico</Title>
-                <AreaChart
-                  className='mt-5'
-                  index='dateFormatted'
-                  data={data}
-                  categories={['valor']}
-                  colors={['cyan']}
-                  noDataText='No hay datos para mostrar'
-                />
-              </Card>
-            </TabPanel>
-            <TabPanel>
-              {/* <Table data={data} columns={['Fecha', 'Compra', 'Venta']} /> */}
-            </TabPanel>
-          </TabPanels>
-        </TabGroup>
+        <Card className='mt-6'>
+          <Title>{`Gráfico de comportamiento de ${todayRateLabel} en ${currentCountry.label}`}</Title>
+          <AreaChart
+            className='mt-5'
+            index='dateFormatted'
+            data={data}
+            categories={['valor']}
+            colors={['cyan']}
+            noDataText='No hay datos para mostrar'
+          />
+        </Card>
       </article>
-      <footer className="mt-8 pb-8">
+      <footer className="mt-8 pb-5">
         <p className='text-sm text-gray-500 text-center'>
           Los datos utilizados en esta página son obtenidos del {' '}
           <a href='https://www.bccr.fi.cr/' className='text-green-primary hover:underline'>Banco Central de Costa Rica</a>.
