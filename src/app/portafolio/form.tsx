@@ -102,12 +102,24 @@ export default function PortfolioForm() {
 
   const getAnualInterest = () => {
     const investments = watch('investments')
+    if (investments?.length === 0) return 0
     let totalAnualInterest = 0
     investments?.forEach(investment => {
       totalAnualInterest += investment.anualInterest
     })
     const length = investments?.length ?? 1
     return totalAnualInterest / length
+  }
+
+  const updatePorfolio = () => {
+    setPortfolio({
+      ...portfolio,
+      totalMonths: getTotalMonths(),
+      totalInitialInvestment: getInitialInvestment(),
+      totalMonthlyInvestment: getMonthlyInvestment(),
+      totalTodayValue: getTodayValue(),
+      totalAnualInterest: getAnualInterest()
+    })
   }
 
   return (
@@ -130,6 +142,7 @@ export default function PortfolioForm() {
               type: 'compuesto',
               anualInterest: 0
             })
+            updatePorfolio()
           }}
         >Agregar inversión</button>
       </div>
@@ -165,6 +178,7 @@ export default function PortfolioForm() {
                       <input
                         type="number"
                         placeholder='240'
+                        min={0}
                         id={`${investment.id}-months`}
                         value={field.value}
                         onChange={(event) => {
@@ -186,6 +200,7 @@ export default function PortfolioForm() {
                       <input
                         type="number"
                         placeholder='10000'
+                        min={0}
                         id={`${investment.id}-initialInvestment`}
                         value={field.value}
                         onChange={(event) => {
@@ -207,6 +222,7 @@ export default function PortfolioForm() {
                       <input
                         type="number"
                         placeholder='1000'
+                        min={0}
                         id={`${investment.id}-monthlyInvestment`}
                         value={field.value}
                         onChange={(event) => {
@@ -228,6 +244,7 @@ export default function PortfolioForm() {
                       <input
                         type="number"
                         placeholder='1000'
+                        min={0}
                         id={`${investment.id}-todayValue`}
                         value={field.value}
                         onChange={(event) => {
@@ -260,6 +277,7 @@ export default function PortfolioForm() {
                       <input
                         type="number"
                         placeholder='1000'
+                        min={0}
                         id={`${investment.id}-anualInterest`}
                         value={field.value}
                         onChange={(event) => {
@@ -277,6 +295,7 @@ export default function PortfolioForm() {
                 <td className="px-6 py-4 flex items-center justify-center gap-x-2">
                   <button className='text-primary hover:rounded-full p-2 hover:bg-secondary' onClick={() => {
                     remove(index)
+                    updatePorfolio()
                   }}>
                     <TrashIcon />
                   </button>
