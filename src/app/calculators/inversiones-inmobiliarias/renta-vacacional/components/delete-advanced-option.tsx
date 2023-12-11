@@ -5,7 +5,7 @@ export default function DeleteAdvancedOption({ id, onClick }: {
   onClick: () => void
 }) {
   return (
-    <button className='text-primary hover:rounded-full p-2 hover:bg-secondary' aria-label={`delete-option-${id}`} onClick={onClick}>
+    <button className='text-primary hover:rounded-full p-2 hover:bg-secondary' aria-label={`delete-option-${id}`} onClick={onClick} type='button'>
       <TrashIcon />
     </button>
   )

@@ -1,4 +1,5 @@
 export interface FinancialFreedomCalculatorFormValues {
+  aditionals?: Array<{ value: number, type: string, year: number }> | undefined
   initialCapital: number
   mensualInvestment: number
   years: number
