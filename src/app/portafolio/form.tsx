@@ -18,20 +18,40 @@ const investmentsDefaultValues: Porfolio = {
   investments: [
     {
       id: crypto.randomUUID(),
-      goal: 'Comprar un carro',
-      months: 12,
-      initialInvestment: 5000,
+      goal: 'Libertad Financiera',
+      months: 240,
+      initialInvestment: 0,
+      monthlyInvestment: 1000,
+      todayValue: 75424,
+      type: 'compuesto',
+      anualInterest: 9
+    },
+    {
+      id: crypto.randomUUID(),
+      goal: 'Comprar casa',
+      months: 120,
+      initialInvestment: 20000,
       monthlyInvestment: 500,
-      todayValue: 80000,
+      todayValue: 71624,
       type: 'compuesto',
       anualInterest: 10
+    },
+    {
+      id: crypto.randomUUID(),
+      goal: 'Comprar carro',
+      months: 60,
+      initialInvestment: 0,
+      monthlyInvestment: 500,
+      todayValue: 37124,
+      type: 'compuesto',
+      anualInterest: 8.4
     }
   ],
-  totalMonths: 0,
-  totalInitialInvestment: 0,
-  totalMonthlyInvestment: 0,
-  totalTodayValue: 0,
-  totalAnualInterest: 0
+  totalMonths: 420,
+  totalInitialInvestment: 20000,
+  totalMonthlyInvestment: 2000,
+  totalTodayValue: 184172,
+  totalAnualInterest: 9.13
 }
 export default function PortfolioForm() {
   const [portfolio, setPortfolio] = useState(investmentsDefaultValues)
