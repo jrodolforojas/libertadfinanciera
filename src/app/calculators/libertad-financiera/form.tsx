@@ -109,6 +109,9 @@ export default function FinalcialFreedomCalculatorForm() {
   const handleChangeAditionals = () => {
     if (aditionals === 0) setAditionals(1)
     if (aditionals === 1) setAditionals(0)
+    fields.forEach((field, index) => {
+      remove(index)
+    })
   }
 
   const onSubmit: SubmitHandler<FinancialFreedomCalculatorFormValues> = (data) => {
