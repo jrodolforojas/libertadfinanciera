@@ -20,11 +20,22 @@ export const getAllInflationRates = async ({ dateFrom, dateTo, country }: Inflat
   if (!response.ok) throw new Error('Error fetching inflation interest rates. Status: ' + response.status)
   const { data } = await response.json() as InflationRateResponse
 
-  const rates = data.map(item => ({
+  const dataFormatted = data.map(item => ({
     ...item,
     dateFormatted: format(new Date(item.date), 'dd/MM/yyyy')
   }))
-  return rates
+
+  const rates = dataFormatted.reverse().map((item, index) => {
+    let devaluation = 0
+    if (index > 0) {
+      devaluation = ((item.value / dataFormatted[index - 1]?.value) - 1) * 100
+    }
+    return {
+      ...item,
+      devaluation
+    }
+  })
+  return rates.reverse()
 }
 
 export const getInflationRatesByPeriocity = async ({ country, periocity }: { country: string, periocity: string }) => {
@@ -44,11 +55,22 @@ export const getInflationRatesByPeriocity = async ({ country, periocity }: { cou
   if (!response.ok) throw new Error('Error fetching credit exchange rates. Status: ' + response.status)
   const { data } = await response.json() as InflationRateResponse
 
-  const rates = data.map(item => ({
+  const dataFormatted = data.map(item => ({
     ...item,
     dateFormatted: format(new Date(item.date), 'dd/MM/yyyy')
   }))
-  return rates
+
+  const rates = dataFormatted.reverse().map((item, index) => {
+    let devaluation = 0
+    if (index > 0) {
+      devaluation = ((item.value / dataFormatted[index - 1]?.value) - 1) * 100
+    }
+    return {
+      ...item,
+      devaluation
+    }
+  })
+  return rates.reverse()
 }
 
 export const getTodayInflationRate = async ({ country }: { country: string }) => {

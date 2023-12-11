@@ -12,6 +12,7 @@ export interface InflationRate {
   value: number
   date: Date
   dateFormatted?: string
+  devaluation?: number
 }
 
 export interface InflationRateTodayResponse {
@@ -22,4 +23,5 @@ export interface InflationRateSpanish {
   valor: number
   fecha: Date
   dateFormatted?: string
+  devaluacion?: number
 }
