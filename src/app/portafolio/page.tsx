@@ -1,8 +1,7 @@
-import ComingSoon from '@/components/coming-soon'
-import Container from '@/components/page-container'
 import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import PortfolioForm from './form'
 
 export default async function PortafolioPage() {
   const cookieStore = cookies()
@@ -13,8 +12,6 @@ export default async function PortafolioPage() {
     redirect('/login')
   }
   return (
-    <Container>
-      <ComingSoon />
-    </Container>
+    <PortfolioForm />
   )
 }

@@ -1,0 +1,323 @@
+'use client'
+
+import CrudContainer from '@/components/crud-container'
+import { type Porfolio, type PortfolioFormValues } from '@/types/form/portfolio'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Controller, useFieldArray, useForm } from 'react-hook-form'
+import { portfolioSchema } from './schemas/porfolio-schema'
+import { TrashIcon } from '@/components/icons'
+import { Select, SelectItem } from '@tremor/react'
+import { useState } from 'react'
+import { toDollarCurrency, toTwoDecimals } from '@/utils/metrics-format'
+import PortfolioPercentSpan from './components/porfolio-percent'
+
+const columns = ['Objetivo', 'Plazo (meses)', 'Aporte Inicial', 'Aporte Mensual', 'Valor de la inversión (hoy)',
+  'Porcentaje del Portafolio', 'Tipo de interés', 'Rendimiento Promedio Anual', 'Acciones']
+
+const investmentsDefaultValues: Porfolio = {
+  investments: [
+    {
+      id: crypto.randomUUID(),
+      goal: 'Libertad Financiera',
+      months: 240,
+      initialInvestment: 0,
+      monthlyInvestment: 1000,
+      todayValue: 75424,
+      type: 'compuesto',
+      anualInterest: 9
+    },
+    {
+      id: crypto.randomUUID(),
+      goal: 'Comprar casa',
+      months: 120,
+      initialInvestment: 20000,
+      monthlyInvestment: 500,
+      todayValue: 71624,
+      type: 'compuesto',
+      anualInterest: 10
+    },
+    {
+      id: crypto.randomUUID(),
+      goal: 'Comprar carro',
+      months: 60,
+      initialInvestment: 0,
+      monthlyInvestment: 500,
+      todayValue: 37124,
+      type: 'compuesto',
+      anualInterest: 8.4
+    }
+  ],
+  totalMonths: 420,
+  totalInitialInvestment: 20000,
+  totalMonthlyInvestment: 2000,
+  totalTodayValue: 184172,
+  totalAnualInterest: 9.13
+}
+export default function PortfolioForm() {
+  const [portfolio, setPortfolio] = useState(investmentsDefaultValues)
+  const { control, register, watch } = useForm<PortfolioFormValues>({
+    defaultValues: investmentsDefaultValues,
+    resolver: yupResolver(portfolioSchema)
+  })
+
+  const { fields: investments, append, remove } = useFieldArray({
+    control,
+    name: 'investments'
+  })
+
+  const getTotalMonths = () => {
+    const investments = watch('investments')
+    let totalMonths = 0
+    investments?.forEach(investment => {
+      totalMonths += investment.months
+    })
+    return totalMonths
+  }
+
+  const getInitialInvestment = () => {
+    const investments = watch('investments')
+    let totalInitialInvestment = 0
+    investments?.forEach(investment => {
+      totalInitialInvestment += investment.initialInvestment
+    })
+    return totalInitialInvestment
+  }
+  const getMonthlyInvestment = () => {
+    const investments = watch('investments')
+    let totalMonthlyInvestment = 0
+    investments?.forEach(investment => {
+      totalMonthlyInvestment += investment.monthlyInvestment
+    })
+    return totalMonthlyInvestment
+  }
+
+  const getTodayValue = () => {
+    const investments = watch('investments')
+    let totalTodayValue = 0
+    investments?.forEach(investment => {
+      totalTodayValue += investment.todayValue
+    })
+    return totalTodayValue
+  }
+
+  const getAnualInterest = () => {
+    const investments = watch('investments')
+    if (investments?.length === 0) return 0
+    let totalAnualInterest = 0
+    investments?.forEach(investment => {
+      totalAnualInterest += investment.anualInterest
+    })
+    const length = investments?.length ?? 1
+    return totalAnualInterest / length
+  }
+
+  const updatePorfolio = () => {
+    setPortfolio({
+      ...portfolio,
+      totalMonths: getTotalMonths(),
+      totalInitialInvestment: getInitialInvestment(),
+      totalMonthlyInvestment: getMonthlyInvestment(),
+      totalTodayValue: getTodayValue(),
+      totalAnualInterest: getAnualInterest()
+    })
+  }
+
+  return (
+    <CrudContainer>
+      <header className="flex flex-col w-full">
+        <div className="mb-5">
+          <h2 className="text-3xl font-bold text-center text-primary">Portafolio de inversiones</h2>
+        </div>
+      </header>
+      <div className='flex items-center justify-end w-full gap-3'>
+        <button className="flex self-end text-white bg-secondary hover:bg-secondary-dark focus:ring-4 focus:outline-none
+              focus:ring-secondary-dark font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5"
+          onClick={() => {
+            append({
+              goal: 'Nuevo objetivo',
+              months: 0,
+              initialInvestment: 0,
+              monthlyInvestment: 0,
+              todayValue: 0,
+              type: 'compuesto',
+              anualInterest: 0
+            })
+            updatePorfolio()
+          }}
+        >Agregar inversión</button>
+      </div>
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-full h-full">
+        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead className="text-xs text-secondary uppercase bg-primary dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              {columns.map(column => (
+                <th scope="col" key={`col-${column}`} className="px-6 py-3 text-center">
+                  {column}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {investments?.map((investment, index) => (
+              <tr key={investment.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-primary">
+                <td>
+                  <div className='flex flex-col w-full p-2 text-center text-primary'>
+                    <label htmlFor={`${investment.id}-goal`} className="sr-only">{`investments-${index}-goal`}</label>
+                    <input
+                      type="text"
+                      placeholder='Libertad Financiera'
+                      id={`${investment.id}-goal`}
+                      {...register(`investments.${index}.goal` as const, { required: true })}
+                      className="mb-2 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light" />
+                  </div>
+                </td>
+                <td>
+                  <div className='flex flex-col w-full p-2 text-center text-primary'>
+                    <label htmlFor={`${investment.id}-months`} className="sr-only">{`investments-${index}-months`}</label>
+                    <Controller control={control} name={`investments.${index}.months` as const} render={({ field }) => (
+                      <input
+                        type="number"
+                        placeholder='240'
+                        min={0}
+                        id={`${investment.id}-months`}
+                        value={field.value}
+                        onChange={(event) => {
+                          const amount = parseInt(event.target.value)
+                          field.onChange(amount)
+                          setPortfolio({
+                            ...portfolio,
+                            totalMonths: getTotalMonths()
+                          })
+                        }}
+                        className="mb-2 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light" />
+                    )} />
+                  </div>
+                </td>
+                <td>
+                  <div className='flex flex-col w-full p-2 text-center text-primary'>
+                    <label htmlFor={`${investment.id}-initialInvestment`} className="sr-only">{`investments-${index}-initialInvestment`}</label>
+                    <Controller control={control} name={`investments.${index}.initialInvestment` as const} render={({ field }) => (
+                      <input
+                        type="number"
+                        placeholder='10000'
+                        min={0}
+                        id={`${investment.id}-initialInvestment`}
+                        value={field.value}
+                        onChange={(event) => {
+                          const amount = parseInt(event.target.value)
+                          field.onChange(amount)
+                          setPortfolio({
+                            ...portfolio,
+                            totalInitialInvestment: getInitialInvestment()
+                          })
+                        }}
+                        className="mb-2 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light" />
+                    )} />
+                  </div>
+                </td>
+                <td>
+                  <div className='flex flex-col w-full p-2 text-center text-primary'>
+                    <label htmlFor={`${investment.id}-monthlyInvestment`} className="sr-only">{`investments-${index}-monthlyInvestment`}</label>
+                    <Controller control={control} name={`investments.${index}.monthlyInvestment` as const} render={({ field }) => (
+                      <input
+                        type="number"
+                        placeholder='1000'
+                        min={0}
+                        id={`${investment.id}-monthlyInvestment`}
+                        value={field.value}
+                        onChange={(event) => {
+                          const amount = parseInt(event.target.value)
+                          field.onChange(amount)
+                          setPortfolio({
+                            ...portfolio,
+                            totalMonthlyInvestment: getMonthlyInvestment()
+                          })
+                        }}
+                        className="mb-2 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light" />
+                    )} />
+                  </div>
+                </td>
+                <td>
+                  <div className='flex flex-col w-full p-2 text-center text-primary'>
+                    <label htmlFor={`${investment.id}-todayValue`} className="sr-only">{`investments-${index}-todayValue`}</label>
+                    <Controller control={control} name={`investments.${index}.todayValue` as const} render={({ field }) => (
+                      <input
+                        type="number"
+                        placeholder='1000'
+                        min={0}
+                        id={`${investment.id}-todayValue`}
+                        value={field.value}
+                        onChange={(event) => {
+                          const amount = parseInt(event.target.value)
+                          field.onChange(amount)
+                          setPortfolio({
+                            ...portfolio,
+                            totalTodayValue: getTodayValue()
+                          })
+                        }}
+                        className="mb-2 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light" />
+                    )} />
+                  </div>
+                </td>
+                <td className="px-6 py-4 text-center text-primary">
+                  <PortfolioPercentSpan control={control} index={index} />
+                </td>
+                <td className="px-6 py-4 text-center text-primary mb-5">
+                  <Controller control={control} name={`investments.${index}.type` as const} render={({ field }) => (
+                    <Select value={field.value} onChange={field.onChange}>
+                      <SelectItem value='simple'>Simple</SelectItem>
+                      <SelectItem value='compuesto'>Compuesto</SelectItem>
+                    </Select>
+                  )} />
+                </td>
+                <td>
+                  <div className='flex flex-col w-full p-2 text-center text-primary'>
+                    <label htmlFor={`${investment.id}-anualInterest`} className="sr-only">{`investments-${index}-anualInterest`}</label>
+                    <Controller control={control} name={`investments.${index}.anualInterest` as const} render={({ field }) => (
+                      <input
+                        type="number"
+                        placeholder='1000'
+                        min={0}
+                        id={`${investment.id}-anualInterest`}
+                        value={field.value}
+                        onChange={(event) => {
+                          const amount = parseInt(event.target.value)
+                          field.onChange(amount)
+                          setPortfolio({
+                            ...portfolio,
+                            totalAnualInterest: getAnualInterest()
+                          })
+                        }}
+                        className="mb-2 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light" />
+                    )} />
+                  </div>
+                </td>
+                <td className="px-6 py-4 flex items-center justify-center gap-x-2">
+                  <button className='text-primary hover:rounded-full p-2 hover:bg-secondary' onClick={() => {
+                    remove(index)
+                    updatePorfolio()
+                  }}>
+                    <TrashIcon />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+          <tfoot className="text-secondary uppercase bg-secondary dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="row" className="px-6 py-3 text-center text-primary">Total</th>
+              <td className="px-6 py-3 text-center text-primary font-bold">{portfolio.totalMonths}</td>
+              <td className="px-6 py-3 text-center text-primary font-bold">{toDollarCurrency(portfolio.totalInitialInvestment)}</td>
+              <td className="px-6 py-3 text-center text-primary font-bold">{toDollarCurrency(portfolio.totalMonthlyInvestment)}</td>
+              <td className="px-6 py-3 text-center text-primary font-bold">{toDollarCurrency(portfolio.totalTodayValue)}</td>
+              <td className="px-6 py-3 text-center text-primary font-bold"></td>
+              <td className="px-6 py-3 text-center text-primary font-bold">No aplica</td>
+              <td className="px-6 py-3 text-center text-primary font-bold">{toTwoDecimals(portfolio.totalAnualInterest)}%</td>
+              <td className="px-6 py-3 text-center text-primary font-bold"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </CrudContainer>
+  )
+}
