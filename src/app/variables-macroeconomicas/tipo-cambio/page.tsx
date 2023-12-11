@@ -50,10 +50,11 @@ export default async function DollarColonesExchangeRate({ searchParams }: {
 
   const exchangeRatesByPeriocityData = exchangeRatesByPeriocity.map(item => {
     const spanishItem: ExchangeRateSpanish = {
-      compra: item.sale,
-      venta: item.buy,
+      compra: item.buy,
+      venta: item.sale,
       fecha: item.date,
-      dateFormatted: item.dateFormatted
+      dateFormatted: item.dateFormatted,
+      devaluacion: item.devaluation
     }
     return spanishItem
   })
@@ -94,7 +95,7 @@ export default async function DollarColonesExchangeRate({ searchParams }: {
                 title='Gráfico Tipo de Cambio Dólar a Colones' />
             </TabPanel>
             <TabPanel>
-              <Table data={exchangeRatesByPeriocityData} columns={['Fecha', 'Compra', 'Venta']} />
+              <Table data={exchangeRatesByPeriocityData} columns={['Fecha', 'Compra', 'Venta', 'Devaluación(%)']} />
             </TabPanel>
           </TabPanels>
         </TabGroup>

@@ -14,11 +14,23 @@ export const getAllExchangeRates = async ({ dateFrom, dateTo }: ExchangeRatesReq
   })
   if (!response.ok) throw new Error('Error fetching exchange rates. Status: ' + response.status)
   const { data } = await response.json() as ExchangeRateResponse
-  const exchangeRates = data.map(item => ({
+  const dataFormatted = data.map(item => ({
     ...item,
     dateFormatted: format(new Date(item.date), 'dd/MM/yyyy')
   }))
-  return exchangeRates
+
+  const exchangeRates = dataFormatted.reverse().map((item, index) => {
+    let devaluation = 0
+    if (index > 0) {
+      devaluation = ((item.sale / dataFormatted[index - 1]?.sale) - 1) * 100
+    }
+    return {
+      ...item,
+      devaluation
+    }
+  })
+
+  return exchangeRates.reverse()
 }
 
 export const getExchangeRatesByPeriocity = async (periocity: string) => {
@@ -31,12 +43,23 @@ export const getExchangeRatesByPeriocity = async (periocity: string) => {
   })
   if (!response.ok) throw new Error('Error fetching exchange rates. Status: ' + response.status)
   const { data } = await response.json() as ExchangeRateResponse
-  const exchangeRates = data.map(item => ({
+  const dataFormatted = data.map(item => ({
     ...item,
     dateFormatted: format(new Date(item.date), 'dd/MM/yyyy')
   }))
 
-  return exchangeRates
+  const exchangeRates = dataFormatted.reverse().map((item, index) => {
+    let devaluation = 0
+    if (index > 0) {
+      devaluation = ((item.sale / dataFormatted[index - 1]?.sale) - 1) * 100
+    }
+    return {
+      ...item,
+      devaluation
+    }
+  })
+
+  return exchangeRates.reverse()
 }
 
 export const getTodayExchangeRate = async () => {
