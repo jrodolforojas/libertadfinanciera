@@ -6,6 +6,7 @@ export const portfolioSchema = yup.object({
     months: yup.number().required(),
     initialInvestment: yup.number().required(),
     monthlyInvestment: yup.number().required(),
+    monthsInvestment: yup.number().required(),
     todayValue: yup.number().required(),
     type: yup.string().required().oneOf(['compuesto', 'simple']),
     anualInterest: yup.number().required()

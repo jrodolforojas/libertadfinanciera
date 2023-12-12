@@ -7,6 +7,7 @@ export interface InvestmentFormValues {
   months: number
   initialInvestment: number
   monthlyInvestment: number
+  monthsInvestment: number
   todayValue: number
   type: string
   anualInterest: number
@@ -17,6 +18,7 @@ export interface Porfolio {
   totalMonths: number
   totalInitialInvestment: number
   totalMonthlyInvestment: number
+  totalMonthsInvestment: number
   totalTodayValue: number
   totalAnualInterest: number
 }
@@ -28,6 +30,7 @@ export interface Investment {
   initialInvestment: number
   monthlyInvestment: number
   todayValue: number
+  monthsInvestment: number
   type: 'compuesto' | 'simple'
   anualInterest: number
 }
