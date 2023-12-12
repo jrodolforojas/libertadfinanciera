@@ -11,7 +11,7 @@ import { useState } from 'react'
 import { toDollarCurrency, toTwoDecimals } from '@/utils/metrics-format'
 import PortfolioPercentSpan from './components/porfolio-percent'
 
-const columns = ['Objetivo', 'Plazo (meses)', 'Aporte Inicial', 'Aporte Mensual', 'Valor de la inversión (hoy)',
+const columns = ['Objetivo', 'Plazo (meses)', 'Aporte Inicial', 'Aporte Mensual', 'Meses Invertidos', 'Valor de la inversión (hoy)',
   'Porcentaje del Portafolio', 'Tipo de interés', 'Rendimiento Promedio Anual', 'Acciones']
 
 const investmentsDefaultValues: Porfolio = {
@@ -22,6 +22,7 @@ const investmentsDefaultValues: Porfolio = {
       months: 240,
       initialInvestment: 0,
       monthlyInvestment: 1000,
+      monthsInvestment: 60,
       todayValue: 75424,
       type: 'compuesto',
       anualInterest: 9
@@ -32,6 +33,7 @@ const investmentsDefaultValues: Porfolio = {
       months: 120,
       initialInvestment: 20000,
       monthlyInvestment: 500,
+      monthsInvestment: 60,
       todayValue: 71624,
       type: 'compuesto',
       anualInterest: 10
@@ -42,6 +44,7 @@ const investmentsDefaultValues: Porfolio = {
       months: 60,
       initialInvestment: 0,
       monthlyInvestment: 500,
+      monthsInvestment: 60,
       todayValue: 37124,
       type: 'compuesto',
       anualInterest: 8.4
@@ -50,6 +53,7 @@ const investmentsDefaultValues: Porfolio = {
   totalMonths: 420,
   totalInitialInvestment: 20000,
   totalMonthlyInvestment: 2000,
+  totalMonthsInvestment: 180,
   totalTodayValue: 184172,
   totalAnualInterest: 9.13
 }
@@ -91,6 +95,15 @@ export default function PortfolioForm() {
     return totalMonthlyInvestment
   }
 
+  const getMonthsInvestment = () => {
+    const investments = watch('investments')
+    let totalMonthsInvestment = 0
+    investments?.forEach(investment => {
+      totalMonthsInvestment += investment.monthsInvestment
+    })
+    return totalMonthsInvestment
+  }
+
   const getTodayValue = () => {
     const investments = watch('investments')
     let totalTodayValue = 0
@@ -117,6 +130,7 @@ export default function PortfolioForm() {
       totalMonths: getTotalMonths(),
       totalInitialInvestment: getInitialInvestment(),
       totalMonthlyInvestment: getMonthlyInvestment(),
+      totalMonthsInvestment: getMonthsInvestment(),
       totalTodayValue: getTodayValue(),
       totalAnualInterest: getAnualInterest()
     })
@@ -138,6 +152,7 @@ export default function PortfolioForm() {
               months: 0,
               initialInvestment: 0,
               monthlyInvestment: 0,
+              monthsInvestment: 0,
               todayValue: 0,
               type: 'compuesto',
               anualInterest: 0
@@ -239,6 +254,28 @@ export default function PortfolioForm() {
                 </td>
                 <td>
                   <div className='flex flex-col w-full p-2 text-center text-primary'>
+                    <label htmlFor={`${investment.id}-monthsInvestment`} className="sr-only">{`investments-${index}-monthsInvestment`}</label>
+                    <Controller control={control} name={`investments.${index}.monthsInvestment` as const} render={({ field }) => (
+                      <input
+                        type="number"
+                        placeholder='1000'
+                        min={0}
+                        id={`${investment.id}-monthsInvestment`}
+                        value={field.value}
+                        onChange={(event) => {
+                          const amount = parseInt(event.target.value)
+                          field.onChange(amount)
+                          setPortfolio({
+                            ...portfolio,
+                            totalMonthsInvestment: getMonthsInvestment()
+                          })
+                        }}
+                        className="mb-2 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light" />
+                    )} />
+                  </div>
+                </td>
+                <td>
+                  <div className='flex flex-col w-full p-2 text-center text-primary'>
                     <label htmlFor={`${investment.id}-todayValue`} className="sr-only">{`investments-${index}-todayValue`}</label>
                     <Controller control={control} name={`investments.${index}.todayValue` as const} render={({ field }) => (
                       <input
@@ -309,6 +346,7 @@ export default function PortfolioForm() {
               <td className="px-6 py-3 text-center text-primary font-bold">{portfolio.totalMonths}</td>
               <td className="px-6 py-3 text-center text-primary font-bold">{toDollarCurrency(portfolio.totalInitialInvestment)}</td>
               <td className="px-6 py-3 text-center text-primary font-bold">{toDollarCurrency(portfolio.totalMonthlyInvestment)}</td>
+              <td className="px-6 py-3 text-center text-primary font-bold">{portfolio.totalMonthsInvestment}</td>
               <td className="px-6 py-3 text-center text-primary font-bold">{toDollarCurrency(portfolio.totalTodayValue)}</td>
               <td className="px-6 py-3 text-center text-primary font-bold"></td>
               <td className="px-6 py-3 text-center text-primary font-bold">No aplica</td>
