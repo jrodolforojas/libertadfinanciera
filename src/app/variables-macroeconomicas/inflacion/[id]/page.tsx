@@ -5,7 +5,7 @@ import { COUNTRIES } from '@/app/variables-macroeconomicas/inflacion/tabs'
 import { getAllInflationRates, getInflationRatesByPeriocity, getTodayInflationRate } from '@/services/api/inflation-interest-rates'
 import { toTwoDecimals } from '@/utils/metrics-format'
 import { type InflationRate, type InflationRateSpanish } from '@/types/api/inflation-interest-rate'
-import { AreaChart, Card, Tab, TabGroup, TabList, TabPanel, TabPanels, Title } from '@tremor/react'
+import { AreaChart, BadgeDelta, Card, Tab, TabGroup, TabList, TabPanel, TabPanels, Title } from '@tremor/react'
 import PeriocityPills from '@/components/periocity-pills'
 
 const today = new Date()
@@ -57,7 +57,8 @@ export default async function InflationInterestRatePage({ params, searchParams }
     const rate: InflationRateSpanish = {
       valor: item.value,
       fecha: item.date,
-      dateFormatted: item.dateFormatted
+      dateFormatted: item.dateFormatted,
+      devaluacion: item.devaluation
     }
     return rate
   })
@@ -66,11 +67,12 @@ export default async function InflationInterestRatePage({ params, searchParams }
     const rate: InflationRateSpanish = {
       valor: item.value,
       fecha: item.date,
-      dateFormatted: item.dateFormatted
+      dateFormatted: item.dateFormatted,
+      devaluacion: item.devaluation
     }
     return rate
   })
-  const columns = ['Fecha', 'Valor']
+  const columns = ['Fecha', 'Valor', 'Devaluación']
   return (
     <section className="flex w-full mt-5 flex-col">
       <header>
@@ -151,6 +153,16 @@ export default async function InflationInterestRatePage({ params, searchParams }
                                   </th>
                                   <td className="px-6 py-4">
                                     {item.valor}
+                                  </td>
+                                  <td className="px-6 py-4">
+                                    {item.devaluacion != null
+                                      ? (
+                                        <BadgeDelta
+                                          deltaType={item.devaluacion < 0 ? 'moderateDecrease' : item.devaluacion === 0 ? 'unchanged' : 'moderateIncrease'} size="xs">
+                                          {toTwoDecimals(item.devaluacion ?? 0)}%
+                                        </BadgeDelta>
+                                      )
+                                      : null}
                                   </td>
                                 </tr>
                               ))}

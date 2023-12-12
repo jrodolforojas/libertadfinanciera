@@ -2,6 +2,8 @@
 
 import { type ExchangeRateSpanish } from '@/types/api/exchange-rate'
 import PeriocityPills from './periocity-pills'
+import { toTwoDecimals } from '@/utils/metrics-format'
+import { BadgeDelta } from '@tremor/react'
 
 export default function Table({ data, columns }: {
   data: ExchangeRateSpanish[]
@@ -32,6 +34,16 @@ export default function Table({ data, columns }: {
                 </td>
                 <td className="px-6 py-4">
                   {item.venta}
+                </td>
+                <td className="px-6 py-4">
+                  {item.devaluacion != null
+                    ? (
+                      <BadgeDelta
+                        deltaType={item.devaluacion < 0 ? 'moderateDecrease' : item.devaluacion === 0 ? 'unchanged' : 'moderateIncrease'} size="xs">
+                        {toTwoDecimals(item.devaluacion ?? 0)}%
+                      </BadgeDelta>
+                      )
+                    : null}
                 </td>
               </tr>
             ))}

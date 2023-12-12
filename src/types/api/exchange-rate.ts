@@ -12,6 +12,7 @@ export interface ExchangeRate {
   buy: number
   date: Date
   dateFormatted?: string
+  devaluation?: number
 }
 
 export interface ExchangeRateTodayResponse {
@@ -23,4 +24,5 @@ export interface ExchangeRateSpanish {
   venta: number
   fecha: Date
   dateFormatted?: string
+  devaluacion?: number
 }
