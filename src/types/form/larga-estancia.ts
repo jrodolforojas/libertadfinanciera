@@ -4,6 +4,7 @@ export interface LargaEstanciaFormValues {
   monthyRent: number
   rentedMonths: number
   maintenanceExpenses: number
+  monthlyMortageLoan: number
 }
 
 export interface LargaEstanciaMetric {
