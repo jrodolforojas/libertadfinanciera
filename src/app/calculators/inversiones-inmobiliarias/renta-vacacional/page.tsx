@@ -105,7 +105,7 @@ export default function RentaVacacionalCalculator() {
             <span className="ml-3 text-sm text-gray-900 dark:text-gray-300">Opciones Avanzadas</span>
           </label>
           {isInitialCapitalsActive && (
-            <article className='flex flex-col w-full mt-4'>
+            <article className='flex flex-col w-full mt-4 lg:pl-8 pl-0'>
               <button
                 aria-label='add investment button'
                 type="button"
@@ -183,7 +183,7 @@ export default function RentaVacacionalCalculator() {
             <span className="ml-3 text-sm text-gray-900 dark:text-gray-300">Opciones Avanzadas</span>
           </label>
           {isMonthlyRentActive && (
-            <article className='flex flex-col w-full mt-4'>
+            <article className='flex flex-col w-full mt-4 lg:pl-8 pl-0'>
               <ul aria-label='monthly rent options'>
                 <li className='flex flex-col gap-3'>
                   <div>
@@ -238,7 +238,7 @@ export default function RentaVacacionalCalculator() {
             <span className="ml-3 text-sm text-gray-900 dark:text-gray-300">Opciones Avanzadas</span>
           </label>
           {isMonthlyExpenseActive && (
-            <article className='flex flex-col w-full mt-4'>
+            <article className='flex flex-col w-full mt-4 lg:pl-8 pl-0'>
               <button
                 aria-label='add expense button'
                 type="button"
