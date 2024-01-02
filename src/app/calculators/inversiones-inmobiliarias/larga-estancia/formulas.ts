@@ -4,9 +4,7 @@ import { toDollarCurrency, toTwoDecimals } from '@/utils/metrics-format'
 
 function calculateLargaEstancia(input: LargaEstanciaFormValues): LargaEstanciaMetric {
   const grossAnualIncome = input.monthyRent * input.rentedMonths
-  const tax = input.taxes / 100
-  const taxes = input.initialCapital * tax
-  const totalExpenses = input.maintenanceExpenses + taxes + input.monthlyMortageLoan * 12
+  const totalExpenses = input.maintenanceExpenses + input.taxes + input.monthlyMortageLoan * 12
   const netAnualReturn = grossAnualIncome - totalExpenses
   let anualReturnPercent = netAnualReturn / input.initialCapital
   anualReturnPercent = isNaN(anualReturnPercent) ? 0 : anualReturnPercent
@@ -16,7 +14,7 @@ function calculateLargaEstancia(input: LargaEstanciaFormValues): LargaEstanciaMe
 
   const result: LargaEstanciaMetric = {
     grossAnualIncome,
-    taxes,
+    taxes: input.taxes,
     netAnualReturn,
     anualReturnPercent,
     yearsToGetProfit,

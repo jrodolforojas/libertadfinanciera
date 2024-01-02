@@ -9,6 +9,7 @@ import { onSubmitLargaEstancia } from './formulas'
 import { type MetricCardValue } from '@/types/metric'
 import { useState } from 'react'
 import { toDollarCurrency, toTwoDecimals } from '@/utils/metrics-format'
+
 const largaEstanciaMetricDefaultValues: MetricCardValue[] = [
   {
     value: `${toDollarCurrency(0)}`,
@@ -110,7 +111,7 @@ export default function LargaEstanciaCalculator() {
           {errors.rentedMonths && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.rentedMonths.message}</span>}
         </div>
         <div className="mb-6">
-          <label htmlFor='taxes' className="block mb-2 text-sm font-medium text-blue-primary">Porcentaje de impuestos</label>
+          <label htmlFor='taxes' className="block mb-2 text-sm font-medium text-blue-primary">Gastos de impuestos</label>
           <input type='number' id='taxes' {...register('taxes')}
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
             placeholder='0.25' />
