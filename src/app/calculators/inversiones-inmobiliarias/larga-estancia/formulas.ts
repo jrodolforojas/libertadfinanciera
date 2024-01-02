@@ -6,7 +6,8 @@ function calculateLargaEstancia(input: LargaEstanciaFormValues): LargaEstanciaMe
   const grossAnualIncome = input.monthyRent * input.rentedMonths
   const tax = input.taxes / 100
   const taxes = input.initialCapital * tax
-  const netAnualReturn = grossAnualIncome - input.maintenanceExpenses - taxes
+  const totalExpenses = input.maintenanceExpenses + taxes + input.monthlyMortageLoan * 12
+  const netAnualReturn = grossAnualIncome - totalExpenses
   let anualReturnPercent = netAnualReturn / input.initialCapital
   anualReturnPercent = isNaN(anualReturnPercent) ? 0 : anualReturnPercent
   let yearsToGetProfit = input.initialCapital / netAnualReturn

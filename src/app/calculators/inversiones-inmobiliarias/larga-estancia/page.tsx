@@ -8,30 +8,30 @@ import * as yup from 'yup'
 import { onSubmitLargaEstancia } from './formulas'
 import { type MetricCardValue } from '@/types/metric'
 import { useState } from 'react'
-
+import { toDollarCurrency, toTwoDecimals } from '@/utils/metrics-format'
 const largaEstanciaMetricDefaultValues: MetricCardValue[] = [
   {
-    value: '$ 0',
+    value: `${toDollarCurrency(0)}`,
     label: 'Ingreso anual bruto'
   },
   {
-    value: '$ 0',
+    value: `${toDollarCurrency(0)}`,
     label: 'Impuestos'
   },
   {
-    value: '$ 0',
+    value: `${toDollarCurrency(0)}`,
     label: 'Rendimiento anual neto'
   },
   {
-    value: '0 %',
+    value: `${toTwoDecimals(0)} %`,
     label: 'Porcentaje del Rendimiento anual'
   },
   {
-    value: '0',
+    value: `${toTwoDecimals(0)}`,
     label: 'Años para recuperar la inversión'
   },
   {
-    value: '$ 0',
+    value: `${toDollarCurrency(0)}`,
     label: 'Rendimiento mensual neto'
   }
 ]
@@ -41,7 +41,8 @@ const largaEstanciaDefaultValues: LargaEstanciaFormValues = {
   taxes: 0,
   monthyRent: 0,
   rentedMonths: 0,
-  maintenanceExpenses: 0
+  maintenanceExpenses: 0,
+  monthlyMortageLoan: 0
 }
 
 const largaEstanciaSchema = yup.object({
@@ -63,6 +64,10 @@ const largaEstanciaSchema = yup.object({
     .min(0, 'Cantidad de meses alquilado debe ser mayor o igual a 0')
     .max(12, 'Cantidad de meses alquilado debe como máximo 12'),
   maintenanceExpenses: yup.number()
+    .typeError('Gastos de mantenimiento debe ser un valor numérico')
+    .required('Gastos de mantenimiento es un campo requerido')
+    .min(0, 'Gastos de mantenimiento debe ser mayor o igual a 0'),
+  monthlyMortageLoan: yup.number()
     .typeError('Gastos de mantenimiento debe ser un valor numérico')
     .required('Gastos de mantenimiento es un campo requerido')
     .min(0, 'Gastos de mantenimiento debe ser mayor o igual a 0')
@@ -117,6 +122,13 @@ export default function LargaEstanciaCalculator() {
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
             placeholder='1600' />
           {errors.maintenanceExpenses && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.maintenanceExpenses.message}</span>}
+        </div>
+        <div className="mb-6">
+          <label htmlFor='monthlyMortageLoan' className="block mb-2 text-sm font-medium text-blue-primary">Cuota mensual del crédito</label>
+          <input type='number' id='monthlyMortageLoan' {...register('monthlyMortageLoan')}
+            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
+            placeholder='1600' />
+          {errors.monthlyMortageLoan && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.monthlyMortageLoan.message}</span>}
         </div>
         <button type="button"
           onClick={handleSubmit(onSubmit)}
