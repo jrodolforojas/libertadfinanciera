@@ -87,6 +87,12 @@ export const monthyExpenseAdvancedDefaultOptions: AdvancedOption[] = [
     name: 'Servicios públicos',
     amount: 0,
     percent: 0
+  },
+  {
+    id: crypto.randomUUID(),
+    name: 'Cuota mensual crédito',
+    amount: 0,
+    percent: 0
   }
 ]
 
