@@ -201,7 +201,7 @@ export default function RentaVacacionalCalculator() {
                     {errors.monthlyRentOptions?.pricePerNight && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.monthlyRentOptions?.pricePerNight.message}</span>}
                   </div>
                   <div>
-                    <label htmlFor="capacityPerMonth" className="block mb-2 text-sm font-medium text-primary dark:text-white">Ocupación por mes</label>
+                    <label htmlFor="capacityPerMonth" className="block mb-2 text-sm font-medium text-primary dark:text-white">Ocupación por mes (%)</label>
                     <Controller control={control} name='monthlyRentOptions.capacityPerMonth' render={({ field }) => (
                       <input type="number" id="capacityPerMonth" value={field.value} onChange={(event) => {
                         const capacityPerMonth = parseInt(event.target.value)
