@@ -19,8 +19,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="es">
       <body className='bg-white'>
+        <div className='p-4 absolute right-0 top-0'>
+          <img className="w-20 h-20 opacity-20" src="/logos/logo-azul.avif" alt="logo" />
+        </div>
         <SidebarServer />
         {children}
       </body>
