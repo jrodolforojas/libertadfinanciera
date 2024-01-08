@@ -9,8 +9,9 @@ export default async function SidebarServer() {
   const supabase = createServerComponentClient<Database>({ cookies: () => cookieStore })
   const { data: { user: sessionUser } } = await supabase.auth.getUser()
   const { data: users } = await supabase.from('users').select('*, role:roles(id, name)').eq('auth_id', sessionUser?.id ?? '')
+  const isFirstTime = users?.[0]?.is_first_time ?? true
 
-  if (sessionUser === null || users === null || users.length !== 1) {
+  if (sessionUser === null || users === null || users.length !== 1 || isFirstTime) {
     return null
   }
 
