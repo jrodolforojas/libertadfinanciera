@@ -40,7 +40,7 @@ export default async function Users({ searchParams }: {
       <header className="flex flex-col w-full mb-5">
         <h2 className="text-3xl font-bold text-center text-primary">Usuarios</h2>
       </header>
-      <div className='flex w-full max-h-12 items-center justify-between mb-5'>
+      <div className='flex w-full max-h-12 items-center justify-between mb-14 sm:mb-5 sm:flex-row flex-col gap-y-3'>
         <SearchBar />
         <Link href={'/admin/users/[id]'} as={'/admin/users/new'} className="text-white bg-secondary hover:bg-secondary-dark focus:ring-4 focus:outline-none
               focus:ring-secondary-dark font-medium rounded-lg text-sm px-5 py-2.5 text-center">Crear usuario</Link>
