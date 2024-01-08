@@ -37,8 +37,11 @@ export default async function Users({ searchParams }: {
 
   return (
     <CrudContainer>
-      <header className="flex flex-col w-full mb-5">
-        <h2 className="text-3xl font-bold text-center text-primary">Usuarios</h2>
+      <header className="flex flex-col w-full">
+        <div className="flex mb-5 flex-col items-center justify-center">
+          <img className="w-20 h-20" src="/logos/logo-verde-azul.avif" alt="logo" />
+          <h2 className="text-3xl font-bold text-center text-primary">Usuarios</h2>
+        </div>
       </header>
       <div className='flex w-full max-h-12 items-center justify-between mb-14 sm:mb-5 sm:flex-row flex-col gap-y-3'>
         <SearchBar />
