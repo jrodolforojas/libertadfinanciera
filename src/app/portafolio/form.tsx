@@ -139,7 +139,8 @@ export default function PortfolioForm() {
   return (
     <CrudContainer>
       <header className="flex flex-col w-full">
-        <div className="mb-5">
+        <div className="mb-5 flex flex-col items-center justify-center">
+          <img className="w-20 h-20" src="/logos/logo-verde-azul.avif" alt="logo" />
           <h2 className="text-3xl font-bold text-center text-primary">Portafolio de inversiones</h2>
         </div>
       </header>
