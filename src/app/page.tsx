@@ -6,9 +6,15 @@ export default async function Home() {
   const cookieStore = cookies()
   const supabase = createServerComponentClient({ cookies: () => cookieStore })
   const { data: { session } } = await supabase.auth.getSession()
+  const { data: user } = await supabase.from('users').select('is_first_time').eq('auth_id', session?.user?.id ?? '')
 
+  const isFirstTime = user?.[0]?.is_first_time ?? true
   if (!session) {
     redirect('/login')
+  }
+
+  if (isFirstTime) {
+    redirect('/create-password')
   }
 
   return (
