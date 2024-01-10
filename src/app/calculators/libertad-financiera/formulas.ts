@@ -1,4 +1,5 @@
 import { type FinancialFreedomCalculatorFormValues, type FinancialFreedomMetrics } from '@/types/form/financial-freedom'
+import { type FinancialFreedomPassiveIncomeCalculatorFormValues, type FinancialFreedomPassiveIncomeMetrics } from '@/types/form/financial-freedom-passive-income'
 import { type MetricCardValue } from '@/types/metric'
 import { toDollarCurrency } from '@/utils/metrics-format'
 
@@ -125,6 +126,35 @@ export function onSubmitFinancialFreedomCalculatorForm(values: FinancialFreedomC
     {
       value: `${toDollarCurrency(financialFreedomMetrics.passiveMonthyIncome)}`,
       label: 'Ingreso pasivo mensual con interés simple'
+    }
+  ]
+
+  return newMetrics
+}
+
+function finalcialFreedomPassiveIncomeCalculate(input: FinancialFreedomPassiveIncomeCalculatorFormValues): FinancialFreedomPassiveIncomeMetrics {
+  const { monthlyPassiveIncome, interestRate } = input
+  const annualPassiveIncome = monthlyPassiveIncome * 12
+  const investedCapital = annualPassiveIncome / (interestRate / 100)
+
+  const result: FinancialFreedomPassiveIncomeMetrics = {
+    annualPassiveIncome,
+    investedCapital
+  }
+
+  return result
+}
+
+export function onSubmitFinancialFreedomPassiveIncomeCalculatorForm(values: FinancialFreedomPassiveIncomeCalculatorFormValues): MetricCardValue[] {
+  const result = finalcialFreedomPassiveIncomeCalculate(values)
+  const newMetrics: MetricCardValue[] = [
+    {
+      value: `${toDollarCurrency(result.annualPassiveIncome)}`,
+      label: 'Ingreso pasivo anual'
+    },
+    {
+      value: `${toDollarCurrency(result.investedCapital)}`,
+      label: 'Capital invertido'
     }
   ]
 
