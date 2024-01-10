@@ -6,6 +6,7 @@ import { type MortageLoanCalculatorMetrics, type MortageLoanCalculatorFormValues
 import { type MetricCardValue } from '@/types/metric'
 import { toDollarCurrency, toTwoDecimals } from '@/utils/metrics-format'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { format } from 'date-fns'
 import { useState } from 'react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -61,6 +62,7 @@ export default function CreditosHipotecariosCalculatorForm() {
   })
 
   const [metrics, setMetrics] = useState<MetricCardValue[]>(metricDefaultValues)
+  const [amortizationTable, setAmortizationTable] = useState<AmortizationTableItem[]>([])
 
   const getLoanInstallment = (data: MortageLoanCalculatorFormValues) => {
     const { loanImport, annualInterestRate, durationInMonths } = data
@@ -111,7 +113,7 @@ export default function CreditosHipotecariosCalculatorForm() {
         monthlyPayment,
         currentBalance: newBalance,
         policies: data.monthlyPolicies,
-        date: new Date(previousElement.date.setMonth(previousElement.date.getMonth() + 1)),
+        date: new Date(new Date(previousElement.date).setMonth(previousElement.date.getMonth() + 1)),
         remainingPayments: data.durationInMonths - i - 1
       }
       table.push(newElement)
@@ -124,6 +126,7 @@ export default function CreditosHipotecariosCalculatorForm() {
     const loanInstallment = getLoanInstallment(data)
     const monthlyPayment = loanInstallment + monthlyPolicies
     const amortizationTable = getAmortizationTable(data, monthlyPayment)
+    setAmortizationTable(amortizationTable)
 
     let totalPayments = 0
     let totalInterest = 0
@@ -168,6 +171,9 @@ export default function CreditosHipotecariosCalculatorForm() {
 
     setMetrics(newMetrics)
   }
+
+  const columns = ['N.º', 'Fecha de pago', 'Saldo inicial', 'Intereses', 'Principal', 'Seguros', 'Total pagos', 'Cierre saldo', 'N.º disponible']
+
   return (
     <main className="flex flex-col items-center justify-between px-10 sm:ml-64 sm:mt-5 pb-8">
       <img className="flex self-center w-20 h-20" src="/logos/logo-verde-azul.avif" alt="logo" />
@@ -240,8 +246,54 @@ export default function CreditosHipotecariosCalculatorForm() {
           <MetricCard metrics={metrics} />
         </div>
       </section>
-      <section className='flex justify-between w-full max-w-6xl sm:flex-row flex-col'>
-        <p>tabla de amortizacion</p>
+      <section className='flex justify-between w-full max-w-6xl flex-col mt-8'>
+        <h3 className='text-2xl font-bold text-blue-text mb-5'>Tabla de amortización</h3>
+        <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-full h-full">
+          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead className="text-xs text-secondary uppercase bg-primary dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                {columns.map(column => (
+                  <th scope="col" key={`col-${column}`} className="px-6 py-3 text-center">
+                    {column}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {amortizationTable.map((item, index) => (
+                <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                  <td className="px-6 py-4 text-center">
+                    {index + 1}
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    {format(item.date, 'dd/MM/yy')}
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    {toDollarCurrency(item.initialBalance)}
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    {toDollarCurrency(item.interest)}
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    {toDollarCurrency(item.amortization)}
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    {toDollarCurrency(item.policies)}
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    {toDollarCurrency(item.monthlyPayment)}
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    {toDollarCurrency(item.currentBalance)}
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    {item.remainingPayments}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </section>
     </main>
   )
