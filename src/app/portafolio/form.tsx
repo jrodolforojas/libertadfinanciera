@@ -10,6 +10,7 @@ import { Select, SelectItem } from '@tremor/react'
 import { useState } from 'react'
 import { toDollarCurrency, toTwoDecimals } from '@/utils/metrics-format'
 import PortfolioPercentSpan from './components/porfolio-percent'
+import Logo from '@/components/logo'
 
 const columns = ['Objetivo', 'Plazo (meses)', 'Aporte Inicial', 'Aporte Mensual', 'Meses Invertidos', 'Valor de la inversión (hoy)',
   'Porcentaje del Portafolio', 'Tipo de interés', 'Rendimiento Promedio Anual', 'Acciones']
@@ -140,7 +141,7 @@ export default function PortfolioForm() {
     <CrudContainer>
       <header className="flex flex-col w-full">
         <div className="mb-5 flex flex-col items-center justify-center">
-          <img className="w-20 h-20" src="/logos/logo-verde-azul.avif" alt="logo" />
+          <Logo />
           <h2 className="text-3xl font-bold text-center text-primary">Portafolio de inversiones</h2>
         </div>
       </header>
