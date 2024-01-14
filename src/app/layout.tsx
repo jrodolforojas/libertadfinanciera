@@ -2,6 +2,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import SidebarServer from '@/components/sidebar-server'
 import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 export const metadata: Metadata = {
   title: 'Plataforma de la comunidad de alumnos de Roberto Olivas',
@@ -25,6 +26,7 @@ export default function RootLayout({
         <SidebarServer />
         {children}
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )
