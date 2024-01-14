@@ -26,7 +26,7 @@ const metricDefaultValues: MetricCardValue[] = [
   },
   {
     value: '0',
-    label: 'Diferencia entre inversión y ahorro'
+    label: 'Diferencia entre inversión y ahorro '
   },
   {
     value: '0',
