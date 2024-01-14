@@ -12,6 +12,7 @@ import { type SubmitHandler, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { DatePicker, type DatePickerValue } from '@tremor/react'
 import { es } from 'date-fns/locale'
+import Logo from '@/components/logo'
 
 const metricDefaultValues: MetricCardValue[] = [
   {
@@ -209,7 +210,7 @@ export default function CreditosHipotecariosCalculatorForm() {
 
   return (
     <main className="flex flex-col items-center justify-between px-10 sm:ml-64 sm:mt-5 pb-8">
-      <img className="flex self-center w-20 h-20" src="/logos/logo-verde-azul.avif" alt="logo" />
+      <Logo />
       <h2 className="text-2xl font-bold text-center text-primary dark:text-white mb-5">Calculadora de Créditos Hipotecarios</h2>
       <section className="flex justify-between w-full max-w-6xl sm:flex-row flex-col">
         <form className="flex flex-col w-full mt-2" aria-label='finalcial freedom calculator'>

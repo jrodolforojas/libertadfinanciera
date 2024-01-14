@@ -1,5 +1,6 @@
 'use client'
 
+import Logo from '@/components/logo'
 import useSwitch from '../inversiones-inmobiliarias/renta-vacacional/hooks/useSwitch'
 import FinancialFreedomForm from './form-financial-freedom'
 import PassiveIncomesCalculatorForm from './form-passive-incomes'
@@ -8,7 +9,7 @@ export default function FinalcialFreedomCalculatorForm() {
   const { isSelected, isActive, toggleValue } = useSwitch()
   return (
     <main className="flex flex-col items-center justify-between px-10 sm:ml-64 sm:mt-5 pb-8">
-      <img className="flex self-center w-20 h-20" src="/logos/logo-verde-azul.avif" alt="logo" />
+      <Logo />
       <h2 className="text-2xl font-bold text-center text-primary dark:text-white mb-5">Calculadora de Libertad Financiera</h2>
       <label className="relative inline-flex items-center cursor-pointer mb-5">
         <input type="checkbox" id='initialCapitalCheckbox' className="sr-only peer" onChange={toggleValue} value={isSelected} />
