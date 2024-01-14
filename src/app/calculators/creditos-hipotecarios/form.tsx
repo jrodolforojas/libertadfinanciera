@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import MetricCard from '@/components/metric-card'
 import { type AmortizationTableItem } from '@/types/form/amortization-table'
 import { type MortageLoanCalculatorMetrics, type MortageLoanCalculatorFormValues } from '@/types/form/mortage-loan'
@@ -7,9 +8,10 @@ import { type MetricCardValue } from '@/types/metric'
 import { toDollarCurrency, toTwoDecimals } from '@/utils/metrics-format'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { format } from 'date-fns'
-import { useState } from 'react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
 import * as yup from 'yup'
+import { DatePicker, type DatePickerValue } from '@tremor/react'
+import { es } from 'date-fns/locale'
 
 const metricDefaultValues: MetricCardValue[] = [
   {
@@ -46,14 +48,36 @@ const formDefaultValues: MortageLoanCalculatorFormValues = {
 }
 
 const schema = yup.object().shape({
-  price: yup.number().required().min(0),
-  annualInterestRate: yup.number().required().min(0),
-  durationInMonths: yup.number().required().min(0),
-  loanImport: yup.number().required().min(0),
+  price: yup.number()
+    .typeError('Precio debe ser un valor numérico')
+    .required('Precio es un campo requerido')
+    .min(0, 'Precio debe ser mayor o igual a 0'),
+  annualInterestRate: yup.number()
+    .typeError('Tasa interés anual debe ser un valor numérico')
+    .required('Tasa interés anual es un campo requerido')
+    .min(0, 'Tasa interés anual debe ser mayor o igual a 0')
+    .max(100, 'Tasa interés anual debe ser menor o igual a 100'),
+  durationInMonths: yup.number()
+    .typeError('Duración debe ser un valor numérico')
+    .required('Duración es un campo requerido')
+    .min(0, 'Duración debe ser mayor o igual a 0'),
+  loanImport: yup.number()
+    .typeError('Importe del préstamo debe ser un valor numérico')
+    .required('Importe del préstamo es un campo requerido')
+    .min(0, 'Importe del préstamo debe ser mayor o igual a 0'),
   startDate: yup.date().required(),
-  prima: yup.number().required().min(0),
-  monthlyPolicies: yup.number().required().min(0),
-  administrativeExpenses: yup.number().required().min(0)
+  prima: yup.number()
+    .typeError('Prima debe ser un valor numérico')
+    .required('Prima es un campo requerido')
+    .min(0, 'Prima debe ser mayor o igual a 0'),
+  monthlyPolicies: yup.number()
+    .typeError('Pólizas mensuales debe ser un valor numérico')
+    .required('Pólizas mensuales es un campo requerido')
+    .min(0, 'Pólizas mensuales debe ser mayor o igual a 0'),
+  administrativeExpenses: yup.number()
+    .typeError('Gastos administrativos debe ser un valor numérico')
+    .required('Gastos administrativos es un campo requerido')
+    .min(0, 'Gastos administrativos debe ser mayor o igual a 0')
 })
 export default function CreditosHipotecariosCalculatorForm() {
   const { register, handleSubmit, formState: { errors } } = useForm<MortageLoanCalculatorFormValues>({
@@ -63,6 +87,11 @@ export default function CreditosHipotecariosCalculatorForm() {
 
   const [metrics, setMetrics] = useState<MetricCardValue[]>(metricDefaultValues)
   const [amortizationTable, setAmortizationTable] = useState<AmortizationTableItem[]>([])
+  const [startDate, setStartDate] = useState<Date>(new Date(Date.now()))
+
+  const handleChangeStartDate = (newDate: DatePickerValue) => {
+    if (newDate instanceof Date) setStartDate(newDate)
+  }
 
   const getLoanInstallment = (data: MortageLoanCalculatorFormValues) => {
     const { loanImport, annualInterestRate, durationInMonths } = data
@@ -121,7 +150,11 @@ export default function CreditosHipotecariosCalculatorForm() {
 
     return table
   }
-  const onSubmit: SubmitHandler<MortageLoanCalculatorFormValues> = (data) => {
+  const onSubmit: SubmitHandler<MortageLoanCalculatorFormValues> = (oldData) => {
+    const data: MortageLoanCalculatorFormValues = {
+      ...oldData,
+      startDate
+    }
     const { monthlyPolicies } = data
     const loanInstallment = getLoanInstallment(data)
     const monthlyPayment = loanInstallment + monthlyPolicies
@@ -139,12 +172,12 @@ export default function CreditosHipotecariosCalculatorForm() {
 
     const totalPaymentResult = totalPayments + data.prima + data.administrativeExpenses
     const result: MortageLoanCalculatorMetrics = {
-      monthlyPayment,
-      loanInstallment,
-      totalPayment: totalPaymentResult,
-      totalMortagePayment: totalInterest + totalPrincipal,
-      totalInterest,
-      difference: totalPaymentResult / data.loanImport
+      monthlyPayment: isNaN(monthlyPayment) ? 0 : monthlyPayment,
+      loanInstallment: isNaN(loanInstallment) ? 0 : loanInstallment,
+      totalPayment: isNaN(totalPaymentResult) ? 0 : totalPaymentResult,
+      totalMortagePayment: isNaN(totalInterest + totalPrincipal) ? 0 : totalInterest + totalPrincipal,
+      totalInterest: isNaN(totalInterest) ? 0 : totalInterest,
+      difference: isNaN(totalPaymentResult / data.loanImport) ? 0 : totalPaymentResult / data.loanImport
     }
     const newMetrics: MetricCardValue[] = [
       {
@@ -184,56 +217,54 @@ export default function CreditosHipotecariosCalculatorForm() {
             <label htmlFor='price' className="block mb-2 text-sm font-medium text-blue-primary">Precio de compra</label>
             <input type='number' id='price' {...register('price')}
               className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
-              placeholder='10000' />
+              placeholder='80000000' />
             {errors.price && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.price.message}</span>}
           </div>
           <div className="mb-6">
             <label htmlFor='annualInterestRate' className="block mb-2 text-sm font-medium text-blue-primary">Tasa de interés anual (%)</label>
             <input type='number' id='annualInterestRate' {...register('annualInterestRate')}
               className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
-              placeholder='1000' />
+              placeholder='10' />
             {errors.annualInterestRate && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.annualInterestRate.message}</span>}
           </div>
           <div className="mb-6">
             <label htmlFor='durationInMonths' className="block mb-2 text-sm font-medium text-blue-primary">Duración del préstamo (en meses)</label>
             <input type='number' id='durationInMonths' {...register('durationInMonths')}
               className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
-              placeholder='20' />
+              placeholder='360' />
             {errors.durationInMonths && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.durationInMonths.message}</span>}
           </div>
           <div className="mb-6">
             <label htmlFor='loanImport' className="block mb-2 text-sm font-medium text-blue-primary">Importe del préstamo</label>
             <input type='number' id='loanImport' {...register('loanImport')}
               className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
-              placeholder='10' />
+              placeholder='72000000' />
             {errors.loanImport && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.loanImport.message}</span>}
           </div>
           <div className="mb-6">
             <label htmlFor='startDate' className="block mb-2 text-sm font-medium text-blue-primary">Fecha de inicio del préstamo</label>
-            <input type='date' id='startDate' {...register('startDate')}
-              className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
-              placeholder='10' />
+            <DatePicker id='startDate' enableYearNavigation={true} enableClear={false} locale={es} value={startDate} onValueChange={handleChangeStartDate} />
             {errors.startDate && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.startDate.message}</span>}
           </div>
           <div className="mb-6">
             <label htmlFor='prima' className="block mb-2 text-sm font-medium text-blue-primary">Prima</label>
             <input type='number' id='prima' {...register('prima')}
               className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
-              placeholder='10' />
+              placeholder='8000000' />
             {errors.prima && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.prima.message}</span>}
           </div>
           <div className="mb-6">
             <label htmlFor='monthlyPolicies' className="block mb-2 text-sm font-medium text-blue-primary">Pólizas mensuales (vida, incendio, desempleo)</label>
             <input type='number' id='monthlyPolicies' {...register('monthlyPolicies')}
               className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
-              placeholder='10' />
+              placeholder='55000' />
             {errors.monthlyPolicies && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.monthlyPolicies.message}</span>}
           </div>
           <div className="mb-6">
             <label htmlFor='administrativeExpenses' className="block mb-2 text-sm font-medium text-blue-primary">Gastos administrativos</label>
             <input type='number' id='administrativeExpenses' {...register('administrativeExpenses')}
               className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
-              placeholder='10' />
+              placeholder='2520000' />
             {errors.administrativeExpenses && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.administrativeExpenses.message}</span>}
           </div>
           <button type="button" onClick={handleSubmit(onSubmit)}
