@@ -1,7 +1,7 @@
 'use client'
 
 import { type Route } from '@/types/route'
-import { HideSidebarIcon, LogoutIcon, MenuIcon } from '@/components/icons'
+import { BugIcon, HideSidebarIcon, LogoutIcon, MenuIcon } from '@/components/icons'
 import SidebarItem from '@/components/sidebar-item'
 import Avatar from '@/components/avatar'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
@@ -56,10 +56,15 @@ export default function MultiLevelSidebar({ routes, user }: {
             </ul>
           </section>
           <footer id="dropdown-cta" className="p-4 mt-6 rounded-lg" role="alert">
-            <button onClick={handleSignOut} className="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg group hover:bg-gray-800 dark:text-white dark:hover:bg-gray-700">
+            <a href='https://chat.whatsapp.com/D19eRU3yBb1GAOQUCd5PAq' target="_blank" rel="noopener noreferrer" className="flex items-center w-full p-2 mb-5
+             text-base text-white transition duration-75 rounded-lg group hover:bg-gray-800 dark:text-white dark:hover:bg-gray-700">
+              <BugIcon />
+              <span className='ml-2 text-white'>¿Encontraste un error?</span>
+            </a>
+            <a onClick={handleSignOut} className="flex items-center w-full p-2 cursor-pointer text-base text-white transition duration-75 rounded-lg group hover:bg-gray-800 dark:text-white dark:hover:bg-gray-700">
               <LogoutIcon />
               <span className='ml-2 text-white'>Cerrar Sesión</span>
-            </button>
+            </a>
           </footer>
         </div>
       </nav>

@@ -1,6 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import SidebarServer from '@/components/sidebar-server'
+import { Analytics } from '@vercel/analytics/react'
 
 export const metadata: Metadata = {
   title: 'Plataforma de la comunidad de alumnos de Roberto Olivas',
@@ -23,6 +24,7 @@ export default function RootLayout({
       <body className='bg-white'>
         <SidebarServer />
         {children}
+        <Analytics />
       </body>
     </html>
   )
