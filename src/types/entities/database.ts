@@ -9,6 +9,56 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      portfolio_item: {
+        Row: {
+          anual_interest: number | null
+          created_at: string
+          goal: string
+          id: string
+          initial_investment: number | null
+          monthly_investment: number | null
+          months: number | null
+          months_investment: number | null
+          today_value: number | null
+          type: string | null
+          user_id: string
+        }
+        Insert: {
+          anual_interest?: number | null
+          created_at?: string
+          goal: string
+          id?: string
+          initial_investment?: number | null
+          monthly_investment?: number | null
+          months?: number | null
+          months_investment?: number | null
+          today_value?: number | null
+          type?: string | null
+          user_id: string
+        }
+        Update: {
+          anual_interest?: number | null
+          created_at?: string
+          goal?: string
+          id?: string
+          initial_investment?: number | null
+          monthly_investment?: number | null
+          months?: number | null
+          months_investment?: number | null
+          today_value?: number | null
+          type?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'portfolio_item_user_id_fkey'
+            columns: ['user_id']
+            isOneToOne: false
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          }
+        ]
+      }
       roles: {
         Row: {
           created_at: string
