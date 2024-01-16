@@ -11,57 +11,60 @@ import { useState } from 'react'
 import { toDollarCurrency, toTwoDecimals } from '@/utils/metrics-format'
 import PortfolioPercentSpan from './components/porfolio-percent'
 import Logo from '@/components/logo'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { type Database } from '@/types/entities/database'
+import { useRouter } from 'next/navigation'
+import { Toaster, toast } from 'sonner'
 
 const columns = ['Objetivo', 'Plazo (meses)', 'Aporte Inicial', 'Aporte Mensual', 'Meses Invertidos', 'Valor de la inversión (hoy)',
   'Porcentaje del Portafolio', 'Tipo de interés', 'Rendimiento Promedio Anual', 'Acciones']
 
-const investmentsDefaultValues: Porfolio = {
-  investments: [
-    {
-      id: crypto.randomUUID(),
-      goal: 'Libertad Financiera',
-      months: 240,
-      initialInvestment: 0,
-      monthlyInvestment: 1000,
-      monthsInvestment: 60,
-      todayValue: 75424,
-      type: 'compuesto',
-      anualInterest: 9
-    },
-    {
-      id: crypto.randomUUID(),
-      goal: 'Comprar casa',
-      months: 120,
-      initialInvestment: 20000,
-      monthlyInvestment: 500,
-      monthsInvestment: 60,
-      todayValue: 71624,
-      type: 'compuesto',
-      anualInterest: 10
-    },
-    {
-      id: crypto.randomUUID(),
-      goal: 'Comprar carro',
-      months: 60,
-      initialInvestment: 0,
-      monthlyInvestment: 500,
-      monthsInvestment: 60,
-      todayValue: 37124,
-      type: 'compuesto',
-      anualInterest: 8.4
-    }
-  ],
-  totalMonths: 420,
-  totalInitialInvestment: 20000,
-  totalMonthlyInvestment: 2000,
-  totalMonthsInvestment: 180,
-  totalTodayValue: 184172,
-  totalAnualInterest: 9.13
-}
-export default function PortfolioForm() {
-  const [portfolio, setPortfolio] = useState(investmentsDefaultValues)
+export default function PortfolioForm({ defaultPorfolio }: { defaultPorfolio: Porfolio }) {
+  const [portfolio, setPortfolio] = useState(defaultPorfolio)
+  const supabase = createClientComponentClient<Database>()
+  const router = useRouter()
+
+  const savePortfolio = async () => {
+    const userResponse = await supabase.auth.getUser()
+    const { data: { user } } = userResponse
+    const userId = user?.id ?? ''
+    if (userId === '') return
+
+    await supabase.from('portfolio_item').delete().eq('user_id', userId)
+
+    const portfolioToSave = watch('investments')
+    if (portfolioToSave == null) return
+
+    portfolioToSave.forEach(async (investment) => {
+      const { error } = await supabase.from('portfolio_item').insert({
+        user_id: userId,
+        goal: investment.goal,
+        months: investment.months,
+        initial_investment: investment.initialInvestment,
+        monthly_investment: investment.monthlyInvestment,
+        months_investment: investment.monthsInvestment,
+        today_value: investment.todayValue,
+        type: investment.type,
+        anual_interest: investment.anualInterest
+      })
+      if (error !== null) {
+        console.log({ error, investment })
+        toast.error('Error al guardar el portafolio')
+        router.refresh()
+        router.replace('/portafolio')
+      }
+    })
+    toast.success('Portafolio guardado correctamente')
+    router.refresh()
+    router.replace('/portafolio')
+  }
+
+  const handleOnSave = () => {
+    savePortfolio()
+  }
+
   const { control, register, watch } = useForm<PortfolioFormValues>({
-    defaultValues: investmentsDefaultValues,
+    defaultValues: defaultPorfolio,
     resolver: yupResolver(portfolioSchema)
   })
 
@@ -146,8 +149,8 @@ export default function PortfolioForm() {
         </div>
       </header>
       <div className='flex items-center justify-end w-full gap-3'>
-        <button className="flex self-end text-white bg-secondary hover:bg-secondary-dark focus:ring-4 focus:outline-none
-              focus:ring-secondary-dark font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5"
+        <button className="flex self-end text-white bg-primary hover:bg-primary-light focus:ring-4 focus:outline-none
+              focus:ring-primary-light font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5"
           onClick={() => {
             append({
               goal: 'Nuevo objetivo',
@@ -162,6 +165,10 @@ export default function PortfolioForm() {
             updatePorfolio()
           }}
         >Agregar inversión</button>
+        <button className="flex self-end text-white bg-secondary hover:bg-secondary-dark focus:ring-4 focus:outline-none
+              focus:ring-secondary-dark font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5"
+          onClick={handleOnSave}
+        >Guardar</button>
       </div>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-full h-full">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -358,6 +365,7 @@ export default function PortfolioForm() {
           </tfoot>
         </table>
       </div>
+      <Toaster position="top-center" theme='dark' />
     </CrudContainer>
   )
 }
