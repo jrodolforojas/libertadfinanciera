@@ -1,8 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
-const DEFAULT_PASSWORD = '1nV3rS10n3s'
-
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url)
   const email = requestUrl.searchParams.get('email')
@@ -20,10 +18,12 @@ export async function GET(request: NextRequest) {
       persistSession: false
     }
   })
+
+  const randomPassword = Math.random().toString(36).slice(-8)
   // authenticate user
   const { data, error } = await supabase.auth.admin.createUser({
     email,
-    password: DEFAULT_PASSWORD
+    password: randomPassword
   })
   if (error?.status) {
     console.log({ msg: 'error while creating user', status: error.status, message: error.message, name: error.name })
@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
     data: {
       name,
       email,
-      password: DEFAULT_PASSWORD
+      password: randomPassword
     }
   })
 
