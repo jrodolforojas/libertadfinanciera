@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
     }
   })
 
-  const randomPassword = Math.random().toString(36).slice(-8)
+  const randomPassword = '1nV3rS10n3s'
   // authenticate user
   const { data, error } = await supabase.auth.admin.createUser({
     email,
