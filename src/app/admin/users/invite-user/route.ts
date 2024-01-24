@@ -26,7 +26,6 @@ export async function GET(request: NextRequest) {
     password: randomPassword
   })
   if (error?.status) {
-    console.log({ msg: 'error while creating user', status: error.status, message: error.message, name: error.name })
     return NextResponse.redirect(`${requestUrl.origin}/admin/users`)
   }
 
@@ -48,7 +47,6 @@ export async function GET(request: NextRequest) {
   })
 
   if (invitationError?.status) {
-    console.log({ msg: 'error while sending invitation', status: invitationError.status, message: invitationError.message, name: invitationError.name })
     return NextResponse.redirect(`${requestUrl.origin}/admin/users`)
   }
 

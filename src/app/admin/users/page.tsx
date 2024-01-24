@@ -17,7 +17,7 @@ export default async function Users({ searchParams }: {
   const searchedUser = typeof searchParams.user === 'string' ? searchParams.user : ''
   const cookieStore = cookies()
   const supabase = createServerComponentClient<Database>({ cookies: () => cookieStore })
-  const { data } = await supabase.from('users').select('*, role:roles(id, name)').ilike('name', `%${searchedUser}%`)
+  const { data } = await supabase.from('users').select('*, role:roles(id, name)').ilike('name', `%${searchedUser}%`).order('created_at', { ascending: false })
 
   const users = data?.map(item => {
     const user: User = {
@@ -45,11 +45,15 @@ export default async function Users({ searchParams }: {
       </header>
       <div className='flex w-full max-h-12 items-center justify-between mb-14 sm:mb-5 sm:flex-row flex-col gap-y-3'>
         <SearchBar />
-        <Link href={'/admin/users/[id]'} as={'/admin/users/new'} className="text-white bg-secondary hover:bg-secondary-dark focus:ring-4 focus:outline-none
+        <div className='flex gap-x-5'>
+          <Link href={'/admin/users/massive'} className="text-white bg-secondary hover:bg-secondary-dark focus:ring-4 focus:outline-none
+              focus:ring-secondary-dark font-medium rounded-lg text-sm px-5 py-2.5 text-center">Carga Masiva de Usuarios</Link>
+          <Link href={'/admin/users/[id]'} as={'/admin/users/new'} className="text-white bg-secondary hover:bg-secondary-dark focus:ring-4 focus:outline-none
               focus:ring-secondary-dark font-medium rounded-lg text-sm px-5 py-2.5 text-center">Crear usuario</Link>
+        </div>
       </div>
 
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-full h-full">
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-full h-full mb-16">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-secondary uppercase bg-primary dark:bg-gray-700 dark:text-gray-400">
             <tr>
