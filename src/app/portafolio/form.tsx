@@ -48,7 +48,6 @@ export default function PortfolioForm({ defaultPorfolio }: { defaultPorfolio: Po
         anual_interest: investment.anualInterest
       })
       if (error !== null) {
-        console.log({ error, investment })
         toast.error('Error al guardar el portafolio')
         router.refresh()
         router.replace('/portafolio')

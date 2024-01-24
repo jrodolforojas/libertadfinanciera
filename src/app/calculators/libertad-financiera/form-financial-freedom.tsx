@@ -114,7 +114,6 @@ export default function FinancialFreedomForm() {
   }
 
   const onSubmit: SubmitHandler<FinancialFreedomCalculatorFormValues> = (data) => {
-    console.log({ extraordinaryInvestments: data.aditionals })
     const newMetrics = onSubmitFinancialFreedomCalculatorForm(data)
     setMetrics(newMetrics)
   }
