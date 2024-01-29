@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
     }
   })
 
-  const randomPassword = process.env.NEXT_PUUBLIC_DEFAULT_PASSWORD ?? ''
+  const randomPassword = process.env.NEXT_PUBLIC_DEFAULT_INVITE_PASSWORD ?? ''
   // authenticate user
   const { data, error } = await supabase.auth.admin.createUser({
     email,
