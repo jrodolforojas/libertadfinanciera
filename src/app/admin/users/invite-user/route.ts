@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
     }
   })
 
-  const randomPassword = '1nV3rS10n3s'
+  const randomPassword = process.env.NEXT_PUUBLIC_DEFAULT_PASSWORD ?? ''
   // authenticate user
   const { data, error } = await supabase.auth.admin.createUser({
     email,
@@ -38,13 +38,7 @@ export async function GET(request: NextRequest) {
     auth_id: data?.user?.id
   })
   // send invitation link
-  const { error: invitationError } = await supabase.auth.admin.inviteUserByEmail(email, {
-    data: {
-      name,
-      email,
-      password: randomPassword
-    }
-  })
+  const { error: invitationError } = await supabase.auth.admin.inviteUserByEmail(email)
 
   if (invitationError?.status) {
     return NextResponse.redirect(`${requestUrl.origin}/admin/users`)
