@@ -11,8 +11,12 @@ import { Toaster, toast } from 'sonner'
 import { type ResetPasswordFormValues } from '@/types/form/reset-password'
 
 const createPasswordSchema = yup.object({
-  password: yup.string().required('Contraseña es un campo requerido').min(6, 'Contraseña debe ser mayor a 6 caracteres'),
-  passwordConfirmation: yup.string().required('Confirmación de contraseña es un campo requerido').oneOf([yup.ref('password')], 'Las contraseñas deben coincidir')
+  password: yup.string().required('Contraseña es un campo requerido')
+    .min(6, 'Contraseña debe ser mayor a 6 caracteres')
+    .max(30, 'Contraseña debe ser menor a 30 caracteres')
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/, 'La contraseña debe contener al menos una letra mayúscula, una letra minúscula y un número'),
+  passwordConfirmation: yup.string().required('Confirmación de contraseña es un campo requerido')
+    .oneOf([yup.ref('password')], 'Las contraseñas deben coincidir')
 })
 
 export default function CreatePasswordPage() {
@@ -60,9 +64,19 @@ export default function CreatePasswordPage() {
         </a>
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-primary md:text-2xl dark:text-white">
-              Crea tu contraseña
-            </h1>
+            <header className='flex flex-col w-full'>
+              <h1 className="text-xl font-bold leading-tight tracking-tight text-primary md:text-2xl dark:text-white">
+                Crea tu contraseña
+              </h1>
+              <h3 className="text-sm text-primary mt-5">La contraseña debe contener:</h3>
+              <ul>
+                <li className='text-gray-600 text-xs'>Mínimo 6 caracteres</li>
+                <li className='text-gray-600 text-xs'>Máximo 30 caracteres</li>
+                <li className='text-gray-600 text-xs'>Al menos una letra mayúscula</li>
+                <li className='text-gray-600 text-xs'>Al menos una letra minúscula</li>
+                <li className='text-gray-600 text-xs'>Al menos un número</li>
+              </ul>
+            </header>
             <form className="space-y-4 md:space-y-6">
               <div className='relative'>
                 <label htmlFor="password" className="block mb-2 text-sm font-medium text-primary dark:text-white">Contraseña</label>
