@@ -350,16 +350,16 @@ export default function PortfolioForm({ defaultPorfolio }: { defaultPorfolio: Po
           </tbody>
           <tfoot className="text-secondary uppercase bg-secondary dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="row" className="px-6 py-3 text-center text-primary">Total</th>
-              <td className="px-6 py-3 text-center text-primary font-bold">{portfolio.totalMonths}</td>
-              <td className="px-6 py-3 text-center text-primary font-bold">{toDollarCurrency(portfolio.totalInitialInvestment)}</td>
-              <td className="px-6 py-3 text-center text-primary font-bold">{toDollarCurrency(portfolio.totalMonthlyInvestment)}</td>
-              <td className="px-6 py-3 text-center text-primary font-bold">{portfolio.totalMonthsInvestment}</td>
-              <td className="px-6 py-3 text-center text-primary font-bold">{toDollarCurrency(portfolio.totalTodayValue)}</td>
-              <td className="px-6 py-3 text-center text-primary font-bold"></td>
-              <td className="px-6 py-3 text-center text-primary font-bold">No aplica</td>
-              <td className="px-6 py-3 text-center text-primary font-bold">{toTwoDecimals(portfolio.totalAnualInterest)}%</td>
-              <td className="px-6 py-3 text-center text-primary font-bold"></td>
+              <th scope="row" className="p-3 text-primary">Total</th>
+              <td className="p-3 text-primary font-bold">{portfolio.totalMonths}</td>
+              <td className="p-3 text-primary font-bold">{toDollarCurrency(portfolio.totalInitialInvestment)}</td>
+              <td className="p-3 text-primary font-bold">{toDollarCurrency(portfolio.totalMonthlyInvestment)}</td>
+              <td className="p-3 text-primary font-bold">{portfolio.totalMonthsInvestment}</td>
+              <td className="p-3 text-primary font-bold">{toDollarCurrency(portfolio.totalTodayValue)}</td>
+              <td className="p-3 text-primary font-bold"></td>
+              <td className="p-3 text-primary font-bold"></td>
+              <td className="p-3 text-primary font-bold">{toTwoDecimals(portfolio.totalAnualInterest)}%</td>
+              <td className="p-3 text-primary font-bold"></td>
             </tr>
           </tfoot>
         </table>
