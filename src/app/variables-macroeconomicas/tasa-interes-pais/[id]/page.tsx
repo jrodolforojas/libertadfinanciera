@@ -9,8 +9,8 @@ import { AreaChart, Card, Title } from '@tremor/react'
 
 const today = new Date()
 const thirtyDaysAgo = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30)
-const monetaryPolicyRateMinimumDate = new Date(2006, 3, 16)
-const treasuryRateMinimumDate = new Date(2005, 1, 1)
+const monetaryPolicyRateMinimumDate = new Date(2006, 2, 16)
+const treasuryRateMinimumDate = new Date(2005, 2, 1)
 
 export default async function CountryTasaInteres({ params, searchParams }: {
   params: { id: string }
