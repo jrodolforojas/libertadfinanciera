@@ -41,7 +41,10 @@ export const getExchangeRatesByPeriocity = async (periocity: string) => {
   const response = await fetch(url.toString(), {
     next: { revalidate: 20 }
   })
-  if (!response.ok) throw new Error('Error fetching exchange rates. Status: ' + response.status)
+  if (!response.ok) {
+    console.error('Error fetching exchange rates by periocity. Status: ' + response.status)
+    return []
+  }
   const { data } = await response.json() as ExchangeRateResponse
   const dataFormatted = data.map(item => ({
     ...item,
