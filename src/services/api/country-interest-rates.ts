@@ -18,6 +18,7 @@ export const getAllCountryInterestRates = async ({ dateFrom, dateTo, country }: 
     cache: 'no-cache'
   })
   if (!response.ok) {
+    console.error({ url, status: response.status })
     throw new Error('Error fetch country interest rates. Status: ' + response.status)
   }
   const { data } = await response.json() as CountryInterestRateResponse
