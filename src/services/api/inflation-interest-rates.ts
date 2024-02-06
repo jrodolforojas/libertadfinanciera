@@ -15,7 +15,7 @@ export const getAllInflationRates = async ({ dateFrom, dateTo, country }: Inflat
   }
 
   const response = await fetch(url, {
-    next: { revalidate: 5 }
+    cache: 'no-cache'
   })
   if (!response.ok) throw new Error('Error fetching inflation interest rates. Status: ' + response.status)
   const { data } = await response.json() as InflationRateResponse
@@ -49,7 +49,7 @@ export const getInflationRatesByPeriocity = async ({ country, periocity }: { cou
   url += `/filter?periocity=${periocity}`
 
   const response = await fetch(url, {
-    next: { revalidate: 5 }
+    cache: 'no-cache'
   })
 
   if (!response.ok) throw new Error('Error fetching credit exchange rates. Status: ' + response.status)
@@ -90,6 +90,14 @@ export const getTodayInflationRate = async ({ country }: { country: string }) =>
   if (!response.ok) throw new Error('Error fetching credit exchange rates. Status: ' + response.status)
   const { data } = await response.json() as InflationRateTodayResponse
 
+  if (!data) {
+    const rate: InflationRate = {
+      date: new Date(),
+      value: 0,
+      dateFormatted: format(new Date(), 'dd/MM/yyyy')
+    }
+    return rate
+  }
   const rate: InflationRate = {
     ...data,
     dateFormatted: format(new Date(data.date), 'dd/MM/yyyy')
