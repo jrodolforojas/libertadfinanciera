@@ -19,7 +19,6 @@ export default function Range({ minimumDate }: { minimumDate: Date }) {
   useEffect(() => {
     const requestUrl = new URL(location.origin + pathName + '?' + searchParams.toString())
     if (dateRange?.from && dateRange?.to) {
-      console.log({ dateRange })
       requestUrl.searchParams.set('dateFrom', format(dateRange.from, 'yyyy/MM/dd') ?? '')
       requestUrl.searchParams.set('dateTo', format(dateRange.to, 'yyyy/MM/dd') ?? '')
       router.push(requestUrl.toString())
