@@ -1,4 +1,5 @@
 import { type ExchangeRateSpanish } from '@/types/api/exchange-rate'
+import { LABELS } from '@/utils/labels'
 import { AreaChart as TremorAreaChart, Card, Title } from '@tremor/react'
 
 interface Props {
@@ -19,7 +20,7 @@ export default async function AreaChart({ title, data, categories, colors, minVa
         categories={categories}
         colors={colors}
         minValue={minValue}
-        noDataText='No hay datos para mostrar'
+        noDataText={LABELS.NO_DATA_FOUND}
       />
     </Card>
   )

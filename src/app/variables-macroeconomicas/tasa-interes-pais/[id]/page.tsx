@@ -6,11 +6,12 @@ import { getAllCountryInterestRates, getTodayCountryInterestRate } from '@/servi
 import { type CountryInterestRateSpanish } from '@/types/api/country-interest-rate'
 import { toTwoDecimals } from '@/utils/metrics-format'
 import { AreaChart, Card, Title } from '@tremor/react'
+import { LABELS } from '@/utils/labels'
 
 const today = new Date()
 const thirtyDaysAgo = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30)
-const monetaryPolicyRateMinimumDate = new Date(2006, 0, 1)
-const treasuryRateMinimumDate = new Date(2005, 1, 1)
+const monetaryPolicyRateMinimumDate = new Date(2006, 2, 16)
+const treasuryRateMinimumDate = new Date(2005, 3, 1)
 
 export default async function CountryTasaInteres({ params, searchParams }: {
   params: { id: string }
@@ -81,7 +82,7 @@ export default async function CountryTasaInteres({ params, searchParams }: {
             data={data}
             categories={['valor']}
             colors={['cyan']}
-            noDataText='No hay datos para mostrar'
+            noDataText={LABELS.NO_DATA_FOUND}
           />
         </Card>
       </article>

@@ -6,6 +6,7 @@ import { toTwoDecimals } from '@/utils/metrics-format'
 import { type CreditInterestRateSpanish } from '@/types/api/credit-interest-rate'
 import { AreaChart, Card, Title } from '@tremor/react'
 import { format } from 'date-fns'
+import { LABELS } from '@/utils/labels'
 
 const today = new Date()
 const thirtyDaysAgo = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30)
@@ -81,7 +82,7 @@ export default async function CreditInterestRates({ params, searchParams }: {
             data={data}
             categories={['valor']}
             colors={['cyan']}
-            noDataText='No hay datos para mostrar'
+            noDataText={LABELS.NO_DATA_FOUND}
           />
         </Card>
       </article>

@@ -7,6 +7,7 @@ import { toTwoDecimals } from '@/utils/metrics-format'
 import { type InflationRate, type InflationRateSpanish } from '@/types/api/inflation-interest-rate'
 import { AreaChart, BadgeDelta, Card, Tab, TabGroup, TabList, TabPanel, TabPanels, Title } from '@tremor/react'
 import PeriocityPills from '@/components/periocity-pills'
+import { LABELS } from '@/utils/labels'
 
 const today = new Date()
 const thirtyDaysAgo = new Date(today.getFullYear(), today.getMonth() - 3, today.getDate())
@@ -105,7 +106,7 @@ export default async function InflationInterestRatePage({ params, searchParams }
                 data={data}
                 categories={['valor']}
                 colors={['cyan']}
-                noDataText='No hay datos para mostrar'
+                noDataText={LABELS.NO_DATA_FOUND}
               />
             </Card>
           )
@@ -125,7 +126,7 @@ export default async function InflationInterestRatePage({ params, searchParams }
                       data={data}
                       categories={['valor']}
                       colors={['cyan']}
-                      noDataText='No hay datos para mostrar'
+                      noDataText={LABELS.NO_DATA_FOUND}
                     />
                   </Card>
                 </TabPanel>
