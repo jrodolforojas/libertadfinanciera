@@ -12,6 +12,8 @@ const today = new Date()
 const thirtyDaysAgo = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30)
 const basicPassiveRateMinimumDate = new Date(1981, 2, 26)
 const newYorkPrimeMinimumDate = new Date(1996, 0, 3)
+const basicPassiveRateReference = 'https://gee.bccr.fi.cr/indicadoreseconomicos/cuadros/frmvercatcuadro.aspx?CodCuadro=17&Idioma=1'
+const newYorkPrimeReference = 'https://gee.bccr.fi.cr/indicadoreseconomicos/Cuadros/frmVerCatCuadro.aspx?CodCuadro=60&Idioma=1'
 
 export default async function CreditInterestRates({ params, searchParams }: {
   params: { id: string }
@@ -40,6 +42,8 @@ export default async function CreditInterestRates({ params, searchParams }: {
   const todayRateLabel = currentCountry.id === 'usa' ? 'New York Prime' : 'Tasa Básica Pasiva'
 
   const minimumDate = currentCountry.id === 'usa' ? newYorkPrimeMinimumDate : basicPassiveRateMinimumDate
+
+  const reference = currentCountry.id === 'usa' ? newYorkPrimeReference : basicPassiveRateReference
 
   const creditInterestRates = await getAllCreditInterestRates({ dateFrom, dateTo, country: currentCountry.id })
 
@@ -89,7 +93,7 @@ export default async function CreditInterestRates({ params, searchParams }: {
       <footer className="mt-8 pb-5">
         <p className='text-sm text-gray-500 text-center'>
           Los datos utilizados en esta página son obtenidos del {' '}
-          <a href='https://www.bccr.fi.cr/' className='text-secondary hover:underline'>Banco Central de Costa Rica</a>.
+          <a href={reference} className='text-secondary hover:underline' target='_blank' rel="noreferrer">Banco Central de Costa Rica</a>.
         </p>
       </footer>
     </section>
