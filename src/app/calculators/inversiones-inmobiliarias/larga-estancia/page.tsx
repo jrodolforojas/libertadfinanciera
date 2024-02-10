@@ -50,15 +50,18 @@ const largaEstanciaSchema = yup.object({
   initialCapital: yup.number()
     .typeError('Capital inicial debe ser un valor numérico')
     .required('Capital inicial es un campo requerido')
-    .min(0, 'Capital inicial debe ser mayor o igual a 0'),
+    .min(0, 'Capital inicial debe ser mayor o igual a 0')
+    .max(999999999, 'Capital inicial debe ser menor a 999999999'),
   taxes: yup.number()
     .typeError('Impuestos debe ser un valor numérico')
     .required('Impuestos es un campo requerido')
-    .min(0, 'Impuestos debe ser mayor o igual a 0'),
+    .min(0, 'Impuestos debe ser mayor o igual a 0')
+    .max(999999999, 'Impuestos debe ser menor a 999999999'),
   monthyRent: yup.number()
     .typeError('Alquiler mensual debe ser un valor numérico')
     .required('Alquiler mensual es un campo requerido')
-    .min(0, 'Alquiler mensual debe ser mayor o igual a 0'),
+    .min(0, 'Alquiler mensual debe ser mayor o igual a 0')
+    .max(999999999, 'Alquiler mensual debe ser menor a 999999999'),
   rentedMonths: yup.number()
     .typeError('Cantidad de meses alquilado debe ser un valor numérico')
     .required('Cantidad de meses alquilado es un campo requerido')
@@ -67,11 +70,13 @@ const largaEstanciaSchema = yup.object({
   maintenanceExpenses: yup.number()
     .typeError('Gastos de mantenimiento debe ser un valor numérico')
     .required('Gastos de mantenimiento es un campo requerido')
-    .min(0, 'Gastos de mantenimiento debe ser mayor o igual a 0'),
+    .min(0, 'Gastos de mantenimiento debe ser mayor o igual a 0')
+    .max(999999999, 'Gastos de mantenimiento debe ser menor a 999999999'),
   monthlyMortageLoan: yup.number()
     .typeError('Gastos de mantenimiento debe ser un valor numérico')
     .required('Gastos de mantenimiento es un campo requerido')
     .min(0, 'Gastos de mantenimiento debe ser mayor o igual a 0')
+    .max(999999999, 'Gastos de mantenimiento debe ser menor a 999999999')
 })
 
 export default function LargaEstanciaCalculator() {

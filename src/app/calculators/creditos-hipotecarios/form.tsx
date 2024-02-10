@@ -52,7 +52,8 @@ const schema = yup.object().shape({
   price: yup.number()
     .typeError('Precio debe ser un valor numérico')
     .required('Precio es un campo requerido')
-    .min(0, 'Precio debe ser mayor o igual a 0'),
+    .min(0, 'Precio debe ser mayor o igual a 0')
+    .max(999999999, 'Precio debe ser menor a 999999999'),
   annualInterestRate: yup.number()
     .typeError('Tasa interés anual debe ser un valor numérico')
     .required('Tasa interés anual es un campo requerido')
@@ -61,24 +62,29 @@ const schema = yup.object().shape({
   durationInMonths: yup.number()
     .typeError('Duración debe ser un valor numérico')
     .required('Duración es un campo requerido')
-    .min(0, 'Duración debe ser mayor o igual a 0'),
+    .min(0, 'Duración debe ser mayor o igual a 0')
+    .max(100, 'Duración debe ser menor o igual a 100'),
   loanImport: yup.number()
     .typeError('Importe del préstamo debe ser un valor numérico')
     .required('Importe del préstamo es un campo requerido')
-    .min(0, 'Importe del préstamo debe ser mayor o igual a 0'),
+    .min(0, 'Importe del préstamo debe ser mayor o igual a 0')
+    .max(999999999, 'Importe del préstamo debe ser menor a 999999999'),
   startDate: yup.date().required(),
   prima: yup.number()
     .typeError('Prima debe ser un valor numérico')
     .required('Prima es un campo requerido')
-    .min(0, 'Prima debe ser mayor o igual a 0'),
+    .min(0, 'Prima debe ser mayor o igual a 0')
+    .max(999999999, 'Prima debe ser menor a 999999999'),
   monthlyPolicies: yup.number()
     .typeError('Pólizas mensuales debe ser un valor numérico')
     .required('Pólizas mensuales es un campo requerido')
-    .min(0, 'Pólizas mensuales debe ser mayor o igual a 0'),
+    .min(0, 'Pólizas mensuales debe ser mayor o igual a 0')
+    .max(999999999, 'Pólizas mensuales debe ser menor a 999999999'),
   administrativeExpenses: yup.number()
     .typeError('Gastos administrativos debe ser un valor numérico')
     .required('Gastos administrativos es un campo requerido')
     .min(0, 'Gastos administrativos debe ser mayor o igual a 0')
+    .max(999999999, 'Gastos administrativos debe ser menor a 999999999')
 })
 export default function CreditosHipotecariosCalculatorForm() {
   const { register, handleSubmit, formState: { errors } } = useForm<MortageLoanCalculatorFormValues>({
