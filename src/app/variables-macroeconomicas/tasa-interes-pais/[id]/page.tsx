@@ -12,6 +12,8 @@ const today = new Date()
 const thirtyDaysAgo = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30)
 const monetaryPolicyRateMinimumDate = new Date(2006, 2, 16)
 const treasuryRateMinimumDate = new Date(2005, 3, 1)
+const monetaryPolicyRateReference = 'https://gee.bccr.fi.cr/indicadoreseconomicos/cuadros/frmvercatcuadro.aspx?CodCuadro=779&Idioma=1'
+const treasuryRateReference = 'https://gee.bccr.fi.cr/indicadoreseconomicos/Cuadros/frmVerCatCuadro.aspx?CodCuadro=677&Idioma=1'
 
 export default async function CountryTasaInteres({ params, searchParams }: {
   params: { id: string }
@@ -89,7 +91,8 @@ export default async function CountryTasaInteres({ params, searchParams }: {
       <footer className="mt-8 pb-5">
         <p className='text-sm text-gray-500 text-center'>
           Los datos utilizados en esta página son obtenidos del {' '}
-          <a href='https://www.bccr.fi.cr/' className='text-green-primary hover:underline'>Banco Central de Costa Rica</a>.
+          <a href={currentCountry.id === 'usa' ? treasuryRateReference : monetaryPolicyRateReference} target='_blank'
+            className='text-green-primary hover:underline' rel="noreferrer">Banco Central de Costa Rica</a>.
         </p>
       </footer>
     </section>

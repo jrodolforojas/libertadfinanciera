@@ -103,7 +103,7 @@ export default async function DollarColonesExchangeRate({ searchParams }: {
       <footer className="mt-5 pb-5">
         <p className='text-sm text-gray-500 text-center'>
           Los datos utilizados en esta página son obtenidos del {' '}
-          <a href='https://www.bccr.fi.cr/' className='text-secondary hover:underline'>Banco Central de Costa Rica</a>.
+          <a href='https://gee.bccr.fi.cr/indicadoreseconomicos/Cuadros/frmVerCatCuadro.aspx?CodCuadro=400&Idioma=1' target='_blank' className='text-secondary hover:underline' rel="noreferrer">Banco Central de Costa Rica</a>.
         </p>
       </footer>
     </section>
