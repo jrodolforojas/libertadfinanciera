@@ -54,7 +54,7 @@ export default function PassiveIncomesCalculatorForm() {
     <section className="flex justify-between w-full max-w-6xl sm:flex-row flex-col">
       <form className="flex flex-col w-full mt-8" aria-label='finalcial freedom calculator'>
         <div className="mb-6">
-          <label htmlFor='monthlyPassiveIncome' className="block mb-2 text-sm font-medium text-blue-primary">Ingresos Pasivos Mensuales</label>
+          <label htmlFor='monthlyPassiveIncome' className="block mb-2 text-sm font-medium text-blue-primary">Ingresos Pasivos Mensuales ($)</label>
           <input type='number' id='monthlyPassiveIncome' {...register('monthlyPassiveIncome')}
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
             placeholder='10000' />

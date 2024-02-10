@@ -94,7 +94,7 @@ export default function RentaVacacionalCalculator() {
     <section className="flex justify-between w-full max-w-6xl sm:flex-row flex-col">
       <form className="flex flex-col w-full mt-8" aria-label='renta vacacional calculator'>
         <div className="mb-6 flex-col flex">
-          <label htmlFor='initialCapital' className="block mb-2 text-sm font-medium text-blue-primary">Inversión inicial</label>
+          <label htmlFor='initialCapital' className="block mb-2 text-sm font-medium text-blue-primary">Inversión inicial ($)</label>
           <input type='number' id='initialCapital' {...register('initialCapital')} disabled={isInitialCapitalsActive}
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
             placeholder='300000' />
@@ -135,7 +135,7 @@ export default function RentaVacacionalCalculator() {
                         {errors.initialCapitalOptions?.[index] && <span className="text-sm text-red-600 dark:text-red-500">{errors.initialCapitalOptions[index]?.name?.message}</span>}
                       </div>
                       <div className='flex flex-col w-full'>
-                        <label htmlFor={`${option.id}-amount`} className="sr-only">{`option-${index}-amount`}</label>
+                        <label htmlFor={`${option.id}-amount`} className="sr-only">{`option-${index}-amount`} ($)</label>
                         <Controller control={control} name={`initialCapitalOptions.${index}.amount` as const} render={({ field }) => (
                           <input
                             type='number'
@@ -166,7 +166,7 @@ export default function RentaVacacionalCalculator() {
           )}
         </div>
         <div className="mb-6 flex-col flex">
-          <label htmlFor='monthyRent' className="block mb-2 text-sm font-medium text-blue-primary">Alquiler Mensual</label>
+          <label htmlFor='monthyRent' className="block mb-2 text-sm font-medium text-blue-primary">Alquiler Mensual ($)</label>
           <input type='number' id='monthyRent' {...register('monthyRent')} disabled={isMonthlyRentActive}
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
             placeholder='300000' />
@@ -187,7 +187,7 @@ export default function RentaVacacionalCalculator() {
               <ul aria-label='monthly rent options'>
                 <li className='flex flex-col gap-3'>
                   <div>
-                    <label htmlFor="pricePerNight" className="block mb-2 text-sm font-medium text-primary dark:text-white">Alquiler por noche</label>
+                    <label htmlFor="pricePerNight" className="block mb-2 text-sm font-medium text-primary dark:text-white">Alquiler por noche ($)</label>
                     <Controller control={control} name='monthlyRentOptions.pricePerNight' render={({ field }) => (
                       <input type="number" id="pricePerNight" value={field.value} onChange={(event) => {
                         const pricePerNight = parseInt(event.target.value)
@@ -220,14 +220,14 @@ export default function RentaVacacionalCalculator() {
           )}
         </div>
         <div className="mb-6 flex-col flex">
-          <label htmlFor='rentedMonths' className="block mb-2 text-sm font-medium text-blue-primary">Cantidad de meses alquilado</label>
+          <label htmlFor='rentedMonths' className="block mb-2 text-sm font-medium text-blue-primary">Cantidad de meses alquilado ($)</label>
           <input type='number' id='rentedMonths' {...register('rentedMonths')}
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
             placeholder='11' />
           {errors.rentedMonths && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.rentedMonths.message}</span>}
         </div>
         <div className="mb-6 flex-col flex">
-          <label htmlFor='maintenanceExpenses' className="block mb-2 text-sm font-medium text-blue-primary">Gastos mensuales</label>
+          <label htmlFor='maintenanceExpenses' className="block mb-2 text-sm font-medium text-blue-primary">Gastos mensuales ($)</label>
           <input type='number' id='maintenanceExpenses' {...register('maintenanceExpenses')} disabled={isMonthlyExpenseActive}
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
             placeholder='300000' />
@@ -266,7 +266,7 @@ export default function RentaVacacionalCalculator() {
                         {errors.maintenanceExpensesOptions?.[index] && <span className="text-sm text-red-600 dark:text-red-500">{errors.maintenanceExpensesOptions[index]?.name?.message}</span>}
                       </div>
                       <div className='flex flex-col w-full'>
-                        <label htmlFor={`${option.id}-amount`} className="sr-only">{`expense-${index}-amount`}</label>
+                        <label htmlFor={`${option.id}-amount`} className="sr-only">{`expense-${index}-amount`} ($)</label>
                         <Controller control={control} name={`maintenanceExpensesOptions.${index}.amount` as const} render={({ field }) => (
                           <input
                             id={`${option.id}-amount`}

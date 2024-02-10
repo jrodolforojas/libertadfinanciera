@@ -95,14 +95,14 @@ export default function LargaEstanciaCalculator() {
     <section className="flex justify-between w-full max-w-6xl sm:flex-row flex-col">
       <form className="flex flex-col w-full mt-8" aria-label='larga estancia calculator'>
         <div className="mb-6">
-          <label htmlFor='initialCapital' className="block mb-2 text-sm font-medium text-blue-primary">Inversión inicial</label>
+          <label htmlFor='initialCapital' className="block mb-2 text-sm font-medium text-blue-primary">Inversión inicial ($)</label>
           <input type='number' id='initialCapital' {...register('initialCapital')}
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
             placeholder='300000' />
           {errors.initialCapital && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.initialCapital.message}</span>}
         </div>
         <div className="mb-6">
-          <label htmlFor='monthyRent' className="block mb-2 text-sm font-medium text-blue-primary">Alquiler mensual</label>
+          <label htmlFor='monthyRent' className="block mb-2 text-sm font-medium text-blue-primary">Alquiler mensual ($)</label>
           <input type='number' id='monthyRent' {...register('monthyRent')}
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
             placeholder='1600' />
@@ -116,21 +116,21 @@ export default function LargaEstanciaCalculator() {
           {errors.rentedMonths && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.rentedMonths.message}</span>}
         </div>
         <div className="mb-6">
-          <label htmlFor='taxes' className="block mb-2 text-sm font-medium text-blue-primary">Gastos de impuestos</label>
+          <label htmlFor='taxes' className="block mb-2 text-sm font-medium text-blue-primary">Gastos de impuestos ($)</label>
           <input type='number' id='taxes' {...register('taxes')}
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
             placeholder='0.25' />
           {errors.taxes && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.taxes.message}</span>}
         </div>
         <div className="mb-6">
-          <label htmlFor='maintenanceExpenses' className="block mb-2 text-sm font-medium text-blue-primary">Gastos de mantenimiento</label>
+          <label htmlFor='maintenanceExpenses' className="block mb-2 text-sm font-medium text-blue-primary">Gastos de mantenimiento ($)</label>
           <input type='number' id='maintenanceExpenses' {...register('maintenanceExpenses')}
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
             placeholder='1600' />
           {errors.maintenanceExpenses && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.maintenanceExpenses.message}</span>}
         </div>
         <div className="mb-6">
-          <label htmlFor='monthlyMortageLoan' className="block mb-2 text-sm font-medium text-blue-primary">Cuota mensual del crédito</label>
+          <label htmlFor='monthlyMortageLoan' className="block mb-2 text-sm font-medium text-blue-primary">Cuota mensual del crédito ($)</label>
           <input type='number' id='monthlyMortageLoan' {...register('monthlyMortageLoan')}
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
             placeholder='1600' />
