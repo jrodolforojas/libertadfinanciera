@@ -45,6 +45,10 @@ export default async function CreditInterestRates({ params, searchParams }: {
 
   const reference = currentCountry.id === 'usa' ? newYorkPrimeReference : basicPassiveRateReference
 
+  const historicDescription = currentCountry.id === 'usa'
+    ? 'Valores de New York Prime de la Reserva Federal de los Estados Unidos a lo largo del tiempo.'
+    : 'Valores de la Tasa Básica Pasiva del Banco Central de Costa Rica a lo largo del tiempo.'
+
   const creditInterestRates = await getAllCreditInterestRates({ dateFrom, dateTo, country: currentCountry.id })
 
   const data = creditInterestRates.reverse().map(item => {
@@ -68,7 +72,7 @@ export default async function CreditInterestRates({ params, searchParams }: {
         </div>
         <div className="mt-5">
           <h3 className='text-2xl font-bold text-blue-text'>Histórico</h3>
-          <span>Valores de la tasa de inflación a lo largo del tiempo.</span>
+          <span className='text-sm text-primary'>{historicDescription}</span>
           <div className='flex items-center justify-between flex-col mt-3'>
             <span className='text-sm text-gray-text'>Filtra por rango de fechas</span>
             <div className="flex w-full mt-2 items-center justify-center">

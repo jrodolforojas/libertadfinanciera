@@ -46,6 +46,10 @@ export default async function InflationInterestRatePage({ params, searchParams }
 
   const minimumDate = currentCountry.id === 'usa' ? usaInflationMinimumDate : costaRicaInflationMinimumDate
 
+  const historicDescription = currentCountry.id === 'usa'
+    ? 'Valores de Tasa de Inflación de la Reserva Federal de los Estados Unidos a lo largo del tiempo.'
+    : 'Valores de Tasa de Inflación del Banco Central de Costa Rica a lo largo del tiempo.'
+
   const inflationRates = await getAllInflationRates({ dateFrom, dateTo, country: currentCountry.id })
 
   let inflationRatesByPeriocity: InflationRate[] = []
@@ -88,7 +92,7 @@ export default async function InflationInterestRatePage({ params, searchParams }
         </div>
         <div className="mt-5">
           <h3 className='text-2xl font-bold text-blue-text'>Histórico</h3>
-          <span>Valores de la tasa de inflación a lo largo del tiempo.</span>
+          <span className='text-sm text-primary'>{historicDescription}</span>
           <div className='flex items-center justify-between flex-col mt-2'>
             <span className='text-sm text-gray-text'>Filtra por rango de fechas</span>
             <div className="flex w-full mt-2 items-center justify-center">
