@@ -221,7 +221,7 @@ export default function CreditosHipotecariosCalculatorForm() {
       <section className="flex justify-between w-full max-w-6xl sm:flex-row flex-col">
         <form className="flex flex-col w-full mt-2" aria-label='finalcial freedom calculator'>
           <div className="mb-6">
-            <label htmlFor='price' className="block mb-2 text-sm font-medium text-blue-primary">Precio de compra</label>
+            <label htmlFor='price' className="block mb-2 text-sm font-medium text-blue-primary">Precio de compra ($)</label>
             <input type='number' id='price' {...register('price')}
               className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
               placeholder='80000000' />
@@ -242,33 +242,33 @@ export default function CreditosHipotecariosCalculatorForm() {
             {errors.durationInMonths && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.durationInMonths.message}</span>}
           </div>
           <div className="mb-6">
-            <label htmlFor='loanImport' className="block mb-2 text-sm font-medium text-blue-primary">Importe del préstamo</label>
+            <label htmlFor='loanImport' className="block mb-2 text-sm font-medium text-blue-primary">Importe del préstamo ($)</label>
             <input type='number' id='loanImport' {...register('loanImport')}
               className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
               placeholder='72000000' />
             {errors.loanImport && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.loanImport.message}</span>}
           </div>
           <div className="mb-6">
-            <label htmlFor='startDate' className="block mb-2 text-sm font-medium text-blue-primary">Fecha de inicio del préstamo</label>
+            <label htmlFor='startDate' className="block mb-2 text-sm font-medium text-blue-primary">Fecha de inicio del préstamo ($)</label>
             <DatePicker id='startDate' enableYearNavigation={true} enableClear={false} locale={es} value={startDate} onValueChange={handleChangeStartDate} />
             {errors.startDate && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.startDate.message}</span>}
           </div>
           <div className="mb-6">
-            <label htmlFor='prima' className="block mb-2 text-sm font-medium text-blue-primary">Prima</label>
+            <label htmlFor='prima' className="block mb-2 text-sm font-medium text-blue-primary">Prima ($)</label>
             <input type='number' id='prima' {...register('prima')}
               className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
               placeholder='8000000' />
             {errors.prima && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.prima.message}</span>}
           </div>
           <div className="mb-6">
-            <label htmlFor='monthlyPolicies' className="block mb-2 text-sm font-medium text-blue-primary">Pólizas mensuales (vida, incendio, desempleo)</label>
+            <label htmlFor='monthlyPolicies' className="block mb-2 text-sm font-medium text-blue-primary">Pólizas mensuales (vida, incendio, desempleo) ($)</label>
             <input type='number' id='monthlyPolicies' {...register('monthlyPolicies')}
               className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
               placeholder='55000' />
             {errors.monthlyPolicies && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.monthlyPolicies.message}</span>}
           </div>
           <div className="mb-6">
-            <label htmlFor='administrativeExpenses' className="block mb-2 text-sm font-medium text-blue-primary">Gastos administrativos</label>
+            <label htmlFor='administrativeExpenses' className="block mb-2 text-sm font-medium text-blue-primary">Gastos administrativos ($)</label>
             <input type='number' id='administrativeExpenses' {...register('administrativeExpenses')}
               className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
               placeholder='2520000' />

@@ -129,14 +129,14 @@ export default function FinancialFreedomForm() {
     <section className="flex justify-between w-full max-w-6xl sm:flex-row flex-col">
       <form className="flex flex-col w-full mt-8" aria-label='finalcial freedom calculator'>
         <div className="mb-6">
-          <label htmlFor='initialCapital' className="block mb-2 text-sm font-medium text-blue-primary">Capital Inicial</label>
+          <label htmlFor='initialCapital' className="block mb-2 text-sm font-medium text-blue-primary">Capital Inicial ($)</label>
           <input type='number' id='initialCapital' {...register('initialCapital')}
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
             placeholder='10000' />
           {errors.initialCapital && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.initialCapital.message}</span>}
         </div>
         <div className="mb-6">
-          <label htmlFor='mensualInvestment' className="block mb-2 text-sm font-medium text-blue-primary">Inversión mensual</label>
+          <label htmlFor='mensualInvestment' className="block mb-2 text-sm font-medium text-blue-primary">Inversión mensual ($)</label>
           <input type='number' id='mensualInvestment' {...register('mensualInvestment')}
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
             placeholder='1000' />
@@ -150,21 +150,21 @@ export default function FinancialFreedomForm() {
           {errors.years && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.years.message}</span>}
         </div>
         <div className="mb-6">
-          <label htmlFor='interesRateCompountInterest' className="block mb-2 text-sm font-medium text-blue-primary">Rendimiento promedio anual con Interés Compuesto</label>
+          <label htmlFor='interesRateCompountInterest' className="block mb-2 text-sm font-medium text-blue-primary">Rendimiento promedio anual con Interés Compuesto (%)</label>
           <input type='number' id='interesRateCompountInterest' {...register('interesRateCompountInterest')}
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
             placeholder='10' />
           {errors.interesRateCompountInterest && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.interesRateCompountInterest.message}</span>}
         </div>
         <div className="mb-6">
-          <label htmlFor='interesRateSimpleInterest' className="block mb-2 text-sm font-medium text-blue-primary">Rendimiento promedio anual con Interés Simple</label>
+          <label htmlFor='interesRateSimpleInterest' className="block mb-2 text-sm font-medium text-blue-primary">Rendimiento promedio anual con Interés Simple (%)</label>
           <input type='number' id='interesRateSimpleInterest' {...register('interesRateSimpleInterest')}
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
             placeholder='10' />
           {errors.interesRateSimpleInterest && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.interesRateSimpleInterest.message}</span>}
         </div>
         <div>
-          <label htmlFor='inflation' className="block mb-2 text-sm font-medium text-blue-primary">Promedio inflación histórica</label>
+          <label htmlFor='inflation' className="block mb-2 text-sm font-medium text-blue-primary">Promedio inflación histórica (%)</label>
           <input type='number' id='inflation' {...register('inflation')}
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light"
             placeholder='4' />
