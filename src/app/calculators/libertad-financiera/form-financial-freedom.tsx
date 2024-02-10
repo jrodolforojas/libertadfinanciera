@@ -46,37 +46,44 @@ const financialFreedomSchema = yup.object({
   initialCapital: yup.number()
     .typeError('Capital inicial debe ser un valor numérico')
     .required('Capital inicial es un campo requerido')
-    .min(0, 'Capital inicial debe ser mayor o igual a 0'),
+    .min(0, 'Capital inicial debe ser mayor o igual a 0')
+    .max(999999999, 'Capital inicial debe ser menor o igual a 999999999'),
   mensualInvestment: yup.number()
     .typeError('Inversión mensual debe ser un valor numérico')
     .required('Inversión mensual es un campo requerido')
-    .min(0, 'Inversión mensual debe ser mayor o igual a 0'),
+    .min(0, 'Inversión mensual debe ser mayor o igual a 0')
+    .max(999999999, 'Inversión mensual debe ser menor o igual a 999999999'),
   years: yup.number()
     .typeError('Cantidad de años debe ser un valor numérico')
     .required('Cantidad de años es un campo requerido')
     .min(0, 'Cantidad de años debe ser mayor o igual a 0')
-    .max(500),
+    .max(100, 'Cantidad de años debe ser menor o igual a 100'),
   interesRateCompountInterest: yup.number()
     .typeError('Interés compuesto debe ser un valor numérico')
     .required('Interés compuesto es un campo requerido')
-    .min(0, 'Interés compuesto debe ser mayor o igual a 0'),
+    .min(0, 'Interés compuesto debe ser mayor o igual a 0')
+    .max(100, 'Interés compuesto debe ser menor o igual a 100'),
   interesRateSimpleInterest: yup.number()
     .typeError('Interés simple debe ser un valor numérico')
     .required('Interés simple es un campo requerido')
-    .min(0, 'Interés simple debe ser mayor o igual a 0'),
+    .min(0, 'Interés simple debe ser mayor o igual a 0')
+    .max(100, 'Interés simple debe ser menor o igual a 100'),
   inflation: yup.number()
     .typeError('Inflación debe ser un valor numérico')
     .required('Inflación es un campo requerido')
-    .min(0, 'Inflación debe ser mayor o igual a 0'),
+    .min(0, 'Inflación debe ser mayor o igual a 0')
+    .max(100, 'Inflación debe ser menor o igual a 100'),
   aditionals: yup.array().of(yup.object().shape({
     value: yup.number()
       .typeError('Monto adicional debe ser un valor numérico')
       .required('Monto adicional es un campo requerido')
-      .min(0, 'Monto adicional debe ser mayor o igual a 0'),
+      .min(0, 'Monto adicional debe ser mayor o igual a 0')
+      .max(999999999, 'Monto adicional debe ser menor o igual a 999999999'),
     year: yup.number()
       .typeError('Año debe ser un valor numérico')
       .required('Año es un campo requerido')
-      .min(0, 'Año debe ser mayor o igual a 0'),
+      .min(0, 'Año debe ser mayor o igual a 0')
+      .max(100, 'Año debe ser menor o igual a 100'),
     type: yup.string().required().oneOf(['anual', 'trimestral', 'semestral'], 'Tipo de aporte inválido')
   }))
 })

@@ -29,7 +29,8 @@ const financialFreedomSchema = yup.object().shape({
   monthlyPassiveIncome: yup.number()
     .typeError('Ingreso pasivo mensual debe ser un valor numérico')
     .required('Ingreso pasivo mensual es un campo requerido')
-    .min(0, 'Ingreso pasivo mensual debe ser mayor o igual a 0'),
+    .min(0, 'Ingreso pasivo mensual debe ser mayor o igual a 0')
+    .max(999999999, 'Ingreso pasivo mensual debe ser menor o igual a 999999999'),
   interestRate: yup.number()
     .typeError('Rendimiento promedio anual con Interés Simple debe ser un valor numérico')
     .required('Rendimiento promedio anual con Interés Simple es un campo requerido')
