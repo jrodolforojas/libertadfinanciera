@@ -13,6 +13,9 @@ import * as yup from 'yup'
 import { DatePicker, type DatePickerValue } from '@tremor/react'
 import { es } from 'date-fns/locale'
 import Logo from '@/components/logo'
+import CrudContainer from '@/components/crud-container'
+import MetricContainer from '@/components/metric-container'
+import CalculatorContainer from '@/components/calculator-container'
 
 const metricDefaultValues: MetricCardValue[] = [
   {
@@ -215,10 +218,10 @@ export default function CreditosHipotecariosCalculatorForm() {
   const columns = ['N.º', 'Fecha de pago', 'Saldo inicial', 'Intereses', 'Principal', 'Seguros', 'Total pagos', 'Cierre saldo', 'N.º disponible']
 
   return (
-    <main className="flex flex-col items-center justify-between px-10 sm:ml-64 sm:mt-5 pb-8">
+    <CrudContainer>
       <Logo />
       <h2 className="text-2xl font-bold text-center text-primary dark:text-white mb-5">Calculadora de Créditos Hipotecarios</h2>
-      <section className="flex justify-between w-full max-w-6xl sm:flex-row flex-col">
+      <CalculatorContainer>
         <form className="flex flex-col w-full mt-2" aria-label='finalcial freedom calculator'>
           <div className="mb-6">
             <label htmlFor='price' className="block mb-2 text-sm font-medium text-blue-primary">Precio de compra ($)</label>
@@ -280,10 +283,10 @@ export default function CreditosHipotecariosCalculatorForm() {
           text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600
           dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Calcular</button>
         </form>
-        <div className="flex mt-8 sm:ml-10 w-full max-h-[500px]">
+        <MetricContainer>
           <MetricCard metrics={metrics} />
-        </div>
-      </section>
+        </MetricContainer>
+      </CalculatorContainer>
       <section className='flex justify-between w-full max-w-6xl flex-col mt-8'>
         <h3 className='text-2xl font-bold text-blue-text mb-5'>Tabla de amortización</h3>
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-full h-full">
@@ -333,6 +336,6 @@ export default function CreditosHipotecariosCalculatorForm() {
           </table>
         </div>
       </section>
-    </main>
+    </CrudContainer>
   )
 }

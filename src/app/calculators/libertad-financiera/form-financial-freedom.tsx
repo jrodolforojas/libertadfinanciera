@@ -10,6 +10,7 @@ import { onSubmitFinancialFreedomCalculatorForm } from './formulas'
 import { useState } from 'react'
 import { Select, SelectItem } from '@tremor/react'
 import DeleteAdvancedOption from '../inversiones-inmobiliarias/renta-vacacional/components/delete-advanced-option'
+import MetricContainer from '@/components/metric-container'
 
 const metricDefaultValues: MetricCardValue[] = [
   {
@@ -126,7 +127,7 @@ export default function FinancialFreedomForm() {
   }
 
   return (
-    <section className="flex justify-between w-full max-w-6xl sm:flex-row flex-col">
+    <section className="flex justify-between w-full max-w-6xl lg:flex-row flex-col">
       <form className="flex flex-col w-full mt-8" aria-label='finalcial freedom calculator'>
         <div className="mb-6">
           <label htmlFor='initialCapital' className="block mb-2 text-sm font-medium text-blue-primary">Capital Inicial ($)</label>
@@ -170,12 +171,14 @@ export default function FinancialFreedomForm() {
             placeholder='4' />
           {errors.inflation && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.inflation.message}</span>}
         </div>
-        <div className='mb-6 flex justify-between items-center w-full'>
-          <label className="relative inline-flex items-center mt-6 cursor-pointer">
-            <input type="checkbox" id='initialCapitalCheckbox' className="sr-only peer" onChange={handleChangeAditionals} value={aditionals} />
-            <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-            <span className="ml-3 text-sm text-primary dark:text-gray-300">Aportes extraordinarios</span>
-          </label>
+        <div className='mb-6 flex w-full xl:flex-row flex-col xl:justify-between '>
+          <div className='mt-5'>
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" className="sr-only peer" onChange={handleChangeAditionals} value={aditionals} />
+              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+              <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Aportes extraordinarios</span>
+            </label>
+          </div>
           {aditionals === 1 && (
             <button
               onClick={() => { append({ value: 5000, type: 'anual', year: 5 }) }}
@@ -189,34 +192,36 @@ export default function FinancialFreedomForm() {
         {aditionals === 1 && (
           <ul className='mb-6'>
             {fields.map((aditional, index) => (
-              <li key={index} className='flex w-full gap-3'>
-                <div className='flex flex-col w-full'>
-                  <label htmlFor={`${index}-value`} className="sr-only">{`option-${index}-value`}</label>
-                  <input
-                    type="text"
-                    placeholder='Monto'
-                    id={`${index}-value`}
-                    {...register(`aditionals.${index}.value` as const, { required: true })}
-                    className="mb-2 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light" />
-                  {errors.aditionals?.[index] && <span className="text-sm text-red-600 dark:text-red-500">{errors.aditionals[index]?.value?.message}</span>}
-                </div>
-                <div className='flex flex-col w-full'>
-                  <label htmlFor={`${index}-year`} className="sr-only">{`option-${index}-year`}</label>
-                  <input
-                    type="text"
-                    placeholder='Año'
-                    id={`${index}-year`}
-                    {...register(`aditionals.${index}.year` as const, { required: true })}
-                    className="mb-2 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light" />
-                  {errors.aditionals?.[index] && <span className="text-sm text-red-600 dark:text-red-500">{errors.aditionals[index]?.year?.message}</span>}
-                </div>
-                <Controller control={control} name={`aditionals.${index}.type` as const} render={({ field }) => (
-                  <Select value={field.value} onChange={field.onChange}>
-                    <SelectItem value='anual'>Anual</SelectItem>
-                    <SelectItem value='semestral'>Semestral</SelectItem>
-                    <SelectItem value='trimestral'>Trimestral</SelectItem>
-                  </Select>
-                )} />
+              <li key={index} className='flex w-full gap-5 justify-between items-center'>
+                <section className='flex lg:flex-row flex-col flex-1 mb-5 lg:gap-3 gap-0'>
+                  <div className='flex flex-col w-full'>
+                    <label htmlFor={`${index}-value`} className="sr-only">{`option-${index}-value`}</label>
+                    <input
+                      type="text"
+                      placeholder='Monto'
+                      id={`${index}-value`}
+                      {...register(`aditionals.${index}.value` as const, { required: true })}
+                      className="mb-2 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light" />
+                    {errors.aditionals?.[index] && <span className="text-sm text-red-600 dark:text-red-500">{errors.aditionals[index]?.value?.message}</span>}
+                  </div>
+                  <div className='flex flex-col w-full'>
+                    <label htmlFor={`${index}-year`} className="sr-only">{`option-${index}-year`}</label>
+                    <input
+                      type="text"
+                      placeholder='Año'
+                      id={`${index}-year`}
+                      {...register(`aditionals.${index}.year` as const, { required: true })}
+                      className="mb-2 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light" />
+                    {errors.aditionals?.[index] && <span className="text-sm text-red-600 dark:text-red-500">{errors.aditionals[index]?.year?.message}</span>}
+                  </div>
+                  <Controller control={control} name={`aditionals.${index}.type` as const} render={({ field }) => (
+                    <Select value={field.value} onChange={field.onChange}>
+                      <SelectItem value='anual'>Anual</SelectItem>
+                      <SelectItem value='semestral'>Semestral</SelectItem>
+                      <SelectItem value='trimestral'>Trimestral</SelectItem>
+                    </Select>
+                  )} />
+                </section>
                 <DeleteAdvancedOption id={index} onClick={() => {
                   remove(index)
                 }} />
@@ -230,9 +235,9 @@ export default function FinancialFreedomForm() {
           text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600
           dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={handleSubmit(onSubmit)}>Calcular</button>
       </form>
-      <div className="flex mt-8 sm:ml-10 w-full max-h-[700px]">
+      <MetricContainer>
         <MetricCard metrics={metrics} />
-      </div>
+      </MetricContainer>
     </section>
   )
 }

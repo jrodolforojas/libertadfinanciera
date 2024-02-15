@@ -43,9 +43,9 @@ export default async function Users({ searchParams }: {
           <h2 className="text-3xl font-bold text-center text-primary">Usuarios</h2>
         </div>
       </header>
-      <div className='flex w-full max-h-12 items-center justify-between mb-14 sm:mb-5 sm:flex-row flex-col gap-y-3'>
+      <div className='flex w-full max-h-12 items-center justify-between mb-14 sm:mb-5 sm:flex-row flex-col gap-y-3 mt-5'>
         <SearchBar />
-        <div className='flex gap-x-5'>
+        <div className='flex w-full justify-between gap-5 sm:ml-8 ml-0'>
           <Link href={'/admin/users/massive'} className="text-white bg-secondary hover:bg-secondary-dark focus:ring-4 focus:outline-none
               focus:ring-secondary-dark font-medium rounded-lg text-sm px-5 py-2.5 text-center">Carga Masiva de Usuarios</Link>
           <Link href={'/admin/users/[id]'} as={'/admin/users/new'} className="text-white bg-secondary hover:bg-secondary-dark focus:ring-4 focus:outline-none
@@ -53,7 +53,7 @@ export default async function Users({ searchParams }: {
         </div>
       </div>
 
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-full h-full mb-16">
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-full h-full mb-16 sm:mt-10 mt-12">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-secondary uppercase bg-primary dark:bg-gray-700 dark:text-gray-400">
             <tr>
