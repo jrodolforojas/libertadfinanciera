@@ -9,6 +9,7 @@ import { onSubmitLargaEstancia } from './formulas'
 import { type MetricCardValue } from '@/types/metric'
 import { useState } from 'react'
 import { toDollarCurrency, toTwoDecimals } from '@/utils/metrics-format'
+import MetricContainer from '@/components/metric-container'
 
 const largaEstanciaMetricDefaultValues: MetricCardValue[] = [
   {
@@ -143,9 +144,9 @@ export default function LargaEstanciaCalculator() {
           text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600
           dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Calcular</button>
       </form>
-      <div className="flex mt-8 sm:ml-10 w-full">
+      <MetricContainer>
         <MetricCard metrics={metrics} />
-      </div>
+      </MetricContainer>
     </section>
   )
 }
