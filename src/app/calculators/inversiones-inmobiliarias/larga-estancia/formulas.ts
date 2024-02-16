@@ -1,6 +1,6 @@
 import { type LargaEstanciaMetric, type LargaEstanciaFormValues } from '@/types/form/larga-estancia'
 import { type MetricCardValue } from '@/types/metric'
-import { toDollarCurrency, toTwoDecimals } from '@/utils/metrics-format'
+import { toTwoDecimals } from '@/utils/metrics-format'
 
 function calculateLargaEstancia(input: LargaEstanciaFormValues): LargaEstanciaMetric {
   const grossAnualIncome = input.monthyRent * input.rentedMonths
@@ -28,15 +28,15 @@ function generateLargaEstanciaMetrics(result: LargaEstanciaMetric): MetricCardVa
   const anualReturnPercent = result.anualReturnPercent * 100
   const newMetrics: MetricCardValue[] = [
     {
-      value: `${toDollarCurrency(result.grossAnualIncome)}`,
+      value: `$${toTwoDecimals(result.grossAnualIncome)}`,
       label: 'Ingreso anual bruto'
     },
     {
-      value: `${toDollarCurrency(result.taxes)}`,
+      value: `$${toTwoDecimals(result.taxes)}`,
       label: 'Impuestos'
     },
     {
-      value: `${toDollarCurrency(result.netAnualReturn)}`,
+      value: `$${toTwoDecimals(result.netAnualReturn)}`,
       label: 'Rendimiento anual neto'
     },
     {
@@ -48,7 +48,7 @@ function generateLargaEstanciaMetrics(result: LargaEstanciaMetric): MetricCardVa
       label: 'Años para recuperar la inversión'
     },
     {
-      value: `${toDollarCurrency(result.monthyReturn)}`,
+      value: `$${toTwoDecimals(result.monthyReturn)}`,
       label: 'Rendimiento mensual neto'
     }
   ]
