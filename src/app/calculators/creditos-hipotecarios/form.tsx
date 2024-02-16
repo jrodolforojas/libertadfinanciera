@@ -66,7 +66,7 @@ const schema = yup.object().shape({
     .typeError('Duración debe ser un valor numérico')
     .required('Duración es un campo requerido')
     .min(0, 'Duración debe ser mayor o igual a 0')
-    .max(100, 'Duración debe ser menor o igual a 100'),
+    .max(1200, 'Duración debe ser menor o igual a 1200'),
   loanImport: yup.number()
     .typeError('Importe del préstamo debe ser un valor numérico')
     .required('Importe del préstamo es un campo requerido')
@@ -191,19 +191,19 @@ export default function CreditosHipotecariosCalculatorForm() {
     }
     const newMetrics: MetricCardValue[] = [
       {
-        value: `${toDollarCurrency(result.monthlyPayment)}`,
+        value: `$${toTwoDecimals(result.monthlyPayment)}`,
         label: 'Pago mensual del préstamo'
       },
       {
-        value: `${toDollarCurrency(result.totalPayment)}`,
+        value: `$${toTwoDecimals(result.totalPayment)}`,
         label: 'Total de pagos*'
       },
       {
-        value: `${toDollarCurrency(result.totalMortagePayment)}`,
+        value: `$${toTwoDecimals(result.totalMortagePayment)}`,
         label: 'Total de pagos del préstamo'
       },
       {
-        value: `${toDollarCurrency(result.totalInterest)}`,
+        value: `$${toTwoDecimals(result.totalInterest)}`,
         label: 'Total intereses pagados'
       },
       {
