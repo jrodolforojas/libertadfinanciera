@@ -92,7 +92,7 @@ export default function LargaEstanciaCalculator() {
     setMetrics(newMetrics)
   }
   return (
-    <section className="flex justify-between w-full max-w-6xl sm:flex-row flex-col">
+    <section className="flex justify-between w-full max-w-6xl lg:flex-row flex-col">
       <form className="flex flex-col w-full mt-8" aria-label='larga estancia calculator'>
         <div className="mb-6">
           <label htmlFor='initialCapital' className="block mb-2 text-sm font-medium text-blue-primary">Inversión inicial ($)</label>

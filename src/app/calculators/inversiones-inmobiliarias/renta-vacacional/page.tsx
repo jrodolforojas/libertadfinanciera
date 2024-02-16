@@ -91,7 +91,7 @@ export default function RentaVacacionalCalculator() {
   }
 
   return (
-    <section className="flex justify-between w-full max-w-6xl sm:flex-row flex-col">
+    <section className="flex justify-between w-full max-w-6xl lg:flex-row flex-col">
       <form className="flex flex-col w-full mt-8" aria-label='renta vacacional calculator'>
         <div className="mb-6 flex-col flex">
           <label htmlFor='initialCapital' className="block mb-2 text-sm font-medium text-blue-primary">Inversión inicial ($)</label>
@@ -105,7 +105,7 @@ export default function RentaVacacionalCalculator() {
             <span className="ml-3 text-sm text-gray-900 dark:text-gray-300">Opciones Avanzadas</span>
           </label>
           {isInitialCapitalsActive && (
-            <article className='flex flex-col w-full mt-4 lg:pl-8 pl-0'>
+            <article className='flex flex-col w-full mt-4'>
               <button
                 aria-label='add investment button'
                 type="button"
@@ -120,39 +120,41 @@ export default function RentaVacacionalCalculator() {
                 className="w-full text-white bg-secondary-dark hover:bg-secondary-dark focus:ring-4 focus:outline-none focus:ring-secondary-dark font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-3">
                 Agregar inversión
               </button>
-              <ul aria-label='initial capital options'>
+              <ul aria-label='initial capital options' className='xl:pl-8 pl-0'>
                 {
                   initialCapitalOptions.map((option, index) => (
-                    <li className='flex flex-row gap-3' key={index} aria-label={`option-${index}`}>
-                      <div className='flex flex-col w-full'>
-                        <label htmlFor={`${option.id}-name`} className="sr-only">{`option-${index}-name`}</label>
-                        <input
-                          type="text"
-                          placeholder='Inversión'
-                          id={`${option.id}-name`}
-                          {...register(`initialCapitalOptions.${index}.name` as const, { required: true })}
-                          className="mb-2 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light" />
-                        {errors.initialCapitalOptions?.[index] && <span className="text-sm text-red-600 dark:text-red-500">{errors.initialCapitalOptions[index]?.name?.message}</span>}
-                      </div>
-                      <div className='flex flex-col w-full'>
-                        <label htmlFor={`${option.id}-amount`} className="sr-only">{`option-${index}-amount`} ($)</label>
-                        <Controller control={control} name={`initialCapitalOptions.${index}.amount` as const} render={({ field }) => (
+                    <li className='flex w-full justify-between items-center mb-5' key={index} aria-label={`option-${index}`}>
+                      <article className='flex xl:flex-row flex-col w-full mr-4 gap-x-5 xl:items-center items-start'>
+                        <div className='w-full'>
+                          <label htmlFor={`${option.id}-name`} className="sr-only">{`option-${index}-name`}</label>
                           <input
-                            type='number'
-                            placeholder='1000'
-                            id={`${option.id}-amount`}
-                            value={field.value}
-                            onChange={(event) => {
-                              const amount = parseInt(event.target.value)
-                              field.onChange(amount)
-                              const newSum = updateInitialCapitalSum()
-                              setValue('initialCapital', newSum)
-                            }}
-                            className="mb-2 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full max-w-[150px] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light" />
-                        )} />
-                        {errors.initialCapitalOptions?.[index] && <span className="text-sm text-red-600 dark:text-red-500">{errors.initialCapitalOptions[index]?.amount?.message}</span>}
-                      </div>
-                      <PercentSpan control={control} index={index} />
+                            type="text"
+                            placeholder='Inversión'
+                            id={`${option.id}-name`}
+                            {...register(`initialCapitalOptions.${index}.name` as const, { required: true })}
+                            className="mb-2 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light" />
+                          {errors.initialCapitalOptions?.[index] && <span className="text-sm text-red-600 dark:text-red-500">{errors.initialCapitalOptions[index]?.name?.message}</span>}
+                        </div>
+                        <div className='w-full'>
+                          <label htmlFor={`${option.id}-amount`} className="sr-only">{`option-${index}-amount`} ($)</label>
+                          <Controller control={control} name={`initialCapitalOptions.${index}.amount` as const} render={({ field }) => (
+                            <input
+                              type='number'
+                              placeholder='1000'
+                              id={`${option.id}-amount`}
+                              value={field.value}
+                              onChange={(event) => {
+                                const amount = parseInt(event.target.value)
+                                field.onChange(amount)
+                                const newSum = updateInitialCapitalSum()
+                                setValue('initialCapital', newSum)
+                              }}
+                              className="mb-2 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light" />
+                          )} />
+                          {errors.initialCapitalOptions?.[index] && <span className="text-sm text-red-600 dark:text-red-500">{errors.initialCapitalOptions[index]?.amount?.message}</span>}
+                        </div>
+                        <PercentSpan control={control} index={index} />
+                      </article>
                       <DeleteAdvancedOption id={index} onClick={() => {
                         remove(index)
                         const newSum = updateInitialCapitalSum()
@@ -238,7 +240,7 @@ export default function RentaVacacionalCalculator() {
             <span className="ml-3 text-sm text-gray-900 dark:text-gray-300">Opciones Avanzadas</span>
           </label>
           {isMonthlyExpenseActive && (
-            <article className='flex flex-col w-full mt-4 lg:pl-8 pl-0'>
+            <article className='flex flex-col w-full mt-4'>
               <button
                 aria-label='add expense button'
                 type="button"
@@ -251,39 +253,41 @@ export default function RentaVacacionalCalculator() {
                 className="w-full text-white bg-secondary-dark hover:bg-secondary-dark focus:ring-4 focus:outline-none focus:ring-secondary-dark font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-3">
                 Agregar gasto
               </button>
-              <ul aria-label='monthly expenses options'>
+              <ul aria-label='monthly expenses options' className='xl:pl-8 pl-0'>
                 {
                   maintenanceExpensesOptions.map((option, index) => (
-                    <li className='flex flex-row gap-3' key={index} aria-label={`expense-${index}`}>
-                      <div className='flex flex-col w-full'>
-                        <label htmlFor={`${option.id}-name`} className="sr-only">{`expense-${index}-name`}</label>
-                        <input
-                          type="text"
-                          id={`${option.id}-name`}
-                          placeholder='Gastos mensual'
-                          {...register(`maintenanceExpensesOptions.${index}.name` as const, { required: true })}
-                          className="mb-2 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light" />
-                        {errors.maintenanceExpensesOptions?.[index] && <span className="text-sm text-red-600 dark:text-red-500">{errors.maintenanceExpensesOptions[index]?.name?.message}</span>}
-                      </div>
-                      <div className='flex flex-col w-full'>
-                        <label htmlFor={`${option.id}-amount`} className="sr-only">{`expense-${index}-amount`} ($)</label>
-                        <Controller control={control} name={`maintenanceExpensesOptions.${index}.amount` as const} render={({ field }) => (
+                    <li className='flex w-full justify-between items-center mb-5' key={index} aria-label={`expense-${index}`}>
+                      <article className='flex xl:flex-row flex-col w-full mr-4 gap-x-5 xl:items-center items-start'>
+                        <div className='w-full'>
+                          <label htmlFor={`${option.id}-name`} className="sr-only">{`expense-${index}-name`}</label>
                           <input
-                            id={`${option.id}-amount`}
-                            type='number'
-                            placeholder='500'
-                            value={field.value}
-                            onChange={(event) => {
-                              const amount = parseInt(event.target.value)
-                              field.onChange(amount)
-                              const newSum = updateMonthlyExpensesSum()
-                              setValue('maintenanceExpenses', newSum)
-                            }}
-                            className="mb-2 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full max-w-[150px] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light" />
-                        )} />
-                        {errors.maintenanceExpensesOptions?.[index] && <span className="text-sm text-red-600 dark:text-red-500">{errors.maintenanceExpensesOptions[index]?.amount?.message}</span>}
-                      </div>
-                      <ExpensesPercentSpan control={control} index={index} />
+                            type="text"
+                            id={`${option.id}-name`}
+                            placeholder='Gastos mensual'
+                            {...register(`maintenanceExpensesOptions.${index}.name` as const, { required: true })}
+                            className="mb-2 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light" />
+                          {errors.maintenanceExpensesOptions?.[index] && <span className="text-sm text-red-600 dark:text-red-500">{errors.maintenanceExpensesOptions[index]?.name?.message}</span>}
+                        </div>
+                        <div className='w-full'>
+                          <label htmlFor={`${option.id}-amount`} className="sr-only">{`expense-${index}-amount`} ($)</label>
+                          <Controller control={control} name={`maintenanceExpensesOptions.${index}.amount` as const} render={({ field }) => (
+                            <input
+                              id={`${option.id}-amount`}
+                              type='number'
+                              placeholder='500'
+                              value={field.value}
+                              onChange={(event) => {
+                                const amount = parseInt(event.target.value)
+                                field.onChange(amount)
+                                const newSum = updateMonthlyExpensesSum()
+                                setValue('maintenanceExpenses', newSum)
+                              }}
+                              className="mb-2 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue dark:focus:border-blue dark:shadow-sm-light" />
+                          )} />
+                          {errors.maintenanceExpensesOptions?.[index] && <span className="text-sm text-red-600 dark:text-red-500">{errors.maintenanceExpensesOptions[index]?.amount?.message}</span>}
+                        </div>
+                        <ExpensesPercentSpan control={control} index={index} />
+                      </article>
                       <DeleteAdvancedOption id={index} onClick={() => {
                         removeMaintenanceExpense(index)
                         const newSum = updateMonthlyExpensesSum()
@@ -303,7 +307,7 @@ export default function RentaVacacionalCalculator() {
           text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600
           dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Calcular</button>
       </form>
-      <div className="flex mt-8 sm:ml-10 w-full max-h-[500px]">
+      <div className="flex mt-8 lg:ml-10 w-full max-h-[500px]">
         <MetricCard metrics={metrics} />
       </div>
     </section>

@@ -171,7 +171,7 @@ export default function FinancialFreedomForm() {
             placeholder='4' />
           {errors.inflation && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.inflation.message}</span>}
         </div>
-        <div className='mb-6 flex w-full xl:flex-row flex-col xl:justify-between '>
+        <div className='mb-6 flex w-full xl:flex-row flex-col xl:justify-between'>
           <div className='mt-5'>
             <label className="relative inline-flex items-center cursor-pointer">
               <input type="checkbox" className="sr-only peer" onChange={handleChangeAditionals} value={aditionals} />
@@ -192,8 +192,8 @@ export default function FinancialFreedomForm() {
         {aditionals === 1 && (
           <ul className='mb-6'>
             {fields.map((aditional, index) => (
-              <li key={index} className='flex w-full gap-5 justify-between items-center'>
-                <section className='flex lg:flex-row flex-col flex-1 mb-5 lg:gap-3 gap-0'>
+              <li key={index} className='flex w-full gap-5 justify-between xl:items-start items-center'>
+                <section className='flex xl:flex-row flex-col flex-1 mb-5 xl:gap-3 gap-0'>
                   <div className='flex flex-col w-full'>
                     <label htmlFor={`${index}-value`} className="sr-only">{`option-${index}-value`}</label>
                     <input

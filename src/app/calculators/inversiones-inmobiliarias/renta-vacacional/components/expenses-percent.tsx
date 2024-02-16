@@ -29,7 +29,7 @@ export default function ExpensesPercentSpan({ control, index }: {
 
   return (
     <span
-      className="mb-2 text-primary text-sm text-center flex items-center justify-center w-52 font-bold">
+      className="mb-2 text-primary text-sm w-48 font-bold">
       {percentFormatted} %
     </span>
   )
