@@ -8,6 +8,7 @@ import { type SubmitHandler, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { onSubmitFinancialFreedomPassiveIncomeCalculatorForm } from './formulas'
 import { useState } from 'react'
+import MetricContainer from '@/components/metric-container'
 
 const metricDefaultValues: MetricCardValue[] = [
   {
@@ -51,7 +52,7 @@ export default function PassiveIncomesCalculatorForm() {
     setMetrics(newMetrics)
   }
   return (
-    <section className="flex justify-between w-full max-w-6xl sm:flex-row flex-col">
+    <section className="flex justify-between w-full max-w-6xl lg:flex-row flex-col">
       <form className="flex flex-col w-full mt-8" aria-label='finalcial freedom calculator'>
         <div className="mb-6">
           <label htmlFor='monthlyPassiveIncome' className="block mb-2 text-sm font-medium text-blue-primary">Ingresos Pasivos Mensuales ($)</label>
@@ -73,9 +74,9 @@ export default function PassiveIncomesCalculatorForm() {
           text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600
           dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Calcular</button>
       </form>
-      <div className="flex mt-8 sm:ml-10 w-full max-h-[700px]">
+      <MetricContainer>
         <MetricCard metrics={metrics} />
-      </div>
+      </MetricContainer>
     </section>
   )
 }
