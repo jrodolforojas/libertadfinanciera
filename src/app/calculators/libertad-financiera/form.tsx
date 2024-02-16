@@ -4,11 +4,12 @@ import Logo from '@/components/logo'
 import useSwitch from '../inversiones-inmobiliarias/renta-vacacional/hooks/useSwitch'
 import FinancialFreedomForm from './form-financial-freedom'
 import PassiveIncomesCalculatorForm from './form-passive-incomes'
+import CrudContainer from '@/components/crud-container'
 
 export default function FinalcialFreedomCalculatorForm() {
   const { isSelected, isActive, toggleValue } = useSwitch()
   return (
-    <main className="flex flex-col items-center justify-between px-10 sm:ml-64 sm:mt-5 pb-8">
+    <CrudContainer>
       <Logo />
       <h2 className="text-2xl font-bold text-center text-primary dark:text-white mb-5">Calculadora de Libertad Financiera</h2>
       <label className="relative inline-flex items-center cursor-pointer mb-5">
@@ -23,6 +24,6 @@ export default function FinalcialFreedomCalculatorForm() {
         : (
           <FinancialFreedomForm />
         )}
-    </main>
+    </CrudContainer>
   )
 }

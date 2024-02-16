@@ -1,5 +1,5 @@
+import CrudContainer from '@/components/crud-container'
 import Header from '@/components/header'
-import Container from '@/components/page-container'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
@@ -17,11 +17,11 @@ export default async function TipoCambioLayout({
     redirect('/login')
   }
   return (
-    <Container>
+    <CrudContainer>
       <Header title="Tipo de cambio" description="dólar (USD) a colones (CRC)" />
       <section className="flex w-full">
         {children}
       </section>
-    </Container>
+    </CrudContainer>
   )
 }

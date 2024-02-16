@@ -9,6 +9,7 @@ import { onSubmitLargaEstancia } from './formulas'
 import { type MetricCardValue } from '@/types/metric'
 import { useState } from 'react'
 import { toDollarCurrency, toTwoDecimals } from '@/utils/metrics-format'
+import MetricContainer from '@/components/metric-container'
 
 const largaEstanciaMetricDefaultValues: MetricCardValue[] = [
   {
@@ -92,7 +93,7 @@ export default function LargaEstanciaCalculator() {
     setMetrics(newMetrics)
   }
   return (
-    <section className="flex justify-between w-full max-w-6xl sm:flex-row flex-col">
+    <section className="flex justify-between w-full max-w-6xl lg:flex-row flex-col">
       <form className="flex flex-col w-full mt-8" aria-label='larga estancia calculator'>
         <div className="mb-6">
           <label htmlFor='initialCapital' className="block mb-2 text-sm font-medium text-blue-primary">Inversión inicial ($)</label>
@@ -143,9 +144,9 @@ export default function LargaEstanciaCalculator() {
           text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600
           dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Calcular</button>
       </form>
-      <div className="flex mt-8 sm:ml-10 w-full">
+      <MetricContainer>
         <MetricCard metrics={metrics} />
-      </div>
+      </MetricContainer>
     </section>
   )
 }

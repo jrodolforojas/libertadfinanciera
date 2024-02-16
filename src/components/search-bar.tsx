@@ -29,7 +29,7 @@ export default function SearchBar() {
   }
 
   return (
-    <div className='flex w-60'>
+    <div className='w-full md:max-w-60'>
       <label htmlFor="simple-search" className="sr-only">Search</label>
       <div className="relative w-full">
         <div className="absolute px-2 py-2 text-gray-800">
