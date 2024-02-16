@@ -6,6 +6,7 @@ import { getAllExchangeRates, getExchangeRatesByPeriocity, getTodayExchangeRate 
 import { type ExchangeRateSpanish } from '@/types/api/exchange-rate'
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@tremor/react'
 import { format } from 'date-fns'
+import ExchangeRateConversion from './conversion'
 
 const today = new Date()
 const thirtyDaysAgo = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30)
@@ -66,10 +67,13 @@ export default async function DollarColonesExchangeRate({ searchParams }: {
       <header>
         <div>
           <h3 className='text-2xl font-bold text-blue-text'>Hoy</h3>
-          <MetricCard metrics={[
-            { label: 'Compra', value: todayExchangeRate.buy.toString(), symbol: { value: '₡', orientation: 'left' } },
-            { label: 'Venta', value: todayExchangeRate.sale.toString(), symbol: { value: '₡', orientation: 'left' } }
-          ]} />
+          <div className='flex flex-col gap-y-5'>
+            <MetricCard metrics={[
+              { label: 'Compra', value: todayExchangeRate.buy.toString(), symbol: { value: '₡', orientation: 'left' } },
+              { label: 'Venta', value: todayExchangeRate.sale.toString(), symbol: { value: '₡', orientation: 'left' } }
+            ]} />
+            <ExchangeRateConversion rate={todayExchangeRate} />
+          </div>
         </div>
         <div className="mt-5">
           <h3 className='text-2xl font-bold text-blue-text'>Histórico</h3>
