@@ -1,6 +1,6 @@
 import { type RentaVacacionalMetric, type RentaVacacionalFormValues } from '@/types/form/renta-vacacional'
 import { type MetricCardValue } from '@/types/metric'
-import { toTwoDecimals } from '@/utils/metrics-format'
+import { toCurrency, toOneDecimal, toTwoDecimals } from '@/utils/metrics-format'
 
 export function calculateRentaVacacional(input: RentaVacacionalFormValues): RentaVacacionalMetric {
   const grossAnualIncome = input.monthyRent * input.rentedMonths
@@ -26,11 +26,11 @@ export function generateRentaVacacionalMetrics(result: RentaVacacionalMetric): M
   const anualReturnPercent = result.anualReturnPercent * 100
   return [
     {
-      value: `$${toTwoDecimals(result.grossAnualIncome)}`,
+      value: `$${toCurrency(result.grossAnualIncome)}`,
       label: 'Rendimiento anual bruto'
     },
     {
-      value: `$${toTwoDecimals(result.netAnualReturn)}`,
+      value: `$${toCurrency(result.netAnualReturn)}`,
       label: 'Rendimiento anual neto'
     },
     {
@@ -38,11 +38,11 @@ export function generateRentaVacacionalMetrics(result: RentaVacacionalMetric): M
       label: 'Porcentaje del Rendimiento anual'
     },
     {
-      value: `${toTwoDecimals(result.yearsToGetProfit)}`,
+      value: `${toOneDecimal(result.yearsToGetProfit)}`,
       label: 'Años para recuperar la inversión'
     },
     {
-      value: `$${toTwoDecimals(result.monthyReturn)}`,
+      value: `$${toCurrency(result.monthyReturn)}`,
       label: 'Rendimiento mensual neto'
     }
   ]

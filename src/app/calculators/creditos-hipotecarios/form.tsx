@@ -5,7 +5,7 @@ import MetricCard from '@/components/metric-card'
 import { type AmortizationTableItem } from '@/types/form/amortization-table'
 import { type MortageLoanCalculatorMetrics, type MortageLoanCalculatorFormValues } from '@/types/form/mortage-loan'
 import { type MetricCardValue } from '@/types/metric'
-import { toDollarCurrency, toTwoDecimals } from '@/utils/metrics-format'
+import { toCurrency, toDollarCurrency, toOneDecimal } from '@/utils/metrics-format'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { format } from 'date-fns'
 import { type SubmitHandler, useForm } from 'react-hook-form'
@@ -191,23 +191,23 @@ export default function CreditosHipotecariosCalculatorForm() {
     }
     const newMetrics: MetricCardValue[] = [
       {
-        value: `$${toTwoDecimals(result.monthlyPayment)}`,
+        value: `$${toCurrency(result.monthlyPayment)}`,
         label: 'Pago mensual del préstamo'
       },
       {
-        value: `$${toTwoDecimals(result.totalPayment)}`,
+        value: `$${toCurrency(result.totalPayment)}`,
         label: 'Total de pagos*'
       },
       {
-        value: `$${toTwoDecimals(result.totalMortagePayment)}`,
+        value: `$${toCurrency(result.totalMortagePayment)}`,
         label: 'Total de pagos del préstamo'
       },
       {
-        value: `$${toTwoDecimals(result.totalInterest)}`,
+        value: `$${toCurrency(result.totalInterest)}`,
         label: 'Total intereses pagados'
       },
       {
-        value: `${toTwoDecimals(result.difference)}`,
+        value: `${toOneDecimal(result.difference)}`,
         label: 'Cantidad de veces que paga el préstamo'
       }
     ]

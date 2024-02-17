@@ -9,14 +9,15 @@ export const toDollarCurrency = (value: number) => {
   return value.toLocaleString('en-US', formattingOptions)
 }
 
-const formatNumber = (num: number) => {
-  const [integerPart, decimalPart] = num.toFixed(2).split('.')
-  const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-  const formattedNumber = `${formattedInteger}.${decimalPart}`
-
-  return formattedNumber
+export const toTwoDecimals = (value: number) => {
+  return value.toFixed(2)
 }
 
-export const toTwoDecimals = (value: number) => {
-  return formatNumber(value)
+export const toCurrency = (value: number) => {
+  const formattedNumber = Math.round(value).toString()
+  return formattedNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+}
+
+export const toOneDecimal = (value: number) => {
+  return value.toFixed(1)
 }
