@@ -1,7 +1,7 @@
 import { type FinancialFreedomCalculatorFormValues, type FinancialFreedomMetrics } from '@/types/form/financial-freedom'
 import { type FinancialFreedomPassiveIncomeCalculatorFormValues, type FinancialFreedomPassiveIncomeMetrics } from '@/types/form/financial-freedom-passive-income'
 import { type MetricCardValue } from '@/types/metric'
-import { toTwoDecimals } from '@/utils/metrics-format'
+import { toCurrency } from '@/utils/metrics-format'
 
 function futureValueFormula(initialCapital: number, monthyInteresRate: number, yearsXMonth: number) {
   return initialCapital * Math.pow(1 + monthyInteresRate, yearsXMonth)
@@ -77,7 +77,7 @@ export function onSubmitFinancialFreedomCalculatorForm(values: FinancialFreedomC
       interesRateCompountInterest: values.interesRateCompountInterest,
       interesRateSimpleInterest: values.interesRateSimpleInterest,
       inflation: values.inflation,
-      years: aditional.year,
+      years: values.years - aditional.year ?? 0,
       mensualInvestment: 0
     }
 
@@ -102,31 +102,31 @@ export function onSubmitFinancialFreedomCalculatorForm(values: FinancialFreedomC
 
   const newMetrics: MetricCardValue[] = [
     {
-      value: `$${toTwoDecimals(financialFreedomMetrics.anualInvestment)}`,
+      value: `$${toCurrency(financialFreedomMetrics.anualInvestment)}`,
       label: 'Inversión Anual'
     },
     {
-      value: `$${toTwoDecimals(financialFreedomMetrics.savingInvestment)}`,
+      value: `$${toCurrency(financialFreedomMetrics.savingInvestment)}`,
       label: 'Si solamente lo ahorro'
     },
     {
-      value: `$${toTwoDecimals(financialFreedomMetrics.futureValue)}`,
+      value: `$${toCurrency(financialFreedomMetrics.futureValue)}`,
       label: 'Inversión con interés compuesto'
     },
     {
-      value: `$${toTwoDecimals(financialFreedomMetrics.savingAndFutureValueDifference)}`,
+      value: `$${toCurrency(financialFreedomMetrics.savingAndFutureValueDifference)}`,
       label: 'Diferencia entre inversión y ahorro'
     },
     {
-      value: `$${toTwoDecimals(financialFreedomMetrics.presentValue)}`,
+      value: `$${toCurrency(financialFreedomMetrics.presentValue)}`,
       label: 'Valor presente de la inversión (descontando la inflación)'
     },
     {
-      value: `$${toTwoDecimals(financialFreedomMetrics.passiveAnualIncome)}`,
+      value: `$${toCurrency(financialFreedomMetrics.passiveAnualIncome)}`,
       label: 'Ingreso pasivo anual con interés simple'
     },
     {
-      value: `$${toTwoDecimals(financialFreedomMetrics.passiveMonthyIncome)}`,
+      value: `$${toCurrency(financialFreedomMetrics.passiveMonthyIncome)}`,
       label: 'Ingreso pasivo mensual con interés simple'
     }
   ]
@@ -151,11 +151,11 @@ export function onSubmitFinancialFreedomPassiveIncomeCalculatorForm(values: Fina
   const result = finalcialFreedomPassiveIncomeCalculate(values)
   const newMetrics: MetricCardValue[] = [
     {
-      value: `$${toTwoDecimals(result.annualPassiveIncome)}`,
+      value: `$${toCurrency(result.annualPassiveIncome)}`,
       label: 'Ingreso pasivo anual'
     },
     {
-      value: `$${toTwoDecimals(result.investedCapital)}`,
+      value: `$${toCurrency(result.investedCapital)}`,
       label: 'Capital invertido'
     }
   ]
