@@ -54,7 +54,7 @@ function finalcialFreedomCalculate(input: FinancialFreedomCalculatorFormValues):
 export function onSubmitFinancialFreedomCalculatorForm(values: FinancialFreedomCalculatorFormValues): MetricCardValue[] {
   const financialFreedomMetrics = finalcialFreedomCalculate(values)
 
-  const extraordinaryInvestment: FinancialFreedomMetrics = {
+  const aditionals: FinancialFreedomMetrics = {
     anualInvestment: 0,
     savingInvestment: 0,
     futureValue: 0,
@@ -63,40 +63,42 @@ export function onSubmitFinancialFreedomCalculatorForm(values: FinancialFreedomC
     passiveAnualIncome: 0,
     passiveMonthyIncome: 0
   }
-  values.aditionals?.forEach((investment) => {
-    let capital = 0
-    if (investment.year > values.years) return
 
-    if (investment.type === 'anual') capital = investment.value
-    if (investment.type === 'semestral') capital = investment.value * 2
-    if (investment.type === 'trimestral') capital = investment.value * 4
+  values.aditionals?.forEach((aditional) => {
+    let capital = 0
+    if (aditional.year > values.years) return
+
+    if (aditional.type === 'anual') capital = aditional.value
+    if (aditional.type === 'semestral') capital = aditional.value * 2
+    if (aditional.type === 'trimestral') capital = aditional.value * 4
 
     const value: FinancialFreedomCalculatorFormValues = {
       initialCapital: capital,
       interesRateCompountInterest: values.interesRateCompountInterest,
       interesRateSimpleInterest: values.interesRateSimpleInterest,
       inflation: values.inflation,
-      years: values.years - investment.year,
-      mensualInvestment: values.mensualInvestment
+      years: aditional.year,
+      mensualInvestment: 0
     }
 
-    const metrics = finalcialFreedomCalculate(value)
-    extraordinaryInvestment.anualInvestment += metrics.anualInvestment
-    extraordinaryInvestment.savingInvestment += metrics.savingInvestment
-    extraordinaryInvestment.futureValue += metrics.futureValue
-    extraordinaryInvestment.savingAndFutureValueDifference += metrics.savingAndFutureValueDifference
-    extraordinaryInvestment.presentValue += metrics.presentValue
-    extraordinaryInvestment.passiveAnualIncome += metrics.passiveAnualIncome
-    extraordinaryInvestment.passiveMonthyIncome += metrics.passiveMonthyIncome
+    const aditionalResult = finalcialFreedomCalculate(value)
+
+    aditionals.anualInvestment += aditionalResult.anualInvestment
+    aditionals.savingInvestment += aditionalResult.savingInvestment
+    aditionals.futureValue += aditionalResult.futureValue
+    aditionals.savingAndFutureValueDifference += aditionalResult.savingAndFutureValueDifference
+    aditionals.presentValue += aditionalResult.presentValue
+    aditionals.passiveAnualIncome += aditionalResult.passiveAnualIncome
+    aditionals.passiveMonthyIncome += aditionalResult.passiveMonthyIncome
   })
 
-  financialFreedomMetrics.anualInvestment += extraordinaryInvestment.anualInvestment
-  financialFreedomMetrics.savingInvestment += extraordinaryInvestment.savingInvestment
-  financialFreedomMetrics.futureValue += extraordinaryInvestment.futureValue
-  financialFreedomMetrics.savingAndFutureValueDifference += extraordinaryInvestment.savingAndFutureValueDifference
-  financialFreedomMetrics.presentValue += extraordinaryInvestment.presentValue
-  financialFreedomMetrics.passiveAnualIncome += extraordinaryInvestment.passiveAnualIncome
-  financialFreedomMetrics.passiveMonthyIncome += extraordinaryInvestment.passiveMonthyIncome
+  financialFreedomMetrics.anualInvestment += aditionals.anualInvestment
+  financialFreedomMetrics.savingInvestment += aditionals.savingInvestment
+  financialFreedomMetrics.futureValue += aditionals.futureValue
+  financialFreedomMetrics.savingAndFutureValueDifference += aditionals.savingAndFutureValueDifference
+  financialFreedomMetrics.presentValue += aditionals.presentValue
+  financialFreedomMetrics.passiveAnualIncome += aditionals.passiveAnualIncome
+  financialFreedomMetrics.passiveMonthyIncome += aditionals.passiveMonthyIncome
 
   const newMetrics: MetricCardValue[] = [
     {
