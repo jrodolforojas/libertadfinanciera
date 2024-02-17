@@ -190,6 +190,14 @@ export default function FinancialFreedomForm() {
           )}
         </div>
         {aditionals === 1 && (
+          <ul className='mb-5'>
+            <span className='text-sm text-primary font-bold'>Instrucciones</span>
+            <li className='text-sm text-primary'><strong>Campo 1: </strong>Monto ($) del aporte extraordinario.</li>
+            <li className='text-sm text-primary'><strong>Campo 2: </strong>¿En cuál año se hace este aporte?.</li>
+            <li className='text-sm text-primary'><strong>Campo 3: </strong>Periodicidad del aporte en el año elegido.</li>
+          </ul>
+        )}
+        {aditionals === 1 && (
           <ul className='mb-6'>
             {fields.map((aditional, index) => (
               <li key={index} className='flex w-full gap-5 justify-between xl:items-start items-center'>

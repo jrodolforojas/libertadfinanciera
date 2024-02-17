@@ -14,6 +14,7 @@ import useSwitch from './hooks/useSwitch'
 import { rentaVacacionalSchema } from './schemas/renta-vacacional-schema'
 import PercentSpan from './components/percent'
 import ExpensesPercentSpan from './components/expenses-percent'
+import MetricContainer from '@/components/metric-container'
 
 export default function RentaVacacionalCalculator() {
   const { isSelected: isMonthlyRentSelected, isActive: isMonthlyRentActive, toggleValue: toggleMonthlyRent } = useSwitch()
@@ -307,9 +308,9 @@ export default function RentaVacacionalCalculator() {
           text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600
           dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Calcular</button>
       </form>
-      <div className="flex mt-8 lg:ml-10 w-full max-h-[500px]">
+      <MetricContainer>
         <MetricCard metrics={metrics} />
-      </div>
+      </MetricContainer>
     </section>
   )
 }
