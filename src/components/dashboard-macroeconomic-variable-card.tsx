@@ -1,6 +1,7 @@
 import { Card, Metric, Text } from '@tremor/react'
 import { toTwoDecimals } from '@/utils/metrics-format'
 import { type DashboardMetric } from '@/types/dahsboard-metric'
+import Link from 'next/link'
 
 export default function DashboardMacroeconomicVariableCard({ title, metrics }: {
   title: string
@@ -14,10 +15,12 @@ export default function DashboardMacroeconomicVariableCard({ title, metrics }: {
           const { value, date, symbol, flag } = metric
           const formattedValue = `${toTwoDecimals(value)}${symbol}`
           return (
-            <Card className='flex justify-center flex-col items-center bg-blue-primary min-w-80' key={crypto.randomUUID()}>
-              <Metric className='text-secondary'>{formattedValue}</Metric>
-              <Text className='text-gray-400 mt-5'>{date}</Text>
-              {flag && <Text className='text-gray-400'>{flag}</Text>}
+            <Card className='bg-blue-primary min-w-80' key={metric.path}>
+              <Link href={metric.path} className='flex justify-center flex-col items-center'>
+                <Metric className='text-secondary'>{formattedValue}</Metric>
+                <Text className='text-gray-400 mt-5'>{date}</Text>
+                {flag && <Text className='text-gray-400'>{flag}</Text>}
+              </Link>
             </Card>
           )
         })}

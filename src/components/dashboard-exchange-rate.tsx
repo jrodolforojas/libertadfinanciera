@@ -117,7 +117,7 @@ export default function DashboardExchangeRate({ rate }: {
         </div>
         <button
           onClick={handleSwitch}
-          className='text-primary bg-gray-500 p-2 rounded-md hover:text-secondary hover:bg-white'>
+          className='text-secondary bg-gray-800 p-2 rounded-md hover:text-secondary hover:bg-white'>
           <SwitchIcon />
         </button>
         <div className='w-full'>

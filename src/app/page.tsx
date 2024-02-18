@@ -42,12 +42,14 @@ export default async function Home() {
     {
       value: costaRicaInflationRate.value,
       date: 'Tasa de inflación 🇨🇷',
-      symbol: '%'
+      symbol: '%',
+      path: '/variables-macroeconomicas/inflacion/cr'
     },
     {
       value: usaInflationRate.value,
       date: 'Tasa de inflación 🇺🇸',
-      symbol: '%'
+      symbol: '%',
+      path: '/variables-macroeconomicas/inflacion/usa'
     }
   ]
 
@@ -58,12 +60,14 @@ export default async function Home() {
     {
       value: costaRicaCreditRate.value,
       date: 'Tasa Básica Pasiva',
-      symbol: '%'
+      symbol: '%',
+      path: '/variables-macroeconomicas/tasa-interes-creditos/cr'
     },
     {
       value: usaCreditRate.value,
       date: 'New York Prime',
-      symbol: '%'
+      symbol: '%',
+      path: '/variables-macroeconomicas/tasa-interes-creditos/usa'
     }
   ]
 
@@ -88,24 +92,24 @@ export default async function Home() {
             title='Tasa de Créditos Hipotecarios'
             metrics={creditMetrics}
           />
+          <footer className='absolute bottom-0 right-0 left-0 bg-primary max-h-20 p-3 flex items-center md:justify-end justify-center text-gray-500 gap-x-3'>
+            <a href='https://www.instagram.com/_robertoolivas/' title='Visitar Instagram' target='_blank' rel="noreferrer" className='text-gray-500 hover:text-white'>
+              <InstagramIcon />
+            </a>
+            <a href='https://www.facebook.com/asesorfinanciero.robertoolivas/' title='' target='_blank' rel="noreferrer" className='text-gray-500 hover:text-white'>
+              <FacebookIcon />
+            </a>
+            <a href='https://finanzasconrobertoolivas.com/' title='' target='_blank' rel="noreferrer" className='text-gray-500 hover:text-white'>
+              <WebsiteIcon />
+            </a>
+            <a href='https://www.tiktok.com/@finanzasconrobertoolivas' title='' target='_blank' rel="noreferrer" className='text-gray-500 hover:text-white'>
+              <TiktokIcon />
+            </a>
+            <a href='https://www.linkedin.com/in/roberto-olivas-24b93693/' title='' target='_blank' rel="noreferrer" className='text-gray-500 hover:text-white'>
+              <LinkedInIcon />
+            </a>
+          </footer>
         </section>
-        <footer className='absolute bottom-0 sm:bg-white bg-primary max-h-20 p-3 w-full flex items-center justify-center text-gray-500 gap-x-3'>
-          <a href='https://www.instagram.com/_robertoolivas/' title='Visitar Instagram' target='_blank' rel="noreferrer" className='sm:text-primary text-gray-500 hover:text-white'>
-            <InstagramIcon />
-          </a>
-          <a href='https://www.facebook.com/asesorfinanciero.robertoolivas/' title='' target='_blank' rel="noreferrer" className='sm:text-primary text-gray-500 hover:text-white'>
-            <FacebookIcon />
-          </a>
-          <a href='https://finanzasconrobertoolivas.com/' title='' target='_blank' rel="noreferrer" className='sm:text-primary text-gray-500 hover:text-white'>
-            <WebsiteIcon />
-          </a>
-          <a href='https://www.tiktok.com/@finanzasconrobertoolivas' title='' target='_blank' rel="noreferrer" className='sm:text-primary text-gray-500 hover:text-white'>
-            <TiktokIcon />
-          </a>
-          <a href='https://www.linkedin.com/in/roberto-olivas-24b93693/' title='' target='_blank' rel="noreferrer" className='sm:text-primary text-gray-500 hover:text-white'>
-            <LinkedInIcon />
-          </a>
-        </footer>
       </section>
     </main>
   )
