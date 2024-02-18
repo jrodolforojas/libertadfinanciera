@@ -72,8 +72,8 @@ export default async function Home() {
   ]
 
   return (
-    <main className="flex flex-col justify-center items-center md:px-20 px-10 md:ml-64 md:mt-5 pb-10">
-      <section className="flex w-full max-w-4xl items-center justify-center flex-col">
+    <main className="flex flex-col justify-center items-center md:px-20 px-10 md:ml-64 md:mt-5 pb-10 min-h-screen bg-white">
+      <section className="flex w-full max-w-4xl items-center justify-center flex-col mb-14">
         <header className='flex flex-col w-full items-start'>
           <h1 className="text-3xl text-blue-primary font-bold text-center mb-2">¡Hola {name}!</h1>
           <p className='text-gray-600 text-sm text-pretty'>Te damos la bienvenida a la plataforma de herramientas de análisis de la <strong className='text-primary font-bold'>comunidad de alumnos de Roberto Olivas</strong>.</p>
@@ -92,25 +92,25 @@ export default async function Home() {
             title='Tasa de Créditos Hipotecarios'
             metrics={creditMetrics}
           />
-          <footer className='absolute bottom-0 right-0 left-0 bg-primary max-h-20 p-3 flex items-center md:justify-end justify-center text-gray-500 gap-x-3'>
-            <a href='https://www.instagram.com/_robertoolivas/' title='Visitar Instagram' target='_blank' rel="noreferrer" className='text-gray-500 hover:text-white'>
-              <InstagramIcon />
-            </a>
-            <a href='https://www.facebook.com/asesorfinanciero.robertoolivas/' title='' target='_blank' rel="noreferrer" className='text-gray-500 hover:text-white'>
-              <FacebookIcon />
-            </a>
-            <a href='https://finanzasconrobertoolivas.com/' title='' target='_blank' rel="noreferrer" className='text-gray-500 hover:text-white'>
-              <WebsiteIcon />
-            </a>
-            <a href='https://www.tiktok.com/@finanzasconrobertoolivas' title='' target='_blank' rel="noreferrer" className='text-gray-500 hover:text-white'>
-              <TiktokIcon />
-            </a>
-            <a href='https://www.linkedin.com/in/roberto-olivas-24b93693/' title='' target='_blank' rel="noreferrer" className='text-gray-500 hover:text-white'>
-              <LinkedInIcon />
-            </a>
-          </footer>
         </section>
       </section>
+      <footer className='fixed bottom-0 bg-primary max-h-20 p-3 flex items-center justify-center text-gray-500 gap-x-3 w-full'>
+        <a href='https://www.instagram.com/_robertoolivas/' title='Visitar Instagram' target='_blank' rel="noreferrer" className='text-gray-500 hover:text-white'>
+          <InstagramIcon />
+        </a>
+        <a href='https://www.facebook.com/asesorfinanciero.robertoolivas/' title='' target='_blank' rel="noreferrer" className='text-gray-500 hover:text-white'>
+          <FacebookIcon />
+        </a>
+        <a href='https://finanzasconrobertoolivas.com/' title='' target='_blank' rel="noreferrer" className='text-gray-500 hover:text-white'>
+          <WebsiteIcon />
+        </a>
+        <a href='https://www.tiktok.com/@finanzasconrobertoolivas' title='' target='_blank' rel="noreferrer" className='text-gray-500 hover:text-white'>
+          <TiktokIcon />
+        </a>
+        <a href='https://www.linkedin.com/in/roberto-olivas-24b93693/' title='' target='_blank' rel="noreferrer" className='text-gray-500 hover:text-white'>
+          <LinkedInIcon />
+        </a>
+      </footer>
     </main>
   )
 }
