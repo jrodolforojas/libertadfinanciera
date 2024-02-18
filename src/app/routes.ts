@@ -2,6 +2,10 @@ import type { Route } from '@/types/route'
 
 const userRoutes: Route[] = [
   {
+    name: 'Dashboard',
+    path: '/'
+  },
+  {
     name: 'Calculadoras',
     path: '/calculators',
     subRoutes: [
