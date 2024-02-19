@@ -11,7 +11,7 @@ import * as yup from 'yup'
 const schema = yup.object().shape({
   title: yup.string().required('El título es requerido'),
   description: yup.string().required('La descripción es requerida'),
-  type: yup.string().required('El tipo es requerido').oneOf(['bug', 'feature', 'improvement'])
+  type: yup.string().required('El tipo es requerido').oneOf(['bug', 'feature', 'improvement'], 'El tipo no es válido')
 })
 
 interface ReportBugFormProps {
@@ -20,7 +20,7 @@ interface ReportBugFormProps {
   type: string
 }
 
-export default function ReportBugForm() {
+export default function ReportBugForm({ userEmail }: { userEmail: string }) {
   const { register, control, formState: { errors }, handleSubmit } = useForm<ReportBugFormProps>({
     resolver: yupResolver(schema)
   })
@@ -30,7 +30,7 @@ export default function ReportBugForm() {
       title: data.title,
       description: data.description,
       type: data.type,
-      user: 'anonymous'
+      user: userEmail
     }
     const response = await createIssue({ issue })
     if (response.error) {
@@ -60,7 +60,7 @@ export default function ReportBugForm() {
       <div className="mb-6 w-full">
         <label htmlFor='type' className="block mb-2 text-sm font-medium text-blue-primary">Tipo</label>
         <Controller control={control} name='type' render={({ field }) => (
-          <Select placeholder='Selecciona...' id='type' value={field.value} onChange={field.onChange} defaultValue='bug'>
+          <Select placeholder='Selecciona...' id='type' value={field.value} onChange={field.onChange} defaultValue=''>
             <SelectItem value='bug'>Error en la plataforma</SelectItem>
             <SelectItem value='feature'>Nueva funcionalidad</SelectItem>
             <SelectItem value='improvement'>Mejora a funcionalidad existente</SelectItem>

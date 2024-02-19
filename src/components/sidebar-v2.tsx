@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { Sidebar, Menu, MenuItem, type MenuItemStyles, SubMenu } from 'react-pro-sidebar'
 import Avatar from '@/components/avatar'
 import { type User } from '@/types/user'
-import { LogoutIcon, MenuIcon } from './icons'
+import { BugIcon, LogoutIcon, MenuIcon } from './icons'
 
 const menuItemStyles: MenuItemStyles = {
   root: {
@@ -101,6 +101,12 @@ export default function SidebarV2({ routes, user, onSignOut }: {
           closeOnClick={true}
           menuItemStyles={menuItemStyles}>
           <div className='m-3 flex border-b border-gray-600' />
+          <MenuItem key='sign-out' component={<Link href={'/report-bug'} />}>
+            <div className='flex w-full text-white'>
+              <BugIcon />
+              <span className='ml-2 text-white'>Reportar Issue</span>
+            </div>
+          </MenuItem>
           <MenuItem key='sign-out' onClick={onSignOut}>
             <div className='flex w-full text-white'>
               <LogoutIcon />
