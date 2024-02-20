@@ -18,16 +18,12 @@ export default async function Home() {
 
   const isFirstTime = user?.[0]?.is_first_time ?? true
 
-  if (session === null || user === null || user.length !== 1 || isFirstTime) {
-    redirect('/login')
-  }
-
-  if (!session) {
-    redirect('/login')
-  }
-
   if (isFirstTime) {
     redirect('/create-password')
+  }
+
+  if (user == null) {
+    redirect('/login')
   }
 
   const fullName = user[0].name
