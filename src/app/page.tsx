@@ -18,7 +18,11 @@ export default async function Home() {
 
   const isFirstTime = user?.[0]?.is_first_time ?? true
 
-  if (isFirstTime) {
+  if (session == null && user == null) {
+    redirect('/login')
+  }
+
+  if (session != null && user != null && isFirstTime) {
     redirect('/create-password')
   }
 
@@ -76,18 +80,24 @@ export default async function Home() {
         </header>
         <section className='flex flex-col w-full items-start mt-5'>
           <h3 className='text-2xl font-bold text-blue-text'>Variables Macroeconómicas de Hoy</h3>
-          <DashboardMacroeconomicVariableCard
-            title='Tasa de Inflación'
-            metrics={inflationMetrics}
-          />
-          <div className='flex w-full flex-col gap-y-2'>
-            <h3 className='text-lg font-bold text-blue-text mt-3 w-full text-center'>Tipo de Cambio</h3>
-            <DashboardExchangeRate rate={todayExchangeRate} />
-          </div>
-          <DashboardMacroeconomicVariableCard
-            title='Tasa de Créditos Hipotecarios'
-            metrics={creditMetrics}
-          />
+          {costaRicaInflationRate.value && usaInflationRate.value && (
+            <DashboardMacroeconomicVariableCard
+              title='Tasa de Inflación'
+              metrics={inflationMetrics}
+            />
+          )}
+          {todayExchangeRate.buy && todayExchangeRate.sale && (
+            <div className='flex w-full flex-col gap-y-2'>
+              <h3 className='text-lg font-bold text-blue-text mt-3 w-full text-center'>Tipo de Cambio</h3>
+              <DashboardExchangeRate rate={todayExchangeRate} />
+            </div>
+          )}
+          {costaRicaCreditRate.value && usaCreditRate.value && (
+            <DashboardMacroeconomicVariableCard
+              title='Tasa de Créditos'
+              metrics={creditMetrics}
+            />
+          )}
         </section>
       </section>
       <footer className='fixed bottom-0 bg-primary max-h-20 p-3 flex items-center justify-center text-gray-500 gap-x-3 w-full'>
