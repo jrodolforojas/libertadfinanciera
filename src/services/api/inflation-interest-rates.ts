@@ -90,14 +90,6 @@ export const getTodayInflationRate = async ({ country }: { country: string }) =>
   if (!response.ok) throw new Error('Error fetching credit exchange rates. Status: ' + response.status)
   const { data } = await response.json() as InflationRateTodayResponse
 
-  if (!data) {
-    const rate: InflationRate = {
-      date: new Date(),
-      value: 0,
-      dateFormatted: format(new Date(), 'dd/MM/yyyy')
-    }
-    return rate
-  }
   const rate: InflationRate = {
     ...data,
     dateFormatted: format(new Date(data.date), 'dd/MM/yyyy')
