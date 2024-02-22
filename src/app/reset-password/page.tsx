@@ -14,7 +14,7 @@ const resetPasswordSchema = yup.object({
   password: yup.string().required('Contraseña es un campo requerido')
     .min(6, 'Contraseña debe ser mayor a 6 caracteres')
     .max(30, 'Contraseña debe ser menor a 30 caracteres')
-    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/, 'La contraseña debe contener al menos una letra mayúscula, una letra minúscula y un número'),
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}[\]:;<>,.?~\\/-])[a-zA-Z\d!@#$%^&*()_+{}[\]:;<>,.?~\\/-]{6,30}$/, 'Contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un caracter especial'),
   passwordConfirmation: yup.string().required('Confirmación de contraseña es un campo requerido')
     .oneOf([yup.ref('password')], 'Las contraseñas deben coincidir')
 })
@@ -64,6 +64,7 @@ export default function ResetPasswordPage() {
                 <li className='text-gray-600 text-xs'>Al menos una letra mayúscula</li>
                 <li className='text-gray-600 text-xs'>Al menos una letra minúscula</li>
                 <li className='text-gray-600 text-xs'>Al menos un número</li>
+                <li className='text-gray-600 text-xs'>Al menos un caracter especial</li>
               </ul>
             </header>
             <form className="space-y-4 md:space-y-6">
