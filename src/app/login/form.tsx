@@ -78,8 +78,9 @@ export default function LoginForm() {
                 </div>
                 {errors.password && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.password.message}</span>}
               </div>
-              <div className="flex items-center justify-between">
+              <div className="flex items-start justify-start flex-col gap-y-3">
                 <Link href='/forgot-password' className="text-sm font-medium text-primary-light hover:underline dark:text-primary-500">¿Olvidaste tu contraseña?</Link>
+                <Link href='/signup' className="text-sm font-medium text-primary-light hover:underline dark:text-primary-500">Solicitar invitación de acceso</Link>
               </div>
               <button type="button" onClick={handleSubmit(onSubmit)} className="w-full text-white bg-secondary hover:bg-secondary-dark focus:ring-4 focus:outline-none
               focus:ring-secondary-dark font-medium rounded-lg text-sm px-5 py-2.5 text-center">Iniciar Sesión</button>
