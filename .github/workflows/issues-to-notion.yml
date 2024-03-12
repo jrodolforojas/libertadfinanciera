@@ -17,4 +17,4 @@ jobs:
 
     - name: Execute Doitforme Endpoint
       run: |
-        curl -X GET $DOITFORME_URL/tasks
+        curl -X GET https://doitforme.up.railway.app/tasks
