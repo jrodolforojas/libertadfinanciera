@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      PROD_URL: ${{ secrets.PROD_URL }}
+      DOITFORME_URL: ${{ secrets.DOITFORME_URL }}
 
     steps:
     - name: Repository checkout
@@ -17,4 +17,4 @@ jobs:
 
     - name: Execute Doitforme Endpoint
       run: |
-        curl -X GET $PROD_URL/tasks
+        curl -X GET $DOITFORME_URL/tasks
