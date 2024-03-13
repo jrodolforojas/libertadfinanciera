@@ -10,9 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
     - name: Check if assigned by me
       run: |
         if [ "${{ github.event.issue.assignee.login }}" == "jrodolforojas" ]; then
