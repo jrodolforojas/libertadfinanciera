@@ -21,7 +21,7 @@ interface ReportBugFormProps {
 }
 
 export default function ReportBugForm({ userEmail }: { userEmail: string }) {
-  const { register, control, formState: { errors }, handleSubmit } = useForm<ReportBugFormProps>({
+  const { register, control, formState: { errors }, handleSubmit, reset } = useForm<ReportBugFormProps>({
     resolver: yupResolver(schema)
   })
 
@@ -38,6 +38,7 @@ export default function ReportBugForm({ userEmail }: { userEmail: string }) {
       return
     }
     toast.success('Issue creado correctamente')
+    reset()
   }
 
   return (
