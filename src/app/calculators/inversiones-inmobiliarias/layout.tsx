@@ -20,8 +20,8 @@ export default async function InversionesInmobiliariasLayout({
   }
   return (
     <CrudContainer>
+      <Logo />
       <header className='flex flex-col w-full text-center max-w-6xl'>
-        <Logo />
         <h2 className="text-2xl font-bold mb-5 text-center text-primary dark:text-white mb-5">Calculadora de Inversiones Inmobiliarias</h2>
         <TabsNavbar tabs={realStateInvestmentTypes} route="/calculators/inversiones-inmobiliarias/" />
       </header>
