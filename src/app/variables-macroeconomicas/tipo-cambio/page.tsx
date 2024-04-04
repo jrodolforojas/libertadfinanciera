@@ -33,8 +33,8 @@ export default async function DollarColonesExchangeRate({ searchParams }: {
 
   const data = exchangeRates.reverse().map(item => {
     const test: ExchangeRateSpanish = {
-      compra: item.sale,
-      venta: item.buy,
+      compra: item.buy,
+      venta: item.sale,
       fecha: item.date,
       dateFormatted: item.dateFormatted
     }
