@@ -8,6 +8,8 @@ import Link from 'next/link'
 import ActiveInactiveUser from './delete-user'
 import CrudContainer from '@/components/crud-container'
 import SearchBar from '@/components/search-bar'
+import SendInvitationButton from './send-invitation-button'
+import ToastContainer from '@/components/toast-client'
 
 const columns = ['Nombre', 'Correo Electrónico', 'Activo/Inactivo', 'Rol', 'Fecha de Creación', 'Acciones']
 
@@ -42,6 +44,7 @@ export default async function Users({ searchParams }: {
           <img className="w-20 h-20" src="/logos/logo-verde-azul.avif" alt="logo" />
           <h2 className="text-3xl font-bold text-center text-primary">Usuarios</h2>
         </div>
+        <ToastContainer />
       </header>
       <div className='flex w-full max-h-12 items-center justify-between mb-14 lg:mb-5 lg:flex-row flex-col gap-y-3 mt-5'>
         <SearchBar />
@@ -89,6 +92,7 @@ export default async function Users({ searchParams }: {
                   {user.createdAt}
                 </td>
                 <td className="px-6 py-4 flex items-center justify-center gap-x-2">
+                  <SendInvitationButton userId={user.id} />
                   <Link href={'/admin/users/[id]'} as={`/admin/users/${user.id}`} className='text-primary hover:rounded-full p-2 hover:bg-secondary'>
                     <EditIcon />
                   </Link>
