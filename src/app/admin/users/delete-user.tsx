@@ -3,7 +3,7 @@
 import { DownIcon, UpIcon } from '@/components/icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
-import { Toaster, toast } from 'sonner'
+import { toast } from 'sonner'
 
 export default function ActiveInactiveUser({ userId, isActive }: { userId: string, isActive: boolean }) {
   const supabase = createClientComponentClient()
@@ -24,7 +24,6 @@ export default function ActiveInactiveUser({ userId, isActive }: { userId: strin
       <button className='text-primary hover:rounded-full p-2 hover:bg-secondary' onClick={handleChangeActive}>
         {isActive ? <DownIcon /> : <UpIcon />}
       </button>
-      {/* <Toaster position="top-center" theme='dark' /> */}
     </>
   )
 }
