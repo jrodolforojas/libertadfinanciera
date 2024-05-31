@@ -24,7 +24,7 @@ export default function ActiveInactiveUser({ userId, isActive }: { userId: strin
       <button className='text-primary hover:rounded-full p-2 hover:bg-secondary' onClick={handleChangeActive}>
         {isActive ? <DownIcon /> : <UpIcon />}
       </button>
-      <Toaster position="top-center" theme='dark' />
+      {/* <Toaster position="top-center" theme='dark' /> */}
     </>
   )
 }
