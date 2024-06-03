@@ -4,7 +4,7 @@ import { EyeOffIcon, EyeOnIcon } from '@/components/icons'
 import { type LoginFormValues } from '@/types/form/login'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -17,6 +17,22 @@ const loginSchema = yup.object({
 })
 
 export default function LoginForm() {
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash.substring(1) // Remove the '#' from the beginning
+      const params = new URLSearchParams(hash)
+      const error = params.get('error')
+      const errorDescription = params.get('error_description')
+
+      if (error === 'access_denied' && errorDescription === 'Email link is invalid or has expired') {
+        toast.error('Esta invitación es inválida o ya expiró. Solicita una nueva invitación.')
+        setTimeout(() => {
+          router.replace('/signup')
+        }, 5000)
+      }
+    }
+  }, [])
+
   const router = useRouter()
   const supabase = createClientComponentClient()
   const [showPassword, setShowPassword] = useState(false)
