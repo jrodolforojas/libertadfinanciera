@@ -14,7 +14,7 @@ const schema = yup.object().shape({
   email: yup.string().email('Debe ser un correo electrónico válido').required('Correo electrónico es un campo requerido')
 })
 export default function SignUpPage() {
-  const { register, formState: { errors }, handleSubmit } = useForm({
+  const { register, formState: { errors }, handleSubmit, reset } = useForm({
     resolver: yupResolver(schema)
   })
 
@@ -26,6 +26,7 @@ export default function SignUpPage() {
       return
     }
     toast.success(message)
+    reset()
   }
   return (
     <main className="h-screen bg-primary">
@@ -39,7 +40,7 @@ export default function SignUpPage() {
               Solicitar invitación de acceso
             </h1>
             <h3 className="text-sm text-primary mt-5">
-              <strong>Importante:</strong> Este formulario es para solicitar una invitación de acceso a la plataforma. Si ya tienes una cuenta, inicia sesión <Link href="/login" className="text-secondary hover:text-secondary-dark">aquí</Link>.
+              <strong>Importante:</strong> Este formulario es para solicitar una nueva invitación de acceso a la plataforma. Si ya tienes una cuenta <strong>verificada</strong>, inicia sesión <Link href="/login" className="text-secondary hover:text-secondary-dark">aquí</Link>.
             </h3>
             <form className="space-y-4 md:space-y-6">
               <div>
