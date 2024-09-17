@@ -14,7 +14,7 @@ const thirtyDaysAgo = new Date(today.getFullYear(), today.getMonth() - 3, today.
 const costaRicaInflationMinimumDate = new Date(1976, 0, 1)
 const usaInflationMinimumDate = new Date(1913, 0, 1)
 const costaRicaInflationReference = 'https://gee.bccr.fi.cr/indicadoreseconomicos/Cuadros/frmVerCatCuadro.aspx?CodCuadro=2732&Idioma=1'
-const usaInflationReference = 'https://www2.nhes.nh.gov/GraniteStats/CpiServlet?page=CPI.jsp&source=01&country=000000'
+const usaInflationReference = 'https://data.bls.gov/timeseries/CUUR0000SA0?years_option=all_years'
 
 export default async function InflationInterestRatePage({ params, searchParams }: {
   params: { id: string }
@@ -191,7 +191,7 @@ export default async function InflationInterestRatePage({ params, searchParams }
       <footer className="mt-8 pb-5">
         <p className='text-sm text-gray-500 text-center'>
           Los datos utilizados en esta página son obtenidos del {' '}
-          {currentCountry.id === 'usa' && <a href={usaInflationReference} target='_blank' className='text-green-primary hover:underline' rel="noreferrer">www2.nhes.nh.gov</a>}
+          {currentCountry.id === 'usa' && <a href={usaInflationReference} target='_blank' className='text-green-primary hover:underline' rel="noreferrer">U.S. Bureau of Labor Statistics</a>}
           {currentCountry.id === 'cr' && <a href={costaRicaInflationReference} target='_blank' className='text-green-primary hover:underline' rel="noreferrer">Banco Central de Costa Rica</a>}
           .
         </p>
