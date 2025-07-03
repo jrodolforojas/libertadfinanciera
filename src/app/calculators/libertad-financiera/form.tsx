@@ -20,10 +20,10 @@ export default function FinalcialFreedomCalculatorForm() {
       {isActive
         ? (
           <PassiveIncomesCalculatorForm />
-        )
+          )
         : (
           <FinancialFreedomForm />
-        )}
+          )}
     </CrudContainer>
   )
 }

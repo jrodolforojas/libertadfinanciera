@@ -137,10 +137,10 @@ export default function UploadMassiveUsersForm({ role }: { role: Role }) {
                     {user.isActive
                       ? (
                         <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Activo</span>
-                      )
+                        )
                       : (
                         <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">Inactivo</span>
-                      )}
+                        )}
                   </td>
                   <td className="px-6 py-4 text-center">
                     {user.role.name}

@@ -5,7 +5,6 @@ import { type SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { Toaster, toast } from 'sonner'
-import { type Database } from '@/types/entities/database'
 import { type ForgotPasswordFormValues } from '@/types/form/forgot-password'
 
 const forgotPasswordSchema = yup.object({

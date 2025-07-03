@@ -85,7 +85,7 @@ export default function CreatePasswordPage() {
       }
 
       const { data, error } = await supabase.auth.getUser()
-      if (error || !data.user) {
+      if (error ?? !data.user) {
         toast.error('No se pudo obtener el usuario')
         router.replace('/')
         return

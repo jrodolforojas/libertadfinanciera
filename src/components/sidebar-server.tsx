@@ -1,11 +1,8 @@
 import MultiLevelSidebar from '@/components/sidebar'
 import { createClient } from '@/utils/supabase/server'
-import { cookies } from 'next/headers'
-import { type Database } from '@/types/entities/database'
 import { getRoutes } from '@/app/routes'
 
 export default async function SidebarServer() {
-  const cookieStore = cookies()
   const supabase = createClient()
   const { data: { user: sessionUser } } = await supabase.auth.getUser()
   const { data: users } = await supabase.from('users').select('*, role:roles(id, name)').eq('auth_id', sessionUser?.id ?? '')

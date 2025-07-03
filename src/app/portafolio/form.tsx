@@ -14,7 +14,6 @@ import Logo from '@/components/logo'
 import { useRouter } from 'next/navigation'
 import { Toaster, toast } from 'sonner'
 import { createClient } from '@/utils/supabase/client'
-import { type Database } from '@/types/entities/database'
 
 const columns = ['Objetivo', 'Plazo (meses)', 'Aporte Inicial', 'Aporte Mensual', 'Meses Invertidos', 'Valor de la inversión (hoy)',
   'Porcentaje del Portafolio', 'Tipo de interés', 'Rendimiento Promedio Anual', 'Acciones']

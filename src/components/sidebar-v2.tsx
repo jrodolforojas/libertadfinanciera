@@ -89,10 +89,10 @@ export default function SidebarV2({ routes, user, onSignOut }: {
                         <MenuItem key={subRoute.path} component={<Link href={subRoute.path} />} onClick={closeOnClick}>{subRoute.name}</MenuItem>
                       ))}
                     </SubMenu>
-                  )
+                    )
                   : (
                     <MenuItem key={route.path} component={<Link href={route.path} />} onClick={closeOnClick}>{route.name}</MenuItem>
-                  )}
+                    )}
               </div>
             ))
           }

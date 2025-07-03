@@ -115,7 +115,7 @@ export default async function InflationInterestRatePage({ params, searchParams }
                 noDataText={LABELS.NO_DATA_FOUND}
               />
             </Card>
-          )
+            )
           : (
             <TabGroup>
               <TabList>
@@ -168,7 +168,7 @@ export default async function InflationInterestRatePage({ params, searchParams }
                                           deltaType={item.devaluacion < 0 ? 'moderateDecrease' : item.devaluacion === 0 ? 'unchanged' : 'moderateIncrease'} size="xs">
                                           {toTwoDecimals(item.devaluacion ?? 0)}%
                                         </BadgeDelta>
-                                      )
+                                        )
                                       : null}
                                   </td>
                                 </tr>
@@ -176,17 +176,17 @@ export default async function InflationInterestRatePage({ params, searchParams }
                             </tbody>
                           </table>
                         </div>
-                      )
+                        )
                       : (
                         <div className='flex items-center justify-center w-full'>
                           <span className="px-6 py-4 text-primary text-sm font-bold">No hay datos para mostrar</span>
                         </div>
-                      )}
+                        )}
                   </div>
                 </TabPanel>
               </TabPanels>
             </TabGroup>
-          )}
+            )}
       </article>
       <footer className="mt-8 pb-5">
         <p className='text-sm text-gray-500 text-center'>
