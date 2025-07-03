@@ -77,7 +77,7 @@ export function onSubmitFinancialFreedomCalculatorForm(values: FinancialFreedomC
       interesRateCompountInterest: values.interesRateCompountInterest,
       interesRateSimpleInterest: values.interesRateSimpleInterest,
       inflation: values.inflation,
-      years: values.years - aditional.year ?? 0,
+      years: values.years - aditional.year || 0,
       mensualInvestment: 0
     }
 
