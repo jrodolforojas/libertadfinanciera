@@ -1,9 +1,9 @@
 'use client'
 
 import { EyeOffIcon, EyeOnIcon } from '@/components/icons'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { createClient } from '@/utils/supabase/client'
 import { type SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -21,7 +21,7 @@ const resetPasswordSchema = yup.object({
 
 export default function ResetPasswordPage() {
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   const [showPassword, setShowPassword] = useState(false)
   const { register, handleSubmit, formState: { errors } } = useForm<ResetPasswordFormValues>({
     resolver: yupResolver(resetPasswordSchema)

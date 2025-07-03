@@ -1,21 +1,18 @@
 import { notFound, redirect } from 'next/navigation'
-import { cookies } from 'next/headers'
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { type Database } from '@/types/entities/database'
+import { createClient } from '@/utils/supabase/server'
 
 export default async function AdminLayout({
   children
 }: {
   children: React.ReactNode
 }) {
-  const cookieStore = cookies()
   const adminRole: string = process.env.ADMINISTRATOR_ROLE_ID ?? ''
-  const supabase = createServerComponentClient<Database>({ cookies: () => cookieStore })
-  const { data: { session } } = await supabase.auth.getSession()
+  const supabase = createClient()
+  const { data: { user } } = await supabase.auth.getUser()
   const { data: users } = await supabase.from('users').select('role_id')
-    .eq('auth_id', session?.user?.id ?? '')
+    .eq('auth_id', user?.id ?? '')
 
-  if (session === null) {
+  if (user === null) {
     redirect('/login')
   }
 

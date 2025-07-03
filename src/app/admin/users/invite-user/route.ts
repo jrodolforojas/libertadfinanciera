@@ -1,56 +1,59 @@
 import { NextResponse, type NextRequest } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
+import { createAdminClient } from '@/utils/supabase/server'
 
-export async function GET(request: NextRequest) {
-  const requestUrl = new URL(request.url)
-  const email = requestUrl.searchParams.get('email')
-  const name = requestUrl.searchParams.get('name')
-  const roleId = requestUrl.searchParams.get('role_id')
-  const isActive = requestUrl.searchParams.get('is_active')
+export async function POST(request: NextRequest) {
+  let body
+  try {
+    body = await request.json()
+  } catch (e) {
+    return NextResponse.json({ error: true, message: 'Invalid JSON body' }, { status: 400 })
+  }
+
+  const { email, name, role_id: roleId, is_active: isActive } = body
   if (!email || !name || !roleId) {
-    return NextResponse.redirect('/admin/users')
+    return NextResponse.json({ error: true, message: 'Missing required parameters' }, { status: 400 })
   }
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? ''
-  const supabaseAdminKey = process.env.SUPABASE_ADMIN_KEY ?? ''
-  const supabase = createClient(supabaseUrl, supabaseAdminKey, {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false
+
+  const supabase = createAdminClient()
+
+  // Verificamos si ya existe
+  const { data: userList, error: listError } = await supabase.auth.admin.listUsers()
+  const existingUser = userList?.users?.find((u) => u.email?.toLowerCase() === email.toLowerCase())
+  if (listError) {
+    return NextResponse.json({ error: true, message: 'Error checking for existing user' }, { status: 500 })
+  }
+  if (existingUser) {
+    return NextResponse.json({ error: true, message: 'User already exists' }, { status: 400 })
+  }
+
+  // Invitamos al usuario (envía correo con link mágico)
+  const { data: invitedUser, error: invitationError } = await supabase.auth.admin.inviteUserByEmail(email, {
+    data: {
+      invited_by: 'admin'
     }
   })
 
-  const randomPassword = crypto.randomUUID()
-  // authenticate user
-  const { data, error } = await supabase.auth.admin.createUser({
-    email,
-    password: randomPassword,
-    user_metadata: {
-      temporal: randomPassword
-    }
-  })
-  if (error?.status) {
-    return NextResponse.redirect(`${requestUrl.origin}/admin/users`)
+  if (invitationError) {
+    console.error(invitationError)
+    return NextResponse.json({ error: true, message: 'Error sending invitation' }, { status: 500 })
   }
 
-  // create user profile
-  await supabase.from('users').insert({
+  // Creamos su perfil en nuestra tabla `users`
+  const { error: userError } = await supabase.from('users').insert({
     name,
     email,
     role_id: roleId,
     is_active: isActive,
-    auth_id: data?.user?.id
-  })
-  // send invitation link
-  const { error: invitationError } = await supabase.auth.admin.inviteUserByEmail(email, {
-    data: {
-      temporal: randomPassword
-    }
+    auth_id: invitedUser?.user?.id
   })
 
-  if (invitationError?.status) {
-    return NextResponse.redirect(`${requestUrl.origin}/admin/users`)
+  if (userError) {
+    // Rollback: eliminamos el usuario creado en Auth
+    if (invitedUser?.user?.id) {
+      await supabase.auth.admin.deleteUser(invitedUser.user.id)
+    }
+    return NextResponse.json({ error: true, message: 'Error creating user profile, user rolled back' }, { status: 400 })
   }
 
-  const redirectUrl = `${requestUrl.origin}/admin/users?msg=Usuario creado exitosamente`
-  return NextResponse.redirect(redirectUrl)
+  return NextResponse.json({ error: false, message: 'Usuario invitado exitosamente' }, { status: 200 })
 }

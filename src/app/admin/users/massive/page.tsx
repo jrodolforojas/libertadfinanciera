@@ -1,13 +1,10 @@
-import { type Database } from '@/types/entities/database'
 import { type Role } from '@/types/role'
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
+import { createClient } from '@/utils/supabase/server'
 import UploadMassiveUsersForm from './form'
 
 const STUDENT_ROLE_NAME = 'Alumno'
 export default async function UploadMassiveUsersPage() {
-  const cookieStore = cookies()
-  const supabase = createServerComponentClient<Database>({ cookies: () => cookieStore })
+  const supabase = createClient()
   const { data } = await supabase.from('roles').select('*').eq('name', STUDENT_ROLE_NAME)
 
   const roles = data?.map(item => {

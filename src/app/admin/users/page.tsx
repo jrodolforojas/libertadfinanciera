@@ -1,9 +1,7 @@
 import { EditIcon } from '@/components/icons'
-import { type Database } from '@/types/entities/database'
 import { type User } from '@/types/user'
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/utils/supabase/server'
 import { format } from 'date-fns'
-import { cookies } from 'next/headers'
 import Link from 'next/link'
 import ActiveInactiveUser from './delete-user'
 import CrudContainer from '@/components/crud-container'
@@ -17,8 +15,7 @@ export default async function Users({ searchParams }: {
   searchParams: Record<string, string | string[] | undefined>
 }) {
   const searchedUser = typeof searchParams.user === 'string' ? searchParams.user : ''
-  const cookieStore = cookies()
-  const supabase = createServerComponentClient<Database>({ cookies: () => cookieStore })
+  const supabase = createClient()
   const { data } = await supabase.from('users').select('*, role:roles(id, name)').ilike('name', `%${searchedUser}%`).order('created_at', { ascending: false })
 
   const users = data?.map(item => {
@@ -80,10 +77,10 @@ export default async function Users({ searchParams }: {
                   {user.isActive
                     ? (
                       <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Activo</span>
-                    )
+                      )
                     : (
                       <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">Inactivo</span>
-                    )}
+                      )}
                 </td>
                 <td className="px-6 py-4 text-center">
                   {user.role.name}
@@ -92,7 +89,7 @@ export default async function Users({ searchParams }: {
                   {user.createdAt}
                 </td>
                 <td className="px-6 py-4 flex items-center justify-center gap-x-2">
-                  <SendInvitationButton userId={user.id} />
+                  <SendInvitationButton email={user.email} name={user.name} roleId={user.roleId} isActive={user.isActive} />
                   <Link href={'/admin/users/[id]'} as={`/admin/users/${user.id}`} className='text-primary hover:rounded-full p-2 hover:bg-secondary'>
                     <EditIcon />
                   </Link>

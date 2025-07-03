@@ -2,7 +2,7 @@
 
 import { EyeOffIcon, EyeOnIcon } from '@/components/icons'
 import { type LoginFormValues } from '@/types/form/login'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
@@ -34,7 +34,7 @@ export default function LoginForm() {
   }, [])
 
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   const [showPassword, setShowPassword] = useState(false)
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormValues>({
     resolver: yupResolver(loginSchema)
@@ -45,11 +45,11 @@ export default function LoginForm() {
   }
 
   const handleSignIn = async ({ email, password }: LoginFormValues) => {
-    const response = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email,
       password
     })
-    if (response.error !== null && response.error.name === 'AuthApiError') {
+    if (error !== null && error.name === 'AuthApiError') {
       toast.error('Credenciales inválidas')
       return
     }

@@ -1,9 +1,9 @@
 'use client'
 
 import { EyeOffIcon, EyeOnIcon } from '@/components/icons'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -21,9 +21,11 @@ const createPasswordSchema = yup.object({
 
 export default function CreatePasswordPage() {
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   const [showPassword, setShowPassword] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [userId, setUserId] = useState<string | null>(null)
   const { register, handleSubmit, formState: { errors } } = useForm<ResetPasswordFormValues>({
     resolver: yupResolver(createPasswordSchema)
   })
@@ -33,20 +35,27 @@ export default function CreatePasswordPage() {
   }
 
   const handleCreatePassword = async ({ password }: ResetPasswordFormValues) => {
+    if (!userId) {
+      toast.error('Sesión no válida o expirada.')
+      return
+    }
+
     const response = await supabase.auth.updateUser({ password })
-    if (response.error !== null && response.error.name === 'AuthApiError') {
+    if (response.error) {
       toast.error('No se pudo crear la contraseña')
       return
     }
+
     const { error } = await supabase
       .from('users')
       .update({ is_first_time: false })
       .eq('auth_id', response.data?.user?.id ?? '')
 
-    if (error !== null) {
-      toast.error('No se pudo crear la contraseña')
+    if (error) {
+      toast.error('No se pudo actualizar la base de datos')
       return
     }
+
     toast.success('Contraseña creada exitosamente')
     router.replace('/')
     router.refresh()
@@ -56,13 +65,54 @@ export default function CreatePasswordPage() {
     handleCreatePassword(data)
   }
 
+  useEffect(() => {
+    async function initSessionFromURL() {
+      const hash = window.location.hash
+      const params = new URLSearchParams(hash.substring(1)) // remove '#'
+      const accessToken = params.get('access_token')
+      const refreshToken = params.get('refresh_token')
+
+      if (accessToken && refreshToken) {
+        const { error } = await supabase.auth.setSession({
+          access_token: accessToken,
+          refresh_token: refreshToken
+        })
+        if (error) {
+          toast.error('No se pudo establecer la sesión')
+          router.replace('/')
+          return
+        }
+      }
+
+      const { data, error } = await supabase.auth.getUser()
+      if (error || !data.user) {
+        toast.error('No se pudo obtener el usuario')
+        router.replace('/')
+        return
+      }
+
+      setUserId(data.user.id)
+      setLoading(false)
+    }
+
+    initSessionFromURL()
+  }, [router, supabase])
+
+  if (loading) {
+    return (
+      <main className="h-screen flex items-center justify-center bg-primary text-white">
+        <p>Cargando...</p>
+      </main>
+    )
+  }
+
   return (
     <main className="h-screen bg-primary">
       <section className="flex flex-col items-center justify-center text-center h-full w-full px-5 pt-8 pb-10">
         <a href="#" className="flex items-center mb-4 text-2xl font-semibold text-primary dark:text-white">
           <img className="w-28 h-28" src="/logos/logo-verde.avif" alt="logo" />
         </a>
-        <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+        <div className="w-full bg-white rounded-lg shadow dark:border sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <header className='flex flex-col w-full'>
               <h1 className="text-xl font-bold leading-tight tracking-tight text-primary md:text-2xl dark:text-white">
@@ -84,11 +134,7 @@ export default function CreatePasswordPage() {
                 <input type={showPassword ? 'text' : 'password'} id="password" placeholder="••••••••" {...register('password')} className="bg-gray-50 border border-gray-300 text-primary sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                 <div className='absolute top-8 right-1 hover:text-gray-700 p-1'>
                   <button onClick={handleChangePasswordVisibility} type='button'>
-                    {
-                      showPassword
-                        ? <EyeOffIcon />
-                        : <EyeOnIcon />
-                    }
+                    {showPassword ? <EyeOffIcon /> : <EyeOnIcon />}
                   </button>
                 </div>
                 {errors.password && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.password.message}</span>}
@@ -98,11 +144,7 @@ export default function CreatePasswordPage() {
                 <input type={showPassword ? 'text' : 'password'} id="passwordConfirmation" placeholder="••••••••" {...register('passwordConfirmation')} className="bg-gray-50 border border-gray-300 text-primary sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                 <div className='absolute top-8 right-1 hover:text-gray-700 p-1'>
                   <button onClick={handleChangePasswordVisibility} type='button'>
-                    {
-                      showPassword
-                        ? <EyeOffIcon />
-                        : <EyeOnIcon />
-                    }
+                    {showPassword ? <EyeOffIcon /> : <EyeOnIcon />}
                   </button>
                 </div>
                 {errors.passwordConfirmation && <span className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.passwordConfirmation.message}</span>}

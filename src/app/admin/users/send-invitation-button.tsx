@@ -1,38 +1,27 @@
 'use client'
 
 import { MailIcon } from '@/components/icons'
-import { type Database } from '@/types/entities/database'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
-export default function SendInvitationButton({ userId }: { userId: string }) {
-  const supabase = createClientComponentClient<Database>()
+export default function SendInvitationButton({ email, name, roleId, isActive }: { email: string, name: string, roleId: string, isActive: boolean }) {
   const router = useRouter()
   const onClick = () => {
     handleSendEmail()
   }
   const handleSendEmail = async () => {
-    const response = await supabase.from('users').select('email').eq('id', userId)
-    if (response.error != null) {
-      toast.error('No se ha encontrado el usuario')
-      return
-    }
-
-    const { email } = response.data[0]
-    if (email === '') {
-      toast.error('No se ha encontrado el correo electrónico para este usuario')
-      return
-    }
-
-    const res = await fetch(`/invite-user?email=${email}`)
-    const { error } = await res.json() as {
+    // Send POST request with user data as JSON
+    const res = await fetch('/invite-user', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, name, role_id: roleId, is_active: isActive })
+    })
+    const { error: fetchError, message } = await res.json() as {
       message: string
       error: boolean
     }
-
-    if (error) {
-      toast.error('Este usuario ya está verificado')
+    if (fetchError) {
+      toast.error(message || 'Este usuario ya está verificado')
       return
     }
     toast.success('Invitación enviada correctamente')

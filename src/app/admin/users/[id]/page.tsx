@@ -1,16 +1,12 @@
-import { type Database } from '@/types/entities/database'
 import { type User } from '@/types/user'
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/utils/supabase/server'
 import UserForm from './form'
 import { type Role } from '@/types/role'
-import { cookies } from 'next/headers'
 
 export default async function UserPage({ params }: { params: { id: string } }) {
   const { id } = params
-
-  const cookieStore = cookies()
-  const supabase = createServerComponentClient<Database>({ cookies: () => cookieStore })
-  const { data } = await supabase.from('roles').select()
+  const supabase = createClient()
+  const { data } = await supabase.from('roles').select('*')
   const { data: users } = await supabase.from('users').select('*, role:roles(id, name)').eq('id', id)
 
   const roles = data?.map(item => {

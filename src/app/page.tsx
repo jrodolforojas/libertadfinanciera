@@ -1,7 +1,4 @@
 import { redirect } from 'next/navigation'
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
-import { type Database } from '@/types/entities/database'
 import DashboardMacroeconomicVariableCard from '@/components/dashboard-macroeconomic-variable-card'
 import DashboardExchangeRate from '@/components/dashboard-exchange-rate'
 import { getTodayExchangeRate } from '@/services/api/exchange-rates'
@@ -9,10 +6,10 @@ import { getTodayInflationRate } from '@/services/api/inflation-interest-rates'
 import { type DashboardMetric } from '@/types/dahsboard-metric'
 import { getTodayCreditInterestRate } from '@/services/api/credit-interest-rates'
 import { FacebookIcon, InstagramIcon, LinkedInIcon, TiktokIcon, WebsiteIcon } from '@/components/icons'
+import { createClient } from '@/utils/supabase/server'
 
 export default async function Home() {
-  const cookieStore = cookies()
-  const supabase = createServerComponentClient<Database>({ cookies: () => cookieStore })
+  const supabase = createClient()
   const { data: { session } } = await supabase.auth.getSession()
   const { data: user } = await supabase.from('users').select('is_first_time,name').eq('auth_id', session?.user?.id ?? '')
 

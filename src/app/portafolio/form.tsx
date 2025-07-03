@@ -11,17 +11,17 @@ import { useState } from 'react'
 import { toDollarCurrency, toTwoDecimals } from '@/utils/metrics-format'
 import PortfolioPercentSpan from './components/porfolio-percent'
 import Logo from '@/components/logo'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { type Database } from '@/types/entities/database'
 import { useRouter } from 'next/navigation'
 import { Toaster, toast } from 'sonner'
+import { createClient } from '@/utils/supabase/client'
+import { type Database } from '@/types/entities/database'
 
 const columns = ['Objetivo', 'Plazo (meses)', 'Aporte Inicial', 'Aporte Mensual', 'Meses Invertidos', 'Valor de la inversión (hoy)',
   'Porcentaje del Portafolio', 'Tipo de interés', 'Rendimiento Promedio Anual', 'Acciones']
 
 export default function PortfolioForm({ defaultPorfolio }: { defaultPorfolio: Porfolio }) {
   const [portfolio, setPortfolio] = useState(defaultPorfolio)
-  const supabase = createClientComponentClient<Database>()
+  const supabase = createClient()
   const router = useRouter()
 
   const savePortfolio = async () => {

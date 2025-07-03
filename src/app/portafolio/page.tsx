@@ -1,22 +1,19 @@
 import { redirect } from 'next/navigation'
-import { cookies } from 'next/headers'
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/utils/supabase/server'
 import PortfolioForm from './form'
-import { type Database } from '@/types/entities/database'
 import { type PortfolioItem } from '@/types/entities/portfolio-item'
 import { type Investment, type Porfolio } from '@/types/form/portfolio'
 import { investmentsDefaultValues } from './default-values'
 
 export default async function PortafolioPage() {
-  const cookieStore = cookies()
-  const supabase = createServerComponentClient<Database>({ cookies: () => cookieStore })
-  const { data: { session } } = await supabase.auth.getSession()
+  const supabase = createClient()
+  const { data: { user } } = await supabase.auth.getUser()
 
-  if (!session) {
+  if (user === null) {
     redirect('/login')
   }
 
-  const { data: portfolioDatabase } = await supabase.from('portfolio_item').select('*').returns<PortfolioItem[] | null>()
+  const { data: portfolioDatabase } = await supabase.from('portfolio_item').select('*').returns<PortfolioItem[]>()
 
   const getPortfolio = (data: PortfolioItem[]): Porfolio => {
     const investments = data.map((item) => {

@@ -1,7 +1,7 @@
 'use client'
 
 import { type Route } from '@/types/route'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
 import { type User } from '@/types/user'
 import SidebarV2 from './sidebar-v2'
@@ -11,7 +11,7 @@ export default function MultiLevelSidebar({ routes, user }: {
   user: User
 }) {
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()

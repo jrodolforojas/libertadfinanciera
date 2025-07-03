@@ -1,14 +1,11 @@
 import CrudContainer from '@/components/crud-container'
 import ReportBugForm from './form'
 import { WhatsAppIcon } from '@/components/icons'
-import { cookies } from 'next/headers'
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { type Database } from '@/types/entities/database'
+import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 
 export default async function ReportBugPage() {
-  const cookieStore = cookies()
-  const supabase = createServerComponentClient<Database>({ cookies: () => cookieStore })
+  const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
   if (user === null) {

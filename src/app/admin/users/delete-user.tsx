@@ -1,12 +1,12 @@
 'use client'
 
 import { DownIcon, UpIcon } from '@/components/icons'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
 export default function ActiveInactiveUser({ userId, isActive }: { userId: string, isActive: boolean }) {
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   const router = useRouter()
 
   const handleChangeActive = async () => {

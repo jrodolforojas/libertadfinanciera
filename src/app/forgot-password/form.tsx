@@ -1,6 +1,6 @@
 'use client'
 
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/utils/supabase/client'
 import { type SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -13,7 +13,7 @@ const forgotPasswordSchema = yup.object({
 })
 
 export default function ForgotPasswordForm() {
-  const supabase = createClientComponentClient<Database>()
+  const supabase = createClient()
   const { register, handleSubmit, formState: { errors } } = useForm<ForgotPasswordFormValues>({
     resolver: yupResolver(forgotPasswordSchema)
   })

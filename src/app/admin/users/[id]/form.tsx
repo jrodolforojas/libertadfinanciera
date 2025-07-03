@@ -7,7 +7,7 @@ import { Select, SelectItem } from '@tremor/react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/utils/supabase/client'
 import { useState } from 'react'
 import { Toaster, toast } from 'sonner'
 import { useRouter } from 'next/navigation'
@@ -22,7 +22,7 @@ export default function UserForm({ user, roles }: {
   roles: Role[] | undefined
 }) {
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   const [role, setRole] = useState<string>(user.roleId)
   const [isActive, setIsActive] = useState<boolean>(user.isActive)
 
@@ -36,8 +36,23 @@ export default function UserForm({ user, roles }: {
   }
 
   const createUser = async (data: UserFormValues) => {
-    router.push(`/admin/users/invite-user?email=${data.email}&name=${data.name}&role_id=${role}&is_active=${isActive}`)
-    router.refresh()
+    const response = await fetch('/admin/users/invite-user', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: data.email,
+        name: data.name,
+        role_id: role,
+        is_active: isActive
+      })
+    })
+    const result = await response.json()
+    if (!result.error) {
+      toast.success('Usuario creado correctamente')
+      router.push('/admin/users')
+    } else {
+      toast.error('Error al crear el usuario')
+    }
   }
 
   const updateUser = async (data: UserFormValues) => {
