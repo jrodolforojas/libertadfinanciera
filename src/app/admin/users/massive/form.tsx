@@ -85,19 +85,24 @@ export default function UploadMassiveUsersForm({ role }: { role: Role }) {
 
     const { email, name, roleId, isActive } = user
 
-    const url = new URL(`${location.origin}/admin/users/invite-user`)
-    url.searchParams.append('email', email)
-    url.searchParams.append('name', name)
-    url.searchParams.append('role_id', roleId)
-    url.searchParams.append('is_active', isActive.toString())
-    const response = await fetch(url.toString())
-    if (response.status !== 200) {
-      toast.error(`Error al crear el usuario ${email}`)
+    const response = await fetch('/admin/users/invite-user', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email,
+        name,
+        role_id: roleId,
+        is_active: isActive
+      })
+    })
+    const result = await response.json()
+    if (!result.error) {
+      toast.success(`Usuario ${email} creado correctamente`)
+      const filteredUsers = usersToUpload.filter(user => user.email !== email)
+      setUsersToUpload(filteredUsers)
       return
     }
-    toast.success(`Usuario ${email} creado correctamente`)
-    const filteredUsers = usersToUpload.filter(user => user.email !== email)
-    setUsersToUpload(filteredUsers)
+    toast.error(`Error al crear el usuario ${email}`)
   }
   return (
     <main className="flex flex-col justify-center items-center sm:px-20 px-10 sm:ml-64 sm:mt-5">
