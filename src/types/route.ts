@@ -2,4 +2,5 @@ export interface Route {
   path: string
   name: string
   subRoutes?: Route[]
+  external?: boolean
 }

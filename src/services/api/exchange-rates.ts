@@ -14,6 +14,7 @@ export const getAllExchangeRates = async ({ dateFrom, dateTo }: ExchangeRatesReq
   })
   if (!response.ok) throw new Error('Error fetching exchange rates. Status: ' + response.status)
   const { data } = await response.json() as ExchangeRateResponse
+
   const dataFormatted = data.map(item => ({
     ...item,
     dateFormatted: format(new Date(item.date), 'dd/MM/yyyy')
@@ -73,6 +74,14 @@ export const getTodayExchangeRate = async () => {
   })
   if (!response.ok) throw new Error('Error fetching today exchange rate. Status: ' + response.status)
   const { data } = await response.json() as ExchangeRateTodayResponse
+
+  if (!data) {
+    return {
+      value: 0,
+      date: new Date(),
+      dateFormatted: format(new Date(), 'dd/MM/yyyy')
+    }
+  }
 
   const exchangeRate: ExchangeRate = {
     ...data,

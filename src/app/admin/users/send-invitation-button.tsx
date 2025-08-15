@@ -10,13 +10,17 @@ export default function SendInvitationButton({ email, name, roleId, isActive }: 
     handleSendEmail()
   }
   const handleSendEmail = async () => {
-    // Send POST request with user data as JSON
-    const res = await fetch('/invite-user', {
+    const response = await fetch('/admin/users/invite-user', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, name, role_id: roleId, is_active: isActive })
+      body: JSON.stringify({
+        email,
+        name,
+        role_id: roleId,
+        is_active: isActive
+      })
     })
-    const { error: fetchError, message } = await res.json() as {
+    const { error: fetchError, message } = await response.json() as {
       message: string
       error: boolean
     }

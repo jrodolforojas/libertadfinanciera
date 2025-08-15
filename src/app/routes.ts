@@ -55,7 +55,8 @@ const userRoutes: Route[] = [
       },
       {
         name: 'Tipo de Cambio',
-        path: '/variables-macroeconomicas/tipo-cambio'
+        path: 'https://sdd.bccr.fi.cr/es/IndicadoresEconomicos/Inicio/Contenedor/6?Cuadro=1',
+        external: true
       }
     ]
   },

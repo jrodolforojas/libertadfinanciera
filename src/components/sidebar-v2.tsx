@@ -86,12 +86,12 @@ export default function SidebarV2({ routes, user, onSignOut }: {
                   ? (
                     <SubMenu label={route.name}>
                       {route.subRoutes.map(subRoute => (
-                        <MenuItem key={subRoute.path} component={<Link href={subRoute.path} />} onClick={closeOnClick}>{subRoute.name}</MenuItem>
+                        <MenuItem key={subRoute.path} component={<Link href={subRoute.path} target={subRoute.external ? '_blank' : '_self'} />} onClick={closeOnClick}>{subRoute.name}</MenuItem>
                       ))}
                     </SubMenu>
                     )
                   : (
-                    <MenuItem key={route.path} component={<Link href={route.path} />} onClick={closeOnClick}>{route.name}</MenuItem>
+                    <MenuItem key={route.path} component={<Link href={route.path} target={route.external ? '_blank' : '_self'} />} onClick={closeOnClick}>{route.name}</MenuItem>
                     )}
               </div>
             ))

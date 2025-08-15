@@ -1,7 +1,5 @@
 import { redirect } from 'next/navigation'
 import DashboardMacroeconomicVariableCard from '@/components/dashboard-macroeconomic-variable-card'
-import DashboardExchangeRate from '@/components/dashboard-exchange-rate'
-import { getTodayExchangeRate } from '@/services/api/exchange-rates'
 import { getTodayInflationRate } from '@/services/api/inflation-interest-rates'
 import { type DashboardMetric } from '@/types/dahsboard-metric'
 import { getTodayCreditInterestRate } from '@/services/api/credit-interest-rates'
@@ -30,7 +28,7 @@ export default async function Home() {
   const fullName = user[0].name
   const name = fullName.split(' ')[0]
 
-  const todayExchangeRate = await getTodayExchangeRate()
+  // const todayExchangeRate = await getTodayExchangeRate()
 
   const costaRicaInflationRate = await getTodayInflationRate({ country: 'cr' })
   const usaInflationRate = await getTodayInflationRate({ country: 'usa' })
@@ -82,12 +80,6 @@ export default async function Home() {
               title='Tasa de Inflación'
               metrics={inflationMetrics}
             />
-          )}
-          {todayExchangeRate.buy && todayExchangeRate.sale && (
-            <div className='flex w-full flex-col gap-y-2'>
-              <h3 className='text-lg font-bold text-blue-text mt-3 w-full text-center'>Tipo de Cambio</h3>
-              <DashboardExchangeRate rate={todayExchangeRate} />
-            </div>
           )}
           {costaRicaCreditRate.value && usaCreditRate.value && (
             <DashboardMacroeconomicVariableCard
