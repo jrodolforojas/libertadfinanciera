@@ -40,6 +40,14 @@ export const getTodayCreditInterestRate = async ({ country }: { country: string 
   if (!response.ok) throw new Error('Error fetching credit exchange rates. Status: ' + response.status)
   const { data } = await response.json() as CreditInterestRateTodayResponse
 
+  if (!data) {
+    return {
+      value: 0,
+      date: new Date(),
+      dateFormatted: format(new Date(), 'dd/MM/yyyy')
+    }
+  }
+
   const rate: CreditInterestRate = {
     ...data,
     dateFormatted: format(new Date(data.date), 'dd/MM/yyyy')

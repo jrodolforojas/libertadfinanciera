@@ -51,20 +51,24 @@ export default async function Home() {
   const costaRicaCreditRate = await getTodayCreditInterestRate({ country: 'cr' })
   const usaCreditRate = await getTodayCreditInterestRate({ country: 'usa' })
 
-  const creditMetrics: DashboardMetric[] = [
-    {
-      value: costaRicaCreditRate.value,
-      date: 'Tasa Básica Pasiva',
-      symbol: '%',
-      path: '/variables-macroeconomicas/tasa-interes-creditos/cr'
-    },
-    {
-      value: usaCreditRate.value,
-      date: 'New York Prime',
-      symbol: '%',
-      path: '/variables-macroeconomicas/tasa-interes-creditos/usa'
-    }
-  ]
+  const creditMetrics: DashboardMetric[] | null =
+    costaRicaCreditRate.value != null && costaRicaCreditRate.value !== 0 &&
+    usaCreditRate.value != null && usaCreditRate.value !== 0
+      ? [
+          {
+            value: costaRicaCreditRate.value,
+            date: 'Tasa Básica Pasiva',
+            symbol: '%',
+            path: '/variables-macroeconomicas/tasa-interes-creditos/cr'
+          },
+          {
+            value: usaCreditRate.value,
+            date: 'New York Prime',
+            symbol: '%',
+            path: '/variables-macroeconomicas/tasa-interes-creditos/usa'
+          }
+        ]
+      : null
 
   return (
     <main className="flex flex-col justify-center items-center md:px-20 px-10 md:ml-64 md:mt-5 pb-10 min-h-screen bg-white">
@@ -81,7 +85,7 @@ export default async function Home() {
               metrics={inflationMetrics}
             />
           )}
-          {costaRicaCreditRate.value && usaCreditRate.value && (
+          {creditMetrics && (
             <DashboardMacroeconomicVariableCard
               title='Tasa de Créditos'
               metrics={creditMetrics}
