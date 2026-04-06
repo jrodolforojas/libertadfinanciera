@@ -36,6 +36,7 @@ const userRoutes: Route[] = [
   {
     name: 'Variables Macroeconómicas',
     path: '/variables-macroeconomicas',
+    hidden: true,
     subRoutes: [
       {
         name: 'Tasa de Inflación',
@@ -81,8 +82,8 @@ export const getRoutes = ({ role }: { role: string }) => {
       ...adminRoutes,
       ...userRoutes
     ]
-    return routes
+    return routes.filter(r => !r.hidden)
   }
 
-  return userRoutes
+  return userRoutes.filter(r => !r.hidden)
 }

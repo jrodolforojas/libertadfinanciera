@@ -3,4 +3,5 @@ export interface Route {
   name: string
   subRoutes?: Route[]
   external?: boolean
+  hidden?: boolean
 }
